@@ -26,6 +26,25 @@ let userSchema = mongoose.Schema({
     }
 });
 
+let cardSchema = mongoose.Schema({
+    name: String
+});
+
+let Card = mongoose.model('Card', cardSchema);
+
+let newCard = (name) => {
+  let card = new Card({
+    name: name
+  });
+  card.save((err, card) => {
+      if(err) {
+          return console.log('Something went wrong while saving ', err);
+      }
+      console.log('Saved ', card);
+  })
+}
+
+
 let Character = mongoose.model('Character', characterSchema);
 let User = mongoose.model('User', userSchema);
 
@@ -58,4 +77,4 @@ let newUser = (username, stats = {wins: 0, losses: 0, favChar: 'Legacy', totDmgD
     })
 }
 
-module.exports = {db, newCharacter, newUser};
+module.exports = {db, newCharacter, newUser, newCard};
