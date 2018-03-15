@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Chat from '../components/Chat'
 import { Socket } from 'socket.io-client'
+import {connect} from 'react-redux'
+import UserList from '../components/UserList'
 
 
 class App extends Component {
-	constructor(){
-		super()
+	constructor(props){
+		super(props)
 	}
 	
 	// componentDidMount() {
@@ -20,9 +22,17 @@ class App extends Component {
 			<div>
 				Hello from React! hell
 				<Chat />
+				<UserList />
 			</div>
 		)
 	}
 }
 
-export default App;
+// just to see if passes store data to props
+function mapStateToProps(state) {
+	return {
+			users: state.users
+	};
+}
+
+export default connect(mapStateToProps)(App);
