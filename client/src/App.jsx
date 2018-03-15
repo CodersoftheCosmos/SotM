@@ -1,35 +1,47 @@
 import React, { Component } from 'react';
 import Chat from '../components/Chat'
-import io from 'socket.io-client'
-import {connect} from 'react-redux'
-import UserList from '../components/UserList'
+import { Socket } from 'socket.io-client'
+import Login from '../components/Login';
 
 
 class App extends Component {
-	constructor(props){
-		super(props)
+	constructor(){
+		super()
+		this.state = {
+			email: '',
+			password: ''
+		}
+		this.createUserHandler = this.createUserHandler.bind(this);
+		this.userLoginHandler = this.userLoginHandler.bind(this);
+		this.loginChangeHandler = this.loginChangeHandler.bind(this);
+		this.loginSubmitHandler = this.loginSubmitHandler.bind(this);
 	}
-	
-	componentDidMount() {
-		const socket = io.connect('http://localhost:9001')
-			// socket.on('this', (data) => {
-			// 	console.log(data)
-		// })
-		socket.emit('connection')
+	//LOGIN PAGE COMPONENTS
+	createUserHandler(e) {
+		//do some stuff
 	}
-
-	handleStartGame() {
-
+	userLoginHandler(e) {
+		//do some different stuff
 	}
-
+	loginChangeHandler(e) {
+		this.setState({
+			[e.target.name]: e.target.value
+		})
+	}
+	loginSubmitHandler(e) {
+		if (e.target.name === 'signin') {
+			this.userLoginHandler(e);
+		} else {
+			this.createUserHandler(e);
+		}
+	}
+	//END OF LOGIN PAGE COMPONENTS
 
 	render() {
 	return (
 			<div>
-				Hello from React! hell
-				<Chat />
-				<UserList />
-				<button className="startGame" onClick={this.handleStartGame}>Start Game</button>
+				<Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/>
+				{/* <Chat /> */}
 			</div>
 		)
 	}
