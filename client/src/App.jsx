@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Chat from '../components/Chat'
-import { Socket } from 'socket.io-client'
+import io from 'socket.io-client'
 import {connect} from 'react-redux'
 import UserList from '../components/UserList'
 
@@ -10,12 +10,18 @@ class App extends Component {
 		super(props)
 	}
 	
-	// componentDidMount() {
-	// 	const { socket } = this.props
-	// 	socket.on('connect', () => {
-	// 		console.log('player connected')
-	// 	})
-	// }
+	componentDidMount() {
+		const socket = io.connect('http://localhost:9001')
+			// socket.on('this', (data) => {
+			// 	console.log(data)
+		// })
+		socket.emit('connection')
+	}
+
+	handleStartGame() {
+
+	}
+
 
 	render() {
 	return (
@@ -23,6 +29,7 @@ class App extends Component {
 				Hello from React! hell
 				<Chat />
 				<UserList />
+				<button className="startGame" onClick={this.handleStartGame}>Start Game</button>
 			</div>
 		)
 	}
