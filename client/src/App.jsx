@@ -60,7 +60,15 @@ class App extends Component {
       } else {
         console.log('Logged out!');
       }
-    });
+		});
+		//END FIREBASE AUTH
+		//SOCKETIO SET UP
+		const socket = io.connect('http://localhost:9001')
+			// socket.on('this', (data) => {
+			// 	console.log(data)
+		// })
+		socket.emit('connection')
+		//END SOCKETIO SET UP
 	}
 	render() {
 	return (
