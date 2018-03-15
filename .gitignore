@@ -3,7 +3,10 @@
 
 # npm
 package-lock.json
+bundle.js
+config.js
 
 # Dependency directories
 node_modules/
 jspm_packages/
+
