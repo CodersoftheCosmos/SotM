@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Chat from '../components/Chat'
-import io from 'socket.io-client'
 import Login from '../components/Login';
 import API from '../../config.js';
 import firebase from 'firebase';
+import GameJoin from "../components/gameJoin"
 
 import Cards from '../components/Cards'
 
@@ -11,6 +11,7 @@ import Cards from '../components/Cards'
 class App extends Component {
 	constructor(){
 		super()
+
 		this.state = {
 			cards: [
 				{"name": "Rock", "photo": "../static/rock.png"},
@@ -64,14 +65,6 @@ class App extends Component {
 
 	handleStatus(data) {
 		this.setState({message: data.msg});
-				
-	}
-
-	handlePlayerLeft(data) {
-		this.setState({message: data.msg, playerPosition: "playerOne"});
-	}
-
-
 
 	gameOver(data) {
 		if (this.state.playerOneChoice === "") {
@@ -148,37 +141,31 @@ class App extends Component {
 	// 		this.createUserHandler(e);
 	// 	}
 	// }
+
 	// //END OF LOGIN PAGE COMPONENTS
 
-	// componentWillMount() {
-	// 	//FIREBASE SET UP
-	// 	var config = {
-	// 		apiKey: API.fireBaseApiKey,
-	// 		authDomain: "sotm-66f9b.firebaseapp.com",
-	// 		databaseURL: "https://sotm-66f9b.firebaseio.com",
-	// 		projectId: "sotm-66f9b",
-	// 		storageBucket: "sotm-66f9b.appspot.com",
-	// 		messagingSenderId: "1016933819692"
-	// 	};
-	// 	firebase.initializeApp(config);
+	componentWillMount() {
+		//FIREBASE SET UP
+		var config = {
+			apiKey: API.fireBaseApiKey,
+			authDomain: "sotm-66f9b.firebaseapp.com",
+			databaseURL: "https://sotm-66f9b.firebaseio.com",
+			projectId: "sotm-66f9b",
+			storageBucket: "sotm-66f9b.appspot.com",
+			messagingSenderId: "1016933819692"
+		};
+		firebase.initializeApp(config);
 	// 	//END FIREBASE SET UP
 	// 	//FIREBASE AUTH
-	// 	firebase.auth().onAuthStateChanged((User) => {
-    //   if (User) {
-    //     console.log(User.email, 'logged in!');
-    //   } else {
-    //     console.log('Logged out!');
-    //   }
-	// 	});
+		firebase.auth().onAuthStateChanged((User) => {
+      if (User) {
+        console.log(User.email, 'logged in!');
+      } else {
+        console.log('Logged out!');
+      }
+		});
+	}
 	// 	//END FIREBASE AUTH
-	// 	//SOCKETIO SET UP
-	// 	const socket = io.connect('http://localhost:9001')
-	// 		// socket.on('this', (data) => {
-	// 		// 	console.log(data)
-	// 	// })
-	// 	socket.emit('connection')
-	// 	//END SOCKETIO SET UP
-	// }
 
 	    //**********************************AUTH************************************	
 
@@ -189,6 +176,7 @@ class App extends Component {
 	
 		return (
 			<div>
+
 				{/* <Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/> */}
 				Hello from React! hell
 				<h2>message: {this.state.message}</h2>
@@ -196,6 +184,8 @@ class App extends Component {
                 <h2>and the result: {this.props.result}</h2>
 				<Cards cards={this.state.cards} gameOver={this.gameOver} handlePlay={this.handlePlay}/>
 				{/* {newGameButton} */}
+				{/* <GameJoin /> */}
+        
 			</div>
 		)
 	}
