@@ -22,6 +22,7 @@ class App extends Component {
 			email: '',
 			password: ''
 		}
+<<<<<<< HEAD
         this.handlePlayer = this.handlePlayer.bind(this);
 		this.handleWelcome = this.handleWelcome.bind(this);
 		this.handleStatus = this.handleStatus.bind(this);
@@ -30,6 +31,16 @@ class App extends Component {
 		// this.userLoginHandler = this.userLoginHandler.bind(this);
 		// this.loginChangeHandler = this.loginChangeHandler.bind(this);
 		// this.loginSubmitHandler = this.loginSubmitHandler.bind(this);
+=======
+   
+	this.handlePlayer = this.handlePlayer.bind(this);
+	this.handleWelcome = this.handleWelcome.bind(this);
+	this.handleStatus = this.handleStatus.bind(this);
+    this.handlePlayerLeft = this.handlePlayerLeft.bind(this);
+	// this.gameOver = this.gameOver.bind(this);
+	// this.handlePlay = this.handlePlay.bind(this);
+  		
+>>>>>>> merge conflict
 	}
 	
 	
@@ -58,9 +69,10 @@ class App extends Component {
 		this.setState({message: data.msg});
 		console.log(data.msg)
 	}
-	// handlePlayerLeft(data) {
-	// 	this.setState({message: data.msg, playerPosition: "playerOne"});
-	// }
+
+	handlePlayerLeft(data) {
+		this.setState({message: data.msg, playerPosition: "playerOne"});
+	}
 
 
 
