@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Chat from '../components/Chat'
-import Login from '../components/Login';
+import Login from '../components/Auth/Login';
 import API from '../../config.js';
 import firebase from 'firebase';
-import GameJoin from "../components/gameJoin"
+import GameJoin from "../components/gameJoin";
+import Home from '../components/Home/Home'
 
 
 class App extends Component {
@@ -69,8 +70,7 @@ class App extends Component {
 		});
 	}
 	// 	//END FIREBASE AUTH
-
-	    //**********************************AUTH************************************	
+	//**********************************AUTH************************************	
 
 
 	render() {
