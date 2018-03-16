@@ -15,7 +15,8 @@ module.exports = {
         options: {
           presets: ['react']
         }
-      }
+      },
+      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
     ]
   },
   resolve: {

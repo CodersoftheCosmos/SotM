@@ -6,46 +6,143 @@ import firebase from 'firebase';
 import GameJoin from "../components/gameJoin";
 import Home from '../components/Home/Home'
 
+import Cards from '../components/Cards'
+
 
 class App extends Component {
 	constructor(){
 		super()
-		this.state = { 
+
+		this.state = {
+			cards: [
+				{"name": "Rock", "photo": "../static/rock.png"},
+				{"name": "Paper", "photo": "../static/paper.png"},
+				{"name": "Scissors", "photo": "../static/scissors.png"}
+				],
+            playerPosition: "",
+			result: "",
+			playerOneChoice: "",
+			playerTwoChoice: "",
+			message: "",
+			wins: 0,
+			losses: 0,
+
+
 			email: '',
 			password: ''
 		}
-		this.createUserHandler = this.createUserHandler.bind(this);
-		this.userLoginHandler = this.userLoginHandler.bind(this);
-		this.loginChangeHandler = this.loginChangeHandler.bind(this);
-		this.loginSubmitHandler = this.loginSubmitHandler.bind(this);
+        this.handlePlayer = this.handlePlayer.bind(this);
+		this.handleWelcome = this.handleWelcome.bind(this);
+		this.handleStatus = this.handleStatus.bind(this);
+		//this.handleChange = this.handleChange.bind(this);
+		this.handlePlay = this.handlePlay.bind(this);
+		this.gameOver = this.gameOver.bind(this);
+
+		// this.createUserHandler = this.createUserHandler.bind(this);
+		// this.userLoginHandler = this.userLoginHandler.bind(this);
+		// this.loginChangeHandler = this.loginChangeHandler.bind(this);
+		// this.loginSubmitHandler = this.loginSubmitHandler.bind(this);
 	}
+	
+	
+
+	componentDidMount() {
+		const socket = io.connect('http://localhost:9001')
+			socket.on('handlePlayer', this.handlePlayer, this.handlePlayerLeft);
+			socket.on('handleWelcome', this.handleWelcome);
+			socket.on('status', this.handleStatus);
+			// socket.on('gameOver', this.gameOver);
+			// socket.on('playerLeft', this.handlePlayerLeft);
+ 
+	}
+
+	handlePlayer(data) {
+		this.setState({playerPosition: data.msg});
+	}
+
+	handleWelcome(data) {
+		this.setState({message: data.msg});		
+	}
+
+	handleStatus(data) {
+		this.setState({message: data.msg});
+
+	gameOver(data) {
+		if (this.state.playerOneChoice === "") {
+			this.setState({playerOneChoice:data.player1});
+			if (this.state.playerTwoChoice === data.winner) {
+				this.setState({result: "You are the winner!", wins: this.state.wins + 1});
+			} else {
+				this.setState({result: "You are the loser!", losses: this.state.losses + 1});
+			}
+		} else {
+			this.setState({playerTwoChoice:data.player2});
+			if (this.state.playerOneChoice === data.winner) {
+				this.setState({result: "You are the winner!", wins: this.state.wins + 1});
+			} else {
+				this.setState({result: "Your are the loser!", losses: this.state.losses + 1});
+			}
+		}
+		this.setState({message: "Game over, click New Game!"});
+	}
+
+	// handleChange(e, value) {
+	// 	if (this.state.playerPosition == "playerOne") {
+	// 		this.setState({playerOneChoice: e.target.value});
+	// 	} else {
+	// 		this.setState({playerTwoChoice: e.target.value})
+	// 	}
+	// }
+
+	handlePlay() {
+		this.setState({message: "Waiting on the other player..."});
+		socket.emit(
+			'played',
+			{
+				player: this.state.playerPosition,
+				playerOneChoice: this.state.playerOneChoice,
+				playerTwoChoice: this.state.playerTwoChoice
+			}
+		);
+	}
+
+	// newGameGen() {
+	// 	this.setState(
+	// 		{
+	// 			result: "",
+	// 			playerOneChoice: "",
+	// 			playerTwoChoice: "",
+	// 			message: "New game has started."}
+	// 	);
+	// 	$('input[name="uplay"]').prop('checked', false);
+	// }
+
 
 	
     //**********************************AUTH************************************	
 
 	 //LOGIN PAGE COMPONENTS
-	createUserHandler(e) {
-		console.log(this.state.email)
-		console.log(this.state.password)
-		const errHandler = firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
-			errHandler.catch((e) => console.log(e.message));
-	}
-	userLoginHandler(e) {
-		const errHandler = firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
-      errHandler.catch((e) => console.log(e.message));
-	}
-	loginChangeHandler(e) {
-		this.setState({
-			[e.target.name]: e.target.value
-		})
-	}
-	loginSubmitHandler(e) {
-		if (e.target.name === 'signin') {
-			this.userLoginHandler(e);
-		} else {
-			this.createUserHandler(e);
-		}
-	}
+	// createUserHandler(e) {
+	// 	const errHandler = firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
+	// 		errHandler.catch((e) => console.log(e.message));
+	// }
+	// userLoginHandler(e) {
+	// 	const errHandler = firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
+    //   errHandler.catch((e) => console.log(e.message));
+	// }
+	// loginChangeHandler(e) {
+	// 	this.setState({
+	// 		[e.target.name]: e.target.value
+	// 	})
+	// }
+	// loginSubmitHandler(e) {
+	// 	if (e.target.name === 'signin') {
+	// 		this.userLoginHandler(e);
+	// 	} else {
+	// 		this.createUserHandler(e);
+	// 	}
+	// }
+
 	// //END OF LOGIN PAGE COMPONENTS
 
 	componentWillMount() {
@@ -79,8 +176,16 @@ class App extends Component {
 	
 		return (
 			<div>
-				<Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/>
+
+				{/* <Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/> */}
+				Hello from React! hell
+				<h2>message: {this.state.message}</h2>
+				<h3>You are: {this.state.playerPosition}</h3>
+                <h2>and the result: {this.props.result}</h2>
+				<Cards cards={this.state.cards} gameOver={this.gameOver} handlePlay={this.handlePlay}/>
+				{/* {newGameButton} */}
 				{/* <GameJoin /> */}
+        
 			</div>
 		)
 	}
