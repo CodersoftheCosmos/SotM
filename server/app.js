@@ -24,23 +24,24 @@ app.get('/', function(req, res) {
 let players = [];
 let playedCount = 0;
 let game = {};
+let rpsCards = require('./cards.json')
 
-io.on('connection', function(socket) {
+io.on('connection', function(socket) {  
     console.log('player connected');
     if (players.length === 0){
         players.push(socket);
-        socket.emit('handlePlayer', {msg:"playerOne"});
+        socket.emit('handlePlayer', {msg:"playerOne", cards: rpsCards});
         socket.emit('status', {msg: 'waiting for another player..'})
     } else if (players.length === 1) {
         players.push(socket);
-        socket.emit('handlePlayer', {msg: 'playerTwo'});
+        socket.emit('handlePlayer', {msg: 'playerTwo', cards: rpsCards});
         players.forEach(player => {player.emit('status', {msg: 'Lets play'})})
     } else {
         socket.emit('handleWelcome', {msg: 'the server is full'})
     }
 
     socket.on('played', function(packet) {
-        if(scoket === players[0]) {
+        if(socket === players[0]) {
             game.player1 = packet.playerOneChoice;
             playedCount++
         } else if (socket === players[1]) {

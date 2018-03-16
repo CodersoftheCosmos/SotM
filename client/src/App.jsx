@@ -5,11 +5,18 @@ import Login from '../components/Login';
 import API from '../../config.js';
 import firebase from 'firebase';
 
+import Cards from '../components/Cards'
+
 
 class App extends Component {
 	constructor(){
 		super()
 		this.state = {
+			cards: [
+				{"name": "Rock", "photo": "../static/rock.png"},
+				{"name": "Paper", "photo": "../static/paper.png"},
+				{"name": "Scissors", "photo": "../static/scissors.png"}
+				],
             playerPosition: "",
 			result: "",
 			playerOneChoice: "",
@@ -25,6 +32,9 @@ class App extends Component {
         this.handlePlayer = this.handlePlayer.bind(this);
 		this.handleWelcome = this.handleWelcome.bind(this);
 		this.handleStatus = this.handleStatus.bind(this);
+		//this.handleChange = this.handleChange.bind(this);
+		this.handlePlay = this.handlePlay.bind(this);
+		this.gameOver = this.gameOver.bind(this);
 
 		// this.createUserHandler = this.createUserHandler.bind(this);
 		// this.userLoginHandler = this.userLoginHandler.bind(this);
@@ -36,27 +46,25 @@ class App extends Component {
 
 	componentDidMount() {
 		const socket = io.connect('http://localhost:9001')
-			socket.on('handlePlayer', this.handlePlayer);
+			socket.on('handlePlayer', this.handlePlayer, this.handlePlayerLeft);
 			socket.on('handleWelcome', this.handleWelcome);
 			socket.on('status', this.handleStatus);
 			// socket.on('gameOver', this.gameOver);
 			// socket.on('playerLeft', this.handlePlayerLeft);
-
+ 
 	}
 
 	handlePlayer(data) {
 		this.setState({playerPosition: data.msg});
-		console.log(data.msg)
 	}
 
 	handleWelcome(data) {
-		this.setState({message: data.msg});
-		console.log(data.msg)
+		this.setState({message: data.msg});		
 	}
 
 	handleStatus(data) {
 		this.setState({message: data.msg});
-		console.log(data.msg)
+				
 	}
 
 	handlePlayerLeft(data) {
@@ -65,24 +73,24 @@ class App extends Component {
 
 
 
-	// gameOver(data) {
-	// 	if (this.state.playerOneChoice === "") {
-	// 		this.setState({playerOneChoice:data.player1});
-	// 		if (this.state.playerTwoChoice === data.winner) {
-	// 			this.setState({result: "You are the winner!", wins: this.state.wins + 1});
-	// 		} else {
-	// 			this.setState({result: "You are the loser!", losses: this.state.losses + 1});
-	// 		}
-	// 	} else {
-	// 		this.setState({playerTwoChoice:data.player2});
-	// 		if (this.state.playerOneChoice === data.winner) {
-	// 			this.setState({result: "You are the winner!", wins: this.state.wins + 1});
-	// 		} else {
-	// 			this.setState({result: "Your are the loser!", losses: this.state.losses + 1});
-	// 		}
-	// 	}
-	// 	this.setState({message: "Game over, click New Game!"});
-	// }
+	gameOver(data) {
+		if (this.state.playerOneChoice === "") {
+			this.setState({playerOneChoice:data.player1});
+			if (this.state.playerTwoChoice === data.winner) {
+				this.setState({result: "You are the winner!", wins: this.state.wins + 1});
+			} else {
+				this.setState({result: "You are the loser!", losses: this.state.losses + 1});
+			}
+		} else {
+			this.setState({playerTwoChoice:data.player2});
+			if (this.state.playerOneChoice === data.winner) {
+				this.setState({result: "You are the winner!", wins: this.state.wins + 1});
+			} else {
+				this.setState({result: "Your are the loser!", losses: this.state.losses + 1});
+			}
+		}
+		this.setState({message: "Game over, click New Game!"});
+	}
 
 	// handleChange(e, value) {
 	// 	if (this.state.playerPosition == "playerOne") {
@@ -92,17 +100,17 @@ class App extends Component {
 	// 	}
 	// }
 
-	// handlePlay(e) {
-	// 	this.setState({message: "Waiting on the other player..."});
-	// 	socket.emit(
-	// 		'played',
-	// 		{
-	// 			player: this.state.playerPosition,
-	// 			playerOneChoice: this.state.playerOneChoice,
-	// 			playerTwoChoice: this.state.playerTwoChoice
-	// 		}
-	// 	);
-	// }
+	handlePlay() {
+		this.setState({message: "Waiting on the other player..."});
+		socket.emit(
+			'played',
+			{
+				player: this.state.playerPosition,
+				playerOneChoice: this.state.playerOneChoice,
+				playerTwoChoice: this.state.playerTwoChoice
+			}
+		);
+	}
 
 	// newGameGen() {
 	// 	this.setState(
@@ -184,6 +192,9 @@ class App extends Component {
 				{/* <Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/> */}
 				Hello from React! hell
 				<h2>message: {this.state.message}</h2>
+				<h3>You are: {this.state.playerPosition}</h3>
+                <h2>and the result: {this.props.result}</h2>
+				<Cards cards={this.state.cards} gameOver={this.gameOver} handlePlay={this.handlePlay}/>
 				{/* {newGameButton} */}
 			</div>
 		)

@@ -33,5 +33,9 @@
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
     "webpack": "^3.11.0"
+  },
+  "devDependencies": {
+    "file-loader": "^1.1.11",
+    "url-loader": "^1.0.1"
   }
 }
