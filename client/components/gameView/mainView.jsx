@@ -1,25 +1,15 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import UserList from './UserList'
 
 
-class UserList extends Component {
+class mainView extends Component {
 
-    renderList() {
-        return this.props.users.map((user, index) => {
-            return (
-                <li key={index}> 
-                    {user.first} {user.last}
-                </li>
-            );
-        });
-    }
 
     render() {
         return (
-            <ul>
-                {this.renderList()}
-            </ul>
+            <UserList />
         );
     }
 
@@ -40,4 +30,4 @@ function mapStateToProps(state) {
 // }
 
 // conversion from "dumb" component to "container"
-export default connect(mapStateToProps)(UserList);
+export default connect(mapStateToProps)(mainView);

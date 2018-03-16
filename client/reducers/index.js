@@ -1,9 +1,11 @@
 import {combineReducers} from 'redux';
 import Users from './reducer-users'
+import ActiveCard from './reducer_activeCard'
 
 
 const allReducers = combineReducers({
-  users: Users
+  Players: Users,
+  activeCard: ActiveCard
 })
 
 
