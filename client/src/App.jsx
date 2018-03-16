@@ -3,8 +3,9 @@ import Chat from '../components/Chat'
 import Login from '../components/Auth/Login';
 import API from '../../config.js';
 import firebase from 'firebase';
-import GameJoin from "../components/gameJoin";
 import Home from '../components/Home/Home'
+import GameJoin from '../components/gameJoin'
+import MainView from '../components/gameView/mainView'
 
 
 class App extends Component {
@@ -79,8 +80,9 @@ class App extends Component {
 	
 		return (
 			<div>
-				<Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/>
+				{/* <Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/> */}
 				{/* <GameJoin /> */}
+				<MainView />
 			</div>
 		)
 	}
