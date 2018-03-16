@@ -27,14 +27,16 @@ let userSchema = mongoose.Schema({
 });
 
 let cardSchema = mongoose.Schema({
-    name: String
+    name: String,
+    photo: String
 });
 
 let Card = mongoose.model('Card', cardSchema);
 
-let newCard = (name) => {
+let newCard = (name, photo) => {
   let card = new Card({
-    name: name
+    name: name,
+    photo: photo
   });
   card.save((err, card) => {
       if(err) {
