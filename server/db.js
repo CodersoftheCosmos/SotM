@@ -8,7 +8,7 @@ db.once('once', function() {
     console.log('Database is connected and listening on Port 27017');
 });
 
-let characterSchema = mongoose.Schema({
+const characterSchema = mongoose.Schema({
     name: String,
     hp: Number,
     power: String,
@@ -16,7 +16,7 @@ let characterSchema = mongoose.Schema({
     charType: String
 });
 
-let userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
     username: String,
     stats: {
       wins: Number,
@@ -26,15 +26,15 @@ let userSchema = mongoose.Schema({
     }
 });
 
-let cardSchema = mongoose.Schema({
+const cardSchema = mongoose.Schema({
     name: String,
     photo: String
 });
 
-let Card = mongoose.model('Card', cardSchema);
+const Card = mongoose.model('Card', cardSchema);
 
-let newCard = (name, photo) => {
-  let card = new Card({
+const newCard = (name, photo) => {
+  const card = new Card({
     name: name,
     photo: photo
   });
@@ -47,11 +47,11 @@ let newCard = (name, photo) => {
 }
 
 
-let Character = mongoose.model('Character', characterSchema);
-let User = mongoose.model('User', userSchema);
+const Character = mongoose.model('Character', characterSchema);
+const User = mongoose.model('User', userSchema);
 
-let newCharacter = (name, hp, power, cardDeck, charType) => {
-  let character = new Character({
+const newCharacter = (name, hp, power, cardDeck, charType) => {
+  const character = new Character({
       name: name, 
       hp: hp, 
       power: power, 
@@ -66,8 +66,8 @@ let newCharacter = (name, hp, power, cardDeck, charType) => {
   })
 }
 
-let newUser = (username, stats = {wins: 0, losses: 0, favChar: 'Legacy', totDmgDone: 0}) => {
-    let user = new User({
+const newUser = (username, stats = {wins: 0, losses: 0, favChar: 'Legacy', totDmgDone: 0}) => {
+    const user = new User({
       username: username,
       stats: stats
     });
