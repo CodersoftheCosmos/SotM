@@ -5,7 +5,8 @@ import API from '../../config.js';
 import firebase from 'firebase';
 import Home from '../components/Home/Home'
 import GameJoin from '../components/gameJoin'
-import MainView from '../components/gameView/mainView'
+import MainView from '../components/gameView/mainView';
+import Rules from '../components/Rule/Rules.jsx';
 
 
 class App extends Component {
@@ -82,7 +83,8 @@ class App extends Component {
 			<div>
 				{/* <Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/> */}
 				{/* <GameJoin /> */}
-				<MainView />
+				{/* <MainView /> */}
+				<Rules />
 			</div>
 		)
 	}
