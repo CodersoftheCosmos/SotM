@@ -2,15 +2,27 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import UserList from './UserList'
+import SelectedCard from './SelectedCard'
 
 
 class mainView extends Component {
 
 
     render() {
-        return (
-            <UserList />
-        );
+        if(this.props.card !== null){
+            return (
+                <div>
+                    <SelectedCard />
+                </div>
+            )
+
+        } else {
+            return (
+                <div>
+                    <UserList />
+                </div>
+            );
+        }
     }
 
 }
@@ -19,7 +31,8 @@ class mainView extends Component {
 
 function mapStateToProps(state) {
     return {
-        users: state.users
+        users: state.users,
+        card: state.activeCard
     };
 }
 

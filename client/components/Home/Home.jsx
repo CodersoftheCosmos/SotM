@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Stats from './Stats.jsx';
+
 class Home extends Component {
 	constructor(props){
 		super(props)
