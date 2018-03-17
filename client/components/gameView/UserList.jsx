@@ -13,9 +13,9 @@ class UserList extends Component {
             return (
                 <div key={index}> 
                     <img src={user.thumbnail} height="200" width="200" />
-                    {user.cards.map( card => {
+                    {user.cards.map( (card, index) => {
                         return (
-                            <div> 
+                            <div key={index}> 
                                 <img src={card.image} height="200" width="200" onClick={()=> this.props.selectedCard(card)}/>  
                                 {card.name}
                             </div>

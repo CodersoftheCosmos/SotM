@@ -8,9 +8,9 @@ class Home extends Component {
 	render() {
 	return (
 			<div align="center">
-				<button name="join" onClick={}>Join A Game</button>
+				<button name="join" onClick={console.log()}>Join A Game</button>
 				<br />
-				<button name="create" onClick={}>Create A Game</button>
+				<button name="create" onClick={console.log()}>Create A Game</button>
 				<hr />
 				<Stats />
 			</div>
