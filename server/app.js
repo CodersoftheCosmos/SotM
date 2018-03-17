@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const router = express.Router();
-const server = require('http').createServer(app)
+const server = require('http').createServer(app);
 const path = require('path');
 const io = require('socket.io')(server)
 
