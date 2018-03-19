@@ -9,6 +9,8 @@ import MainView from '../components/gameView/mainView'
 import io from 'socket.io-client'
 
 const socket = io.connect('http://localhost:9002')
+import MainView from '../components/gameView/mainView';
+import Rules from '../components/Rule/Rules.jsx';
 
 
 class App extends Component {
@@ -16,10 +18,11 @@ class App extends Component {
 		super()
 		this.state = { 
 			email: '',
-			password: ''
+			password: '',
+			render: ''
 		}
 		this.createUserHandler = this.createUserHandler.bind(this);
-		this.userLoginHandler = this.userLoginHandler.bind(this);
+		this.userAuthHandler = this.userAuthHandler.bind(this);
 		this.loginChangeHandler = this.loginChangeHandler.bind(this);
 		this.loginSubmitHandler = this.loginSubmitHandler.bind(this);
 	}
@@ -38,9 +41,14 @@ class App extends Component {
 		const errHandler = firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
 			errHandler.catch((e) => console.log(e.message));
 	}
-	userLoginHandler(e) {
-		const errHandler = firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
-      errHandler.catch((e) => console.log(e.message));
+	userAuthHandler(e) {
+		if (e.target.name === 'signin') {
+			const errHandler = firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
+				errHandler.catch((e) => console.log(e.message));
+		} else {
+			const errHandler = firebase.auth().signOut();
+				errHandler.catch((e) => console.log('e.message'));
+		}
 	}
 	loginChangeHandler(e) {
 		this.setState({
@@ -48,8 +56,8 @@ class App extends Component {
 		})
 	}
 	loginSubmitHandler(e) {
-		if (e.target.name === 'signin') {
-			this.userLoginHandler(e);
+		if (e.target.name === 'signin' || e.target.name === 'logout') {
+			this.userAuthHandler(e);
 		} else {
 			this.createUserHandler(e);
 		}
@@ -87,9 +95,11 @@ class App extends Component {
 	
 		return (
 			<div>
-				{/* <Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/> */}
+				<Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/>
 				{/* <GameJoin /> */}
-				<MainView />
+				{/* <MainView /> */}
+				{/* <Home click={this.loginSubmitHandler}/> */}
+				{/* <Rules /> */}
 			</div>
 		)
 	}
