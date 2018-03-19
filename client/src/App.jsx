@@ -34,8 +34,13 @@ class App extends Component {
 			errHandler.catch((e) => console.log(e.message));
 	}
 	userLoginHandler(e) {
-		const errHandler = firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
-      errHandler.catch((e) => console.log(e.message));
+		if (e.target.name === 'signin') {
+			const errHandler = firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
+				errHandler.catch((e) => console.log(e.message));
+		} else {
+			const errHandler = firebase.auth().signOut();
+				errHandler.catch((e) => console.log(e.message));
+		}
 	}
 	loginChangeHandler(e) {
 		this.setState({
@@ -85,7 +90,8 @@ class App extends Component {
 				{/* <Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/> */}
 				{/* <GameJoin /> */}
 				{/* <MainView /> */}
-				<Rules />
+				<Home />
+				{/* <Rules /> */}
 			</div>
 		)
 	}
