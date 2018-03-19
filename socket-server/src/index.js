@@ -8,12 +8,19 @@ const io = require('socket.io')(server)
 
 const port = 9002;
 
-let players = [];
-let playedCount = 0;
-let game = {};
+const games = []
+const players = [];
+const game = {};
+const playedCount = 0;
 
 io.on('connection', function(socket) {
     console.log('player connected');
+    players.push(socket);
+
+    // socket.emit('ac')
+       socket.on('createGame', function(data) {
+         console.log(data)
+       })
 //     if (players.length === 0){
 //         players.push(socket);
 //         socket.emit('handlePlayer', {msg:"playerOne"});

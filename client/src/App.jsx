@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import Chat from '../components/Chat'
 import Login from '../components/Auth/Login';
 import Home from '../components/Home/Home'
-import GameJoin from '../components/gameJoin'
+import GameJoin from '../components/gameJoin/gameJoin'
 import MainView from '../components/gameView/mainView'
 import io from 'socket.io-client'
 import Rules from '../components/Rule/Rules.jsx';
 
-const socket = io.connect('http://localhost:9002')
+// const socket = io.connect('http://localhost:9002')
 
 
 class App extends Component {
