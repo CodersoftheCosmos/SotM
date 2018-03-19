@@ -8,7 +8,7 @@ import GameJoin from '../components/gameJoin'
 import MainView from '../components/gameView/mainView'
 import io from 'socket.io-client'
 
-const socket = io.connect('http://localhost:9001')
+const socket = io.connect('http://localhost:9002')
 
 
 class App extends Component {
@@ -23,6 +23,10 @@ class App extends Component {
 		this.loginChangeHandler = this.loginChangeHandler.bind(this);
 		this.loginSubmitHandler = this.loginSubmitHandler.bind(this);
 	}
+
+    // componentDidMount() {
+      
+	// }
 
 	
     //**********************************AUTH************************************	
