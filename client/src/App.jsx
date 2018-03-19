@@ -14,7 +14,8 @@ class App extends Component {
 		super()
 		this.state = { 
 			email: '',
-			password: ''
+			password: '',
+			render: ''
 		}
 		this.createUserHandler = this.createUserHandler.bind(this);
 		this.userLoginHandler = this.userLoginHandler.bind(this);
