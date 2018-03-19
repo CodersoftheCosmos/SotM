@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import Chat from '../components/Chat'
 import Login from '../components/Auth/Login';
 import API from '../../config.js';
 import firebase from 'firebase';
 import Home from '../components/Home/Home'
-import GameJoin from '../components/gameJoin'
-import MainView from '../components/gameView/mainView';
+import GameJoin from '../components/gameJoin/gameJoin'
+import MainView from '../components/gameView/mainView'
+import io from 'socket.io-client'
 import Rules from '../components/Rule/Rules.jsx';
+
+// const socket = io.connect('http://localhost:9002')
 
 
 class App extends Component {
@@ -22,6 +24,10 @@ class App extends Component {
 		this.loginChangeHandler = this.loginChangeHandler.bind(this);
 		this.loginSubmitHandler = this.loginSubmitHandler.bind(this);
 	}
+
+    // componentDidMount() {
+      
+	// }
 
 	
     //**********************************AUTH************************************	
@@ -87,8 +93,8 @@ class App extends Component {
 	
 		return (
 			<div>
-				<Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/>
-				{/* <GameJoin /> */}
+				{/* <Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/> */}
+				<GameJoin />
 				{/* <MainView /> */}
 				{/* <Home click={this.loginSubmitHandler}/> */}
 				{/* <Rules /> */}

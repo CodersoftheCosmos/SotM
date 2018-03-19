@@ -8,11 +8,11 @@ class Login extends Component {
 	render() {
 	return (
 			<div align="center">
-        <input type="email" name="email" placeholder="Email" onChange={this.props.change} />
+        {/* <input type="email" name="email" placeholder="Email" onChange={this.props.change} />
         <br />
         <input type="password" name="password" placeholder="Password" onChange={this.props.change} />
         <br />
-        <button name="signin" onClick={this.props.click}>Sign In</button><button name="create" onClick={this.props.click}>Create Account</button>
+        <button name="signin" onClick={this.props.click}>Sign In</button><button name="create" onClick={this.props.click}>Create Account</button> */}
 			</div>
 		)
 	}

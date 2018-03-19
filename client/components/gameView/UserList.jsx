@@ -12,17 +12,39 @@ class UserList extends Component {
     renderList() {
         return this.props.users.map((user, index) => {
             return (
-                <div key={index}> 
+                <div key={index} className="playerView"> 
                     <img src={user.thumbnail} height="200" width="200" />
                     {user.cards.map( (card, index) => {
                         return (
-                            <div key={index}> 
+                            <div key={index} className="card"> 
                                 <img src={card.image} height="200" width="200" onClick={()=> this.props.selectedCard(card)}/>  
                                 {card.name}
                             </div>
                         )
                     })}
                     {user.first} {user.last}
+
+                    <style> 
+                        {`
+                            .cardName {
+                                float: bottom;
+                                display: block;
+                            }
+                            h3 {
+                                float: bottom;
+                            }
+                            .card {
+                                text-align: center;
+                                display: inline-flex;
+                                padding: 20px;
+                            }
+
+                            .playerView {
+                                margin: 15px;
+                            }
+                        `}
+                    </style>
+
                 </div>
             );
         });
