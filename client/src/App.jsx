@@ -5,11 +5,9 @@ import Home from '../components/Home/Home'
 import GameJoin from '../components/gameJoin'
 import MainView from '../components/gameView/mainView'
 import io from 'socket.io-client'
+import Rules from '../components/Rule/Rules.jsx';
 
 const socket = io.connect('http://localhost:9002')
-import MainView from '../components/gameView/mainView';
-import Rules from '../components/Rule/Rules.jsx';
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 
 
 class App extends Component {
