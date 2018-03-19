@@ -10,7 +10,7 @@ class Home extends Component {
 	return (
 			<div>
 				<div align="right">
-					<button name="logout" onClick={console.log('logout')}>Logout</button>
+					<button name="logout" onClick={this.props.click}>Logout</button>
 				</div>
 				<div align="center">
 					<button name="join" onClick={console.log('join')}>Join A Game</button>
