@@ -6,6 +6,9 @@ import firebase from 'firebase';
 import Home from '../components/Home/Home'
 import GameJoin from '../components/gameJoin'
 import MainView from '../components/gameView/mainView'
+import io from 'socket.io-client'
+
+const socket = io.connect('http://localhost:9001')
 
 
 class App extends Component {
