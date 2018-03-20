@@ -44,7 +44,7 @@ userAuthHandler(e) {
 }
 loginChangeHandler(e) {
 	this.setState({
-		[e.target.name]: e.target.value
+		[e.target.name]: e.target.value + '@sotm.com'
 	})
 }
 loginSubmitHandler(e) {
@@ -72,10 +72,10 @@ componentWillMount() {
 // 	//FIREBASE AUTH
 	firebase.auth().onAuthStateChanged((User) => {
 		if (User) {
-			console.log(User.email, 'logged in!');
-			this.props.User(User.email)
-
-
+			let username = User.email.slice(0, User.email.indexOf('@'));
+			//JARRET USERNAME RIGHT HERE ABOVE ME
+			console.log(username, 'logged in!');
+			this.props.User(username);
 		} else {
 			console.log('Logged out!');
 			this.props.User(null)
