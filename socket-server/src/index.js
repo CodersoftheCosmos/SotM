@@ -1,26 +1,36 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
-const router = express.Router();
 const server = require('http').createServer(app);
 const path = require('path');
 const io = require('socket.io')(server)
 
 const port = 9002;
 
-const games = []
+const games = [{username: 'truelav', players: 1, maxPlayers: 2, comments: 'no place for nuubs', player1: 'truelav', player2: ''}]
 const players = [];
 const game = {};
 const playedCount = 0;
+const rooms = [];
 
 io.on('connection', function(socket) {
     console.log('player connected');
-    players.push(socket);
+    socket.emit('displayGameList', {activeGames: games});
+    socket.on('createGame', function(data) {
+        //socket.join(`${data.username}`)
+        games.push(data);
+        //rooms.push(socket.rooms)
+        socket.emit('displayGameList', {activeGames: games});        
+        //socket.emit('gameStatus', {msg: socket.rooms})
+    })
+    socket.on('joinGame', function(data) {
+        let gameCreator = data.gameJoined;
+        socket.join(`${gameCreator}`);
+        games.forEach(function(game) {if (game.username === gameCreator) {game.players++}} )
+        // socket.broadcast.to(gameCreator).emit('message', {msg: 'another player connected'});
+        socket.emit('message', {msg: 'get ready fo the game'});
+        socket.emit('displayGameList', {activeGames: games});
+    })
 
-    // socket.emit('ac')
-       socket.on('createGame', function(data) {
-         console.log(data)
-       })
 //     if (players.length === 0){
 //         players.push(socket);
 //         socket.emit('handlePlayer', {msg:"playerOne"});
