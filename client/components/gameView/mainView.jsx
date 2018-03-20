@@ -30,6 +30,7 @@ class mainView extends Component {
 // Goes into Store and retrieves what we want and pass it as props to UserList
 
 function mapStateToProps(state) {
+    console.log(state)
     return {
         users: state.users,
         card: state.activeCard

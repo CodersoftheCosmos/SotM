@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import API from '../../../config';
 import firebase from 'firebase';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import { User } from '../../actions/loggedInPerson'
+import { Redirect } from 'react-router-dom'
+import Home from '../Home/Home'
+
+
 
 class Login extends Component {
-	constructor(){
-		super()
+	constructor(props){
+		super(props)
 
 	this.state = { 
 		email: '',
@@ -51,8 +58,7 @@ loginSubmitHandler(e) {
 
 componentWillMount() {
 	//FIREBASE SET UP
-	//app.jsx will need to load this upon loadup
-	//store needs email 
+
 	var config = {
 		apiKey: API.fireBaseApiKey,
 		authDomain: "sotm-66f9b.firebaseapp.com",
@@ -67,13 +73,28 @@ componentWillMount() {
 	firebase.auth().onAuthStateChanged((User) => {
 		if (User) {
 			console.log(User.email, 'logged in!');
+			this.props.User(User.email)
+
+
 		} else {
 			console.log('Logged out!');
+			this.props.User(null)
 		}
 	});
 }
 	
 	render() {
+
+		if(this.props.user){
+			return (
+			// <Redirect to="/home"/>
+				<div>
+					<Home click={this.loginSubmitHandler} />
+				</div>
+			)
+
+		}
+		
 		return (
 				<div align="center">
 					<input type="email" name="email" placeholder="Email" onChange={this.loginChangeHandler} />
@@ -86,4 +107,16 @@ componentWillMount() {
 	}
 }
 
-export default Login;
+
+function mapStateToProps(state) {
+	return {
+			user: state.activeUser
+	};
+}
+function matchDispatchToProps(dispatch){
+	//when selected card is called, passed to all reducers
+	return bindActionCreators( { User: User }, dispatch)
+}
+
+// conversion from "dumb" component to "container"
+export default connect(mapStateToProps, matchDispatchToProps)(Login);
