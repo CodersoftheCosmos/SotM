@@ -66,9 +66,10 @@ const newCharacter = (name, hp, power, cardDeck, charType) => {
   })
 }
 
-const newUser = (username, stats = {wins: 0, losses: 0, favChar: 'Legacy', totDmgDone: 0}) => {
+const newUser = (username, email, stats = {wins: 0, losses: 0, favChar: 'Legacy', totDmgDone: 0}) => {
     const user = new User({
       username: username,
+      email: email,
       stats: stats
     });
     user.save((err, user) => {
