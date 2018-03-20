@@ -67,7 +67,7 @@ class GameJoin extends Component {
 
 	handleCreateGame() {
 		this.setState({ gameStatus: 'waiting for another player'})
-      	socket.emit('createGame', {username: this.state.username, players: 1, maxPlayers: 2, comments: this.state.gameComment, player1: this.state.username, player2: '', gameCreated: false})
+      	socket.emit('createGame', {username: this.state.username, players: 1, maxPlayers: 2, comments: this.state.gameComment, player1: this.state.username, player2: ''})
 	}
 
 	handleJoinGame(data) {

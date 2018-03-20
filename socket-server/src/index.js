@@ -8,26 +8,24 @@ const port = 9002;
 
 const games = [{username: 'truelav', players: 1, maxPlayers: 2, comments: 'no place for nuubs', player1: 'truelav', player2: ''}]
 const players = [];
-const game = {};
 const playedCount = 0;
 const rooms = [];
+let currentGame = {};
 
 io.on('connection', function(socket) {
     console.log('player connected');
     socket.emit('displayGameList', {activeGames: games});
     socket.on('createGame', function(data) {
-        //socket.join(`${data.username}`)
+        socket.join(`${data.username}`)
         games.push(data);
-        //rooms.push(socket.rooms)
         socket.emit('displayGameList', {activeGames: games});        
-        //socket.emit('gameStatus', {msg: socket.rooms})
+        socket.emit('gameStatus', {msg: socket.rooms})
     })
     socket.on('joinGame', function(data) {
         let gameCreator = data.gameJoined;
         socket.join(`${gameCreator}`);
-        games.forEach(function(game) {if (game.username === gameCreator) {game.players++}} )
-        // socket.broadcast.to(gameCreator).emit('message', {msg: 'another player connected'});
-        socket.emit('message', {msg: 'get ready fo the game'});
+        games.forEach(function(game) {if (game.username === gameCreator) {game.players++, game.player2 = data.personalData, currentGame = game}} )
+        socket.emit('message', {msg: 'get ready for the game'});
         socket.emit('displayGameList', {activeGames: games});
     })
 
