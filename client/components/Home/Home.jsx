@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Stats from './Stats.jsx';
+import { connect } from 'react-redux';
 
 class Home extends Component {
 	constructor(props){
@@ -17,6 +18,7 @@ class Home extends Component {
 					<br />
 					<button name="create" onClick={console.log('create')}>Create A Game</button>
 					<hr />
+					{this.props.user}
 					<Stats />
 				</div>
 			</div>
@@ -24,4 +26,10 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+function mapStateToProps(state) {
+	return {
+			user: state.activeUser
+	};
+}
+
+export default connect(mapStateToProps)(Home);
