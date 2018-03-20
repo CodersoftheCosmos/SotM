@@ -16,9 +16,9 @@ app.use('/api', router);
 
 app.use(express.static(path.join(__dirname, '../client/dist')))
 
-app.get('/', function(req, res) {
+app.get('/*', function(req, res) {
     console.log('Serving up Index.html');
-    res.sendFile(path.join(__dirname + '/../client/dist'));
+    res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
 });
 
 let players = [];
