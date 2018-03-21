@@ -3,11 +3,11 @@ const app = express();
 const server = require('http').createServer(app);
 const path = require('path');
 const io = require('socket.io')(server)
-
+const _ = require('lodash');
 const port = 9002;
 
-const games = [{username: 'truelav', players: 1, maxPlayers: 2, comments: 'no place for nuubs', player1: 'truelav', player2: ''}]
-const players = [];
+const games = [{username: 'truelav', numberPlayers: 1, maxPlayers: 2, comments: 'no place for nuubs', player1: 'truelav', player2: ''}]
+const activePlayers = [];
 const playedCount = 0;
 const rooms = [];
 let currentGame = {};
@@ -15,18 +15,29 @@ let currentGame = {};
 io.on('connection', function(socket) {
     console.log('player connected');
     socket.emit('displayGameList', {activeGames: games});
+    
+    activePlayers.push(socket);
     socket.on('createGame', function(data) {
-        socket.join(`${data.username}`)
-        games.push(data);
-        socket.emit('displayGameList', {activeGames: games});        
-        socket.emit('gameStatus', {msg: socket.rooms})
+       if(!_.find(games,{username: data.username})) {
+            games.push(data); 
+            let room = `room${data.username}`;      
+            socket.join(room);
+            activePlayers.forEach(function(player){ player.emit('displayGameList', {activeGames: games}) })
+       } else {
+            socket.emit('message', {msg: 'You have already created a game'})
+       }
     })
+    
     socket.on('joinGame', function(data) {
         let gameCreator = data.gameJoined;
-        socket.join(`${gameCreator}`);
-        games.forEach(function(game) {if (game.username === gameCreator) {game.players++, game.player2 = data.personalData, currentGame = game}} )
-        socket.emit('message', {msg: 'get ready for the game'});
-        socket.emit('displayGameList', {activeGames: games});
+        let room = `room${data.gameJoined}`;
+        socket.join(room);
+        let myGame = _.find(games, {username: gameCreator})
+            myGame.numberPlayers++; myGame.player2 = data.personalData;
+            game = myGame;
+            activePlayers.forEach(function(player){ player.emit('displayGameList', {activeGames: games}) })
+            io.in(room).emit('message', {msg: 'the game will start soon'});
+            // socket.emit('startTimer', {msg: 'let the fun beggin'})
     })
 
 //     if (players.length === 0){
@@ -51,7 +62,7 @@ io.on('connection', function(socket) {
 //         } else {
 //             console.error('something happened')
 //         }
-//         if (playedCount === 3) {
+//         if (playedCount === 2) {
 // 			playedCount = 0;
 // 			var champ = winner(game.player1, game.player2);
 // 			players.forEach(player => {
@@ -59,7 +70,6 @@ io.on('connection', function(socket) {
 // 			});
 // 		}
 //     });
-
     socket.once('disconnect', () => {
 		// players.splice(players.indexOf(socket), 1);
 		// players.forEach(player => {

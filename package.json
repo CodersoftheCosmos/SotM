@@ -22,6 +22,7 @@
     "express": "^4.16.2",
     "firebase": "^4.11.0",
     "fs": "0.0.1-security",
+    "lodash": "^4.17.5",
     "mongod": "^2.0.0",
     "mongodb": "^3.0.4",
     "mongoose": "^5.0.10",
