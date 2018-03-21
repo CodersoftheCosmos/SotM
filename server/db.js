@@ -16,15 +16,15 @@ const characterSchema = mongoose.Schema({
     charType: String
 });
 
-const userSchema = mongoose.Schema({
-    username: String,
-    stats: {
-      wins: Number,
-      losses: Number,
-      favChar: String,
-      totDmgDone: Number
-    }
-});
+// const userSchema = mongoose.Schema({
+//     username: String,
+//     stats: {
+//       wins: Number,
+//       losses: Number,
+//       favChar: String,
+//       totDmgDone: Number
+//     }
+// });
 
 const cardSchema = mongoose.Schema({
     name: String,
@@ -48,7 +48,7 @@ const newCard = (name, photo) => {
 
 
 const Character = mongoose.model('Character', characterSchema);
-const User = mongoose.model('User', userSchema);
+// const User = mongoose.model('User', userSchema);
 
 const newCharacter = (name, hp, power, cardDeck, charType) => {
   const character = new Character({
@@ -66,18 +66,19 @@ const newCharacter = (name, hp, power, cardDeck, charType) => {
   })
 }
 
-const newUser = (username, email, stats = {wins: 0, losses: 0, favChar: 'Legacy', totDmgDone: 0}) => {
-    const user = new User({
-      username: username,
-      email: email,
-      stats: stats
-    });
-    user.save((err, user) => {
-        if(err) {
-            console.log("Something went wrong while saving. ", err);
-        }
-        console.log('Saved ', user);
-    })
-}
+// const newUser = (username, email, stats = {wins: 0, losses: 0, favChar: 'Legacy', totDmgDone: 0}) => {
+//     const user = new User({
+//       username: username,
+//       email: email,
+//       stats: stats
+//     });
+//     user.save((err, user) => {
+//         if(err) {
+//             console.log("Something went wrong while saving. ", err);
+//         }
+//         console.log('Saved ', user);
+//     })
+// }
 
-module.exports = {db, newCharacter, newUser, newCard};
+// module.exports = {db, newCharacter, newUser, newCard};
+module.exports = {db, newCharacter, newCard};
