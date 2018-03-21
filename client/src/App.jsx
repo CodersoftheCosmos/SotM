@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import Chat from '../components/Chat'
 import Login from '../components/Auth/Login';
 import Home from '../components/Home/Home'
 import GameJoin from '../components/gameJoin/gameJoin'
-import MainView from '../components/gameView/mainView'
-import io from 'socket.io-client'
+import MainView from '../components/gameView/mainView';
 import Rules from '../components/Rule/Rules.jsx';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import io from 'socket.io-client';
 
-// const socket = io.connect('http://localhost:9002')
+
+const socket = io.connect('http://localhost:9002')
 
 
 class App extends Component {
