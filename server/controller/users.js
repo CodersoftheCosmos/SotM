@@ -5,8 +5,7 @@ module.exports = {
 
   users: {
     get: function getUser(req, res) {
-      console.log(req.query.name)
-      models.User.find({ username : req.query.name }).exec( (err,data) => {
+      models.User.find({ username : req.query.username }).exec( (err,data) => {
         if(err){
           console.log(err)
         } 
@@ -15,6 +14,8 @@ module.exports = {
     },
 
     post: function inputUser(req, res) {
+      // console.log('inside post function', req.body)
+      // res.send()
       (new models.User({
         username: req.body.username,
         stats: {
@@ -26,7 +27,7 @@ module.exports = {
       })).save().then((data) => {
         res.status(201).json(data);
       })
-      res.send(req.body)
+      // res.send(req.body)
     }
 
   }
