@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 
 class Stats extends Component {
 	constructor(){
@@ -8,14 +9,21 @@ class Stats extends Component {
 	render() {
 	return (
 			<div align="center">
-				<h2>{/*Player Name from Redux*/}</h2> Stats<br />
-				Wins: {/*from DB*/}
-				Losses: {/*from DB*/}
-				Favorite Hero: {/*from DB*/}
-				Total Damage Done: {/*from DB*/}
+				<h1> Welcome {this.props.user[0].username}! </h1> <br />
+				<h4> Stats </h4>
+				<h6>Wins: {this.props.user[0].stats.wins}</h6>
+				<h6>Losses: {this.props.user[0].stats.losses}</h6>
+				<h6>Favorite Hero: {this.props.user[0].stats.favChar}</h6>
+				<h6>Total Damage Done: {this.props.user[0].stats.totDmgDone}</h6>
 			</div>
 		)
 	}
 }
 
-export default Stats;
+function mapStateToProps(state) {
+    return {
+				user: state.activeUser
+    };
+}
+
+export default connect(mapStateToProps)(Stats);
