@@ -5,11 +5,11 @@ class Stats extends Component {
 	constructor(){
 		super()
 	}
-	
+
 	render() {
-	return (
+		return (
 			<div align="center">
-				<h1> Welcome {this.props.user[0].username}! </h1> <br />
+				<h1> Welcome {this.props.user[0].username[0].toUpperCase() + this.props.user[0].username.substring(1)}! </h1> <br />
 				<h4> Stats </h4>
 				<h6>Wins: {this.props.user[0].stats.wins}</h6>
 				<h6>Losses: {this.props.user[0].stats.losses}</h6>
