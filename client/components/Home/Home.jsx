@@ -18,7 +18,7 @@ class Home extends Component {
 					<br />
 					<button name="create" onClick={()=>console.log('create')}>Create A Game</button>
 					<hr />
-					{this.props.user}
+					{this.props.user.username}
 					<Stats />
 				</div>
 			</div>

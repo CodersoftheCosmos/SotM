@@ -106,8 +106,10 @@ componentWillMount() {
 						console.log(`something went wrong when saving ${username}: `, err)
 					});
 				} else {
+					console.log('username: ', response.data[0].username)
+					console.log('stats: ', response.data[0].stats)
 					userObj.username = response.data[0].username;
-					userObj.stats = resonse.data[0].stats;
+					userObj.stats = response.data[0].stats;
 				}
 			})
 			.catch( (err) => {
