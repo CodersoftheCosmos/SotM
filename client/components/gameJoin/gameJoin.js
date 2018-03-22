@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CreateGame from './CreateGame';
 import Games from './Games';
 import io from 'socket.io-client';
+import { setInterval } from 'timers';
 
 const socket = io.connect('http://localhost:9002')
 
@@ -16,6 +17,7 @@ class GameJoin extends Component {
 	  activeGames: [],
 	  gameComment: '',
 	  gameStatus: '',
+	  timer: '',
 		}
 	this.handlePlayer = this.handlePlayer.bind(this);
 	this.displayGameList = this.displayGameList.bind(this);
@@ -24,6 +26,7 @@ class GameJoin extends Component {
 	this.handleOnChange = this.handleOnChange.bind(this);
 	this.handleGameStatus = this.handleGameStatus.bind(this);
 	this.handleMessage = this.handleMessage.bind(this);
+    this.startTimer = this.startTimer.bind(this);
 
 	}
   
@@ -32,23 +35,11 @@ class GameJoin extends Component {
 		socket.on('handlePlayer', this.handlePlayer);
 		socket.on('displayGameList', this.displayGameList);
 		socket.on('message', this.handleMessage);
-		// socket.on('handleWelcome', this.handleWelcome);
-		// socket.on('status', this.handleStatus);
-		// socket.on('gameOver', this.gameOver);
-		// socket.on('playerLeft', this.handlePlayerLeft);
-
-	}
-
-	componentWillMount() {
-		socket.on('handleGameStatus', this.handleGameStatus);
-		socket.on('handlePlayer', this.handlePlayer);
-		socket.on('displayGameList', this.displayGameList);
-		socket.on('message', this.handleMessage);
+		socket.on('startTimer', this.startTimer);
 	}
 
 	// this will update the status, like if you cant create multiple games, cant join multiple games etc.
 	handleGameStatus(data) {
-		console.log(data.msg)
         this.setState({gameStatus: data.msg})
 	}
 
@@ -67,11 +58,28 @@ class GameJoin extends Component {
 
 	handleCreateGame() {
 		this.setState({ gameStatus: 'waiting for another player'})
-      	socket.emit('createGame', {username: this.state.username, players: 1, maxPlayers: 2, comments: this.state.gameComment, player1: this.state.username, player2: ''})
+      	socket.emit('createGame', {username: this.state.username, numberPlayers: 1, maxPlayers: 2, comments: this.state.gameComment, player1: this.state.username, player2: ''})
 	}
 
 	handleJoinGame(data) {
       	socket.emit('joinGame', {gameJoined: data, personalData: this.state.username});
+	}
+
+	startTimer() {
+		// var timeLeft = 30;
+		// var timerId = setInterval(countdown, 1000);
+
+		// function countdown() {
+		// 	if (timeLeft === -1) {
+		// 		return
+		// 		clearTimeout(timerId);
+		// 	} else {
+		// 		console.log(GameJoin)
+		// 		//GameJoin.setState({timer: timeLeft})
+		// 		//console.log(timeLeft+ ' seconds remaining')
+		// 		timeLeft--;
+		// 	}
+		// }
 	}
 		
 	handleOnChange(e) {
@@ -82,16 +90,14 @@ class GameJoin extends Component {
 	
 		return (
 			<div>
-				{/* <Login click={this.loginSubmitHandler} change={this.loginChangeHandler}/> */}
 				<h1>Welcome to lobby:</h1>
 				<h3>Status: {this.state.message}</h3>
 				<h3>Active Games</h3>			
 				<div>
                     <Games games={this.state.activeGames} handleJoinGame={this.handleJoinGame}/>
-					{/* <p>Active Players</p> */}
 				</div>
+				<h3 className="countDown"></h3>
 				<CreateGame handleCreateGame={this.handleCreateGame} handleOnChange={this.handleOnChange}/>
-				{/* {newGameButton} */}
 			</div>
 		)
 	}
