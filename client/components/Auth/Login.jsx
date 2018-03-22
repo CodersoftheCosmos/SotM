@@ -75,11 +75,21 @@ componentWillMount() {
 		if (User) {
 			let username = User.email.slice(0, User.email.indexOf('@'));
 			//USERNAME RIGHT HERE ABOVE ME
+			let userObj = {};
 			const userExists = axios.get(`/api/username?username=${username}`)
 			.then( (response) => {
 				console.log('this is the response.data for username get: ', response.data)
 				console.log(`${username} exists in database`)
 				if(!response.data[0]) {
+					userObj = {
+						username: username,
+						stats: {
+							wins: 0,
+							losses: 0,
+							favChar: 'Nelson',
+							totDmgDone: 0
+						}
+					};
 					axios.post('/api/username', {
 						username: username,
 						stats: {
@@ -95,6 +105,9 @@ componentWillMount() {
 					.catch( (err) => {
 						console.log(`something went wrong when saving ${username}: `, err)
 					});
+				} else {
+					userObj.username = response.data[0].username;
+					userObj.stats = resonse.data[0].stats;
 				}
 			})
 			.catch( (err) => {
@@ -105,7 +118,7 @@ componentWillMount() {
 
 		 
 			console.log(username, 'logged in!');
-			this.props.User(username);
+			this.props.User(userObj);
 		} else {
 			console.log('Logged out!');
 			this.props.User(null)
