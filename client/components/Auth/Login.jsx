@@ -76,6 +76,8 @@ componentWillMount() {
 			let username = User.email.slice(0, User.email.indexOf('@'));
 			//USERNAME RIGHT HERE ABOVE ME
 			let userObj = {};
+			const context = this
+
 			const userExists = axios.get(`/api/username?username=${username}`)
 			.then( (response) => {
 				console.log('this is the response.data for username get: ', response.data)
@@ -101,6 +103,7 @@ componentWillMount() {
 					})
 					.then( (response) => {
 						console.log(`sucessfully added ${username} to database`)
+						this.props.User(userObj)
 					})
 					.catch( (err) => {
 						console.log(`something went wrong when saving ${username}: `, err)
@@ -110,6 +113,7 @@ componentWillMount() {
 					console.log('stats: ', response.data[0].stats)
 					userObj.username = response.data[0].username;
 					userObj.stats = response.data[0].stats;
+					context.props.User(userObj)
 				}
 			})
 			.catch( (err) => {
@@ -120,7 +124,9 @@ componentWillMount() {
 
 		 
 			console.log(username, 'logged in!');
-			this.props.User(userObj);
+			console.log(userObj)
+
+			// this.props.User(test);
 		} else {
 			console.log('Logged out!');
 			this.props.User(null)
@@ -130,7 +136,7 @@ componentWillMount() {
 	
 	render() {
 
-		if(this.props.user){
+		if(this.props.user[0] !== null){
 			return (
 			// <Redirect to="/home"/>
 				<div>

@@ -1,8 +1,8 @@
-export function User(userEmail) {
-  console.log("I am put into the store", userEmail)
+export function User(userInfo) {
+  console.log("I am put into the store", userInfo)
 
   return {
     type: 'person',
-    payload: userEmail
+    payload: userInfo
   }
 }
