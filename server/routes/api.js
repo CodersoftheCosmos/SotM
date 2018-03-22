@@ -6,9 +6,9 @@ const userCtrl = require('../controller/users')
 
 //username or /:username????
 
-router.get('/username', userCtrl.users.get);
-router.post('/username', userCtrl.users.post);
-// router.put('/username', userCtrl.users.put);
+router.get('/username', userCtrl.users.GET);
+router.post('/username', userCtrl.users.POST);
+router.put('/username', userCtrl.users.PUT);
 
 
 
