@@ -4,8 +4,7 @@ const models = require('../models/index')
 module.exports = {
 
   users: {
-    get: function getUser(req, res) {
-      console.log(req.query.name)
+    GET : function getUser(req, res) {
       models.User.find({ username : req.query.name }).exec( (err,data) => {
         if(err){
           console.log(err)
@@ -14,7 +13,7 @@ module.exports = {
       })
     },
 
-    post: function inputUser(req, res) {
+    POST : function inputUser(req, res) {
       (new models.User({
         username: req.body.username,
         stats: {
@@ -27,6 +26,13 @@ module.exports = {
         res.status(201).json(data);
       })
       res.send(req.body)
+    },
+
+    PUT : function updateUser(req, res){
+      models.User.update({username: req.body.username}, req.body)
+        .then( (err, data)=> {
+          res.send("done")
+      })
     }
 
   }
