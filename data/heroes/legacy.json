@@ -1,0 +1,155 @@
+{
+	"name": "Legacy",
+	"imageUrl": "https://static1.squarespace.com/static/51d6f6b7e4b01c133f3462ff/t/550c6c8de4b08b70c4b5c32d/1426877582855/",
+	"hp": "32",
+	"cardDeck": [
+		{
+			"name": "Fortitude",
+			"type": "Ongoing",
+			"desc": "Reduce damage dealt to Legacy by 1",
+			"func": "preventDamage(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Fortitude",
+			"type": "Ongoing",
+			"desc": "Reduce damage dealt to Legacy by 1",
+			"func": "preventDamage(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Fortitude",
+			"type": "Ongoing",
+			"desc": "Reduce damage dealt to Legacy by 1",
+			"func": "preventDamage(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Surge of Strength",
+			"type": "Ongoing",
+			"desc": "Increase damage dealt by Legacy by 1",
+			"func": "increaseDamage(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Surge of Strength",
+			"type": "Ongoing",
+			"desc": "Increase damage dealt by Legacy by 1",
+			"func": "increaseDamage(target, 1)",
+			"limited": "true"
+		},	
+		{
+			"name": "Surge of Strength",
+			"type": "Ongoing",
+			"desc": "Increase damage dealt by Legacy by 1",
+			"func": "increaseDamage(target, 1)",
+			"limited": "true"
+		},		
+		{
+			"name": "Thokk",
+			"type": "One-Shot",
+			"desc": "Legacy deals 1 target 3 damage\nDraw a card",
+			"func": "dealDamage(target, 3) drawCard(target, 1)",
+			"limited": "false"
+		},
+		{
+			"name": "Thokk",
+			"type": "One-Shot",
+			"desc": "Legacy deals 1 target 3 damage\nDraw a card",
+			"func": "dealDamage(target, 3) drawCard(target, 1)",
+			"limited": "false"
+		},
+		{
+			"name": "Thokk",
+			"type": "One-Shot",
+			"desc": "Legacy deals 1 target 3 damage\nDraw a card",
+			"func": "dealDamage(target, 3) drawCard(target, 1)",
+			"limited": "false"
+		},
+		{
+			"name": "Motivational Charge",
+			"type": "Ongoing",
+			"desc": "Legacy deals 2 damage to 1 target\nEach hero target regains 1 HP",
+			"func": "preventDamage(character, amount) restoreHp(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Motivational Charge",
+			"type": "Ongoing",
+			"desc": "Legacy deals 2 damage to 1 target\nEach hero target regains 1 HP",
+			"func": "preventDamage(character, amount) restoreHp(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Motivational Charge",
+			"type": "Ongoing",
+			"desc": "Legacy deals 2 damage to 1 target\nEach hero target regains 1 HP",
+			"func": "preventDamage(character, amount) restoreHp(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Inspiring Presence",
+			"type": "Ongoing",
+			"desc": "When this card enters play, each hero target regains 1 HP\nIncrease damage dealt by hero targets by 1",
+			"func": "restoreHp(target, 1) increaseDamage(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Inspiring Presence",
+			"type": "Ongoing",
+			"desc": "When this card enters play, each hero target regains 1 HP\nIncrease damage dealt by hero targets by 1",
+			"func": "restoreHp(target, 1) increaseDamage(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Inspiring Presence",
+			"type": "Ongoing",
+			"desc": "When this card enters play, each hero target regains 1 HP\nIncrease damage dealt by hero targets by 1",
+			"func": "restoreHp(target, 1) increaseDamage(target, 1)",
+			"limited": "true"
+		},
+		{
+			"name": "Back-Fist Strike",
+			"type": "One-Shot",
+			"desc": "Legacy deals 4 damage to 1 target",
+			"func": "dealDamage(target, 4)",
+			"limited": "false"
+		},
+		{
+			"name": "Back-Fist Strike",
+			"type": "One-Shot",
+			"desc": "Legacy deals 4 damage to 1 target",
+			"func": "dealDamage(target, 4)",
+			"limited": "false"
+		},
+		{
+			"name": "Back-Fist Strike",
+			"type": "One-Shot",
+			"desc": "Legacy deals 4 damage to 1 target",
+			"func": "dealDamage(target, 4)",
+			"limited": "false"
+		},
+		{
+			"name": "Bolster Allies",
+			"type": "One-Shot",
+			"desc": "Each player draws a card",
+			"func": "drawCard(target, 1)",
+			"limited": "false"
+		},
+		{
+			"name": "Bolster Allies",
+			"type": "One-Shot",
+			"desc": "Each player draws a card",
+			"func": "drawCard(target, 1)",
+			"limited": "false"
+		},
+		{
+			"name": "Bolster Allies",
+			"type": "One-Shot",
+			"desc": "Each player draws a card",
+			"func": "drawCard(target, 1)",
+			"limited": "false"
+		}
+	],
+	"charType": "hero"
+}
