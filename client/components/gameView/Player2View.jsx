@@ -10,6 +10,11 @@ class PLayer2View extends Component {
                     <h2 className="heroInfo">{this.props.currentState.hero} HP: {this.props.currentState.hp}</h2>
                 </div>
                 <img src={this.props.currentState.imageURL} height="200" width="200"/>
+                <span>
+                    {this.props.currentState.hand.map((card, i) => {
+                        return (<img src={card.photo}  height={100} width={100} key={i}/>)
+                    })}
+                </span>
                 <style>
                     {`
                         .heroInfo  {
