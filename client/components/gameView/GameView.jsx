@@ -58,7 +58,6 @@ class GameView extends Component {
     }
 
     handleInitiliazeGame(data) {
-        //let shuffledDeck;
         console.log(data.game.player1)
         let villainInit = Object.assign({}, this.state.villain);
         villainInit.villain = baronBlade.name;
@@ -71,14 +70,14 @@ class GameView extends Component {
        // shuffledDeck = this.handleShuffleArray(legacy.cardDeck);
         player1Init.cardDeck = legacy.cardDeck;
         player1Init.imageURL = legacy.imageUrl;
-        player1Init.hand.push(legacy.cardDeck[5], legacy.cardDeck[6])
+        player1Init.hand.push(legacy.cardDeck[6], legacy.cardDeck[4])
         
         let player2Init = Object.assign({}, this.state.player2);
         player2Init.username = data.game.player2;
         //shuffledDeck = this.handleShuffleArray(nelson.cardDeck);
         player2Init.cardDeck = nelson.cardDeck;
         player2Init.imageURL = nelson.imageUrl;
-        player1Init.hand.push(legacy.cardDeck[4], legacy.cardDeck[3])
+        player2Init.hand.push(nelson.cardDeck[3], nelson.cardDeck[6])
         
         this.setState({
             villain: villainInit,

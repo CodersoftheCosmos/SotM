@@ -10,8 +10,8 @@ class PLayer1View extends Component {
                 </div>
                 <img src={this.props.currentState.imageURL} height="200" width="200"/>
                 <span>
-                    {this.props.currentState.hand.map(card => {
-                        return (card.name)
+                    {this.props.currentState.hand.map((card, i) => {
+                        return (<img src={card.photo}  height={100} width={100} key={i}/>)
                     })}
                 </span>
                 <style>
