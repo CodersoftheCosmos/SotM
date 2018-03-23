@@ -7,6 +7,8 @@ import { User } from '../../actions/loggedInPerson';
 import { Redirect } from 'react-router-dom';
 import Home from '../Home/Home';
 import axios from 'axios';
+import { selectRules } from '../../actions/rules'
+import { logOut } from '../../actions/logout'
 
 
 
@@ -135,8 +137,15 @@ componentWillMount() {
 }
 	
 	render() {
+		if (this.props.activeRules === true) {
+			return (
+				<div>
+						<Redirect to="/Rules"/>
+				</div>
+				)
+			}
 
-		if(this.props.user[0] !== null){
+		else if(this.props.user[0] !== null){
 			return (
 			// <Redirect to="/home"/>
 				<div>
@@ -145,6 +154,7 @@ componentWillMount() {
 			)
 
 		}
+
 		
 		return (
 				<div align="center">
@@ -153,6 +163,9 @@ componentWillMount() {
 					<input type="password" name="password" placeholder="Password" onChange={this.loginChangeHandler} />
 					<br />
 					<button name="signin" onClick={this.loginSubmitHandler}>Sign In</button><button name="create" onClick={this.loginSubmitHandler}>Create Account</button>
+					<br/>
+					<br/>
+					<input type="button" value="Rules Page" onClick={()=>this.props.selectRules(true)}/> 
 				</div>
 			)
 	}
@@ -161,12 +174,14 @@ componentWillMount() {
 
 function mapStateToProps(state) {
 	return {
-			user: state.activeUser
+			user: state.activeUser,
+			activeRules : state.rules,
+			loginSubmit: state.loginSubmt
 	};
 }
 function matchDispatchToProps(dispatch){
 	//when selected card is called, passed to all reducers
-	return bindActionCreators( { User: User }, dispatch)
+	return bindActionCreators( { User: User, selectRules: selectRules, LogOut: logOut }, dispatch)
 }
 
 // conversion from "dumb" component to "container"
