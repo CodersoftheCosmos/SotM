@@ -1,6 +1,6 @@
-export const baronBlade = require('../../data/villains/baronBlade.json');
-export const legacy = require('../../data/heroes/legacy.json');
-export const nelson = require('../../data/heroes/nelson.json');
+export const baronBlade = require('../../../GameData/villains/baronBlade.json');
+export const legacy = require('../../../GameData/heroes/legacy.json');
+export const nelson = require('../../../GameData/heroes/nelson.json');
   
   export default {
    baronBlade,
