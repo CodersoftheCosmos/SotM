@@ -6,38 +6,57 @@ const io = require('socket.io')(server)
 const _ = require('lodash');
 const port = 9002;
 
-const games = [{username: 'truelav', numberPlayers: 1, maxPlayers: 2, comments: 'no place for nuubs', player1: 'truelav', player2: ''}]
+const games = [{username: 'truelav', numberPlayers: 1, maxPlayers: 2, comments: 'no place for nuubs', player1: 'truelav', player2: 'andreica66'}]
 const activePlayers = [];
 const playedCount = 0;
 const rooms = [];
-let currentGame = {};
+let currentGame = games[0];
 
 io.on('connection', function(socket) {
     console.log('player connected');
-    socket.emit('displayGameList', {activeGames: games});
+    // socket.emit('displayGameList', {activeGames: games});
     
     activePlayers.push(socket);
-    socket.on('createGame', function(data) {
-       if(!_.find(games,{username: data.username})) {
-            games.push(data); 
-            let room = `room${data.username}`;      
-            socket.join(room);
-            activePlayers.forEach(function(player){ player.emit('displayGameList', {activeGames: games}) })
-       } else {
-            socket.emit('message', {msg: 'You have already created a game'})
-       }
-    })
+    // socket.on('createGame', function(data) {
+    //    if(!_.find(games,{username: data.username})) {
+    //         games.push(data); 
+    //         let room = `room${data.username}`;      
+    //         socket.join(room);
+    //         activePlayers.forEach(function(player){ player.emit('displayGameList', {activeGames: games}) })
+    //    } else {
+    //         socket.emit('message', {msg: 'You have already created a game'})
+    //    }
+    // })
     
-    socket.on('joinGame', function(data) {
-        let gameCreator = data.gameJoined;
-        let room = `room${data.gameJoined}`;
-        socket.join(room);
-        let myGame = _.find(games, {username: gameCreator})
-            myGame.numberPlayers++; myGame.player2 = data.personalData;
-            game = myGame;
-            activePlayers.forEach(function(player){ player.emit('displayGameList', {activeGames: games}) })
-            io.in(room).emit('message', {msg: 'the game will start soon'});
-            // socket.emit('startTimer', {msg: 'let the fun beggin'})
+    // socket.on('joinGame', function(data) {
+    //     let gameCreator = data.gameJoined;
+    //     let room = `room${data.gameJoined}`;
+    //     socket.join(room);
+    //     let myGame = _.find(games, {username: gameCreator})
+    //         myGame.numberPlayers++; myGame.player2 = data.personalData;
+    //         game = myGame;
+    //         activePlayers.forEach(function(player){ player.emit('displayGameList', {activeGames: games}) })
+    //         io.in(room).emit('message', {msg: 'the game will start soon'});
+    //         // socket.emit('startTimer', {msg: 'let the fun beggin'})
+    // })
+
+    // if( activePlayers.length === 1) {
+    //     console.log('one player there')
+    //     socket.emit('message', {msg: 'waiting for the second player'});
+    //     console.log(activePlayers.length)
+    // } else if ( activePlayers.length === 2) {
+    //     console.log('2players')
+    //     activePlayers.forEach(function(player){ player.emit('gameReady', {game: games[0]})})
+    // } 
+    
+    socket.emit('gameReady', {game: games[0]})
+
+
+    socket.on('villainPlayedCard', function(data) {
+        //check the card and assign value
+        let currentCard = data.cardPlayed;
+        //if cardName === thisName then use function and send it to the front end
+        activePlayers.forEach.emit('updatePlayers', {data: data.turn})
     })
 
 //     if (players.length === 0){
