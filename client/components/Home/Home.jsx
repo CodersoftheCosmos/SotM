@@ -22,7 +22,7 @@ class Home extends Component {
 		else if (this.props.activeRules === true) {
 			return (
 				<div>
-						<Redirect to="/Rules"/>
+						<Rules />
 				</div>
 				)
 		} else {
