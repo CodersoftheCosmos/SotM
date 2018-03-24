@@ -4,8 +4,8 @@ export default function(state = [null], action) {
   switch(action.type){
     //if action type is cardSelected do this
     case 'person':
-      return [action.payload]
+      return [action.payload];
+    default: 
+      return state
   }
-
-  return state
 }

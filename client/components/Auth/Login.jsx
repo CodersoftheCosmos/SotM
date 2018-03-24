@@ -9,7 +9,7 @@ import Home from '../Home/Home';
 import axios from 'axios';
 import { selectRules } from '../../actions/rules'
 import { logOut } from '../../actions/logout'
-
+import Rules from '../Rule/Rules'
 
 
 class Login extends Component {
@@ -140,15 +140,15 @@ componentWillMount() {
 		if (this.props.activeRules === true) {
 			return (
 				<div>
-						<Redirect to="/Rules"/>
+						<Rules />
 				</div>
 				)
 			}
 
 		else if(this.props.user[0] !== null){
 			return (
-			// <Redirect to="/home"/>
 				<div>
+					{/* <Redirect to="/home"/> */}
 					<Home click={this.loginSubmitHandler} />
 				</div>
 			)
