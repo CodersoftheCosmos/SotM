@@ -1,21 +1,19 @@
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
-const path = require('path');
 const io = require('socket.io')(server)
 const _ = require('lodash');
 const port = 9002;
+//const rooms = require('./rooms')
 
-const games = [{username: 'truelav', numberPlayers: 1, maxPlayers: 2, comments: 'no place for nuubs', player1: 'truelav', player2: 'andreica66'}]
+const games = []
 const activePlayers = [];
-const playedCount = 0;
-const rooms = [];
-let currentGame = games[0];
+let currentGame = {};
 
 io.on('connection', function(socket) {
     console.log('player connected');
     // socket.emit('displayGameList', {activeGames: games});
-    
+    console.log(socket.handshake.query)
     activePlayers.push(socket);
     // socket.on('createGame', function(data) {
     //    if(!_.find(games,{username: data.username})) {
@@ -40,23 +38,25 @@ io.on('connection', function(socket) {
     //         // socket.emit('startTimer', {msg: 'let the fun beggin'})
     // })
 
-    // if( activePlayers.length === 1) {
-    //     console.log('one player there')
-    //     socket.emit('message', {msg: 'waiting for the second player'});
-    //     console.log(activePlayers.length)
-    // } else if ( activePlayers.length === 2) {
-    //     console.log('2players')
-    //     activePlayers.forEach(function(player){ player.emit('gameReady', {game: games[0]})})
-    // } 
+    if( activePlayers.length === 1) {
+        console.log('one player there')
+        socket.emit('message', {msg: 'waiting for the second player'});
+        currentGame.player1 = socket.id
+        console.log(activePlayers.length)
+    } else if ( activePlayers.length === 2) {
+        console.log('2players')
+        currentGame.player2 = socket.id
+        activePlayers.forEach(function(player){ player.emit('gameReady', {game: currentGame})})
+    } 
     
-    socket.emit('gameReady', {game: games[0]})
-
 
     socket.on('villainPlayedCard', function(data) {
         //check the card and assign value
-        let currentCard = data.cardPlayed;
+        //check to what player the card will apply, so the question is if we have to send the entire objects to the back end.
+        let currentCard = data.turn;
+        console.log(activePlayers)
         //if cardName === thisName then use function and send it to the front end
-        activePlayers.forEach.emit('updatePlayers', {data: data.turn})
+        activePlayers.forEach(function(player){ player.emit('updatePlayers', {data: data.turn})})
     })
 
 //     if (players.length === 0){
@@ -90,9 +90,9 @@ io.on('connection', function(socket) {
 // 		}
 //     });
     socket.once('disconnect', () => {
-		// players.splice(players.indexOf(socket), 1);
-		// players.forEach(player => {
-		// 	player.emit('playerLeft', {msg: "The other player left"});
+		activePlayers.splice(activePlayers.indexOf(socket), 1);
+		// socket.forEach(player => {
+		// 	socket.emit('playerLeft', {msg: "The other player left"});
 		// });
 		socket.disconnect();
 		console.log('a user disconnected.');

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class PLayer2View extends Component {
     render() {
-        console.log(this.props.currentState)
         return (
             <div className="p2">
                 <div className="info">
