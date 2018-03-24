@@ -42,6 +42,7 @@ class GameView extends Component {
                 cardPlayed: {},
             },
             currentTurn: 'villain',
+            gameStatus: '',
         }
         this.handleInitiliazeGame = this.handleInitiliazeGame.bind(this);
         this.handleShuffleArray = this.handleShuffleArray.bind(this);
@@ -58,7 +59,6 @@ class GameView extends Component {
     }
 
     handleInitiliazeGame(data) {
-        console.log(data.game.player1)
         let villainInit = Object.assign({}, this.state.villain);
         villainInit.villain = baronBlade.name;
         // shuffledDeck = this.handleShuffleArray(baronBlade.cardDeck);
@@ -82,8 +82,10 @@ class GameView extends Component {
         this.setState({
             villain: villainInit,
             player1: player1Init,
-            player2: player2Init
+            player2: player2Init,
+            gameStatus: 'Villain is playing now'
         })
+        setTimeout(this.handleVillainPlayCard, 10000)
     }
 
     handleStartGame() {
@@ -91,8 +93,9 @@ class GameView extends Component {
     }
 
     handleVillainPlayCard() {
-        villain.cardPlayed = villain.cardDeck.pop()
-        socket.emit('villainPlayedCard', {turn: this.state.villain})
+        let currentCard = this.state.villain.cardDeck.pop()
+        console.log(currentCard)
+        socket.emit('villainPlayedCard', {turn: currentCard})
         //do all the logic in back end about that card and then emit to all players 
         // all the players should listen to villain's turn event and update their hp
     }
@@ -116,6 +119,13 @@ class GameView extends Component {
     }
 
     updatePlayersStats(data) {
+        //check what player are you playing by checking the username
+        let player1Init = Object.assign({}, this.state.player1);
+        player1Init.hp = this.state.player1.hp - 3
+        this.setState({
+            player1: player1Init,
+            gameStatus: 'Villain dealt 3 damage to you'
+                });
         //update the villains cardDeck since we used one
     }
 
@@ -138,13 +148,22 @@ class GameView extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <VillainView currentState={this.state.villain}/>
-                <Player1View currentState={this.state.player1}/>
-                <Player2View currentState={this.state.player2}/>
-            </div>
-        )
+        if(this.state.player1.username && this.state.player1.username){
+            return (
+                <div>
+                    {/* <h2>Game Status: {this.state.gameStatus}</h2> */}
+                    <VillainView currentState={this.state.villain}/>
+                    <Player1View currentState={this.state.player1}/>
+                    <Player2View currentState={this.state.player2}/>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h1>Waiting for the second player</h1>
+                </div>
+            )
+        }
     }
 }
 

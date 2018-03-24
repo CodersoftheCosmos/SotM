@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class VillainView extends Component {
     render() {
-        console.log(this.props.currentState)
         return (
             <div className="villain">
                 <div className="info">
