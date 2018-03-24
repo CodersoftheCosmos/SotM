@@ -5,7 +5,6 @@ import ActiveUser from './reducer_activeUser'
 import selectRules from './reducer_rules'
 
 
-
 const allReducers = combineReducers({
   Players: Users,
   activeCard: ActiveCard,
