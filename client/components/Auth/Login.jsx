@@ -7,7 +7,8 @@ import { User } from '../../actions/loggedInPerson';
 import { Redirect } from 'react-router-dom';
 import Home from '../Home/Home';
 import axios from 'axios';
-
+import { selectRules } from '../../actions/rules'
+import Rules from '../Rule/Rules'
 
 
 class Login extends Component {
@@ -58,93 +59,101 @@ loginSubmitHandler(e) {
 // //END OF LOGIN PAGE COMPONENTS
 
 componentWillMount() {
-	//FIREBASE SET UP
+		//FIREBASE SET UP
 
-	var config = {
-		apiKey: API.fireBaseApiKey,
-		authDomain: "sotm-66f9b.firebaseapp.com",
-		databaseURL: "https://sotm-66f9b.firebaseio.com",
-		projectId: "sotm-66f9b",
-		storageBucket: "sotm-66f9b.appspot.com",
-		messagingSenderId: "1016933819692"
-	};
-	firebase.initializeApp(config);
-// 	//END FIREBASE SET UP
-// 	//FIREBASE AUTH
-	firebase.auth().onAuthStateChanged((User) => {
-		if (User) {
-			let username = User.email.slice(0, User.email.indexOf('@'));
-			//USERNAME RIGHT HERE ABOVE ME
-			let userObj = {};
-			const context = this
+		var config = {
+			apiKey: API.fireBaseApiKey,
+			authDomain: "sotm-66f9b.firebaseapp.com",
+			databaseURL: "https://sotm-66f9b.firebaseio.com",
+			projectId: "sotm-66f9b",
+			storageBucket: "sotm-66f9b.appspot.com",
+			messagingSenderId: "1016933819692"
+		};
+		firebase.initializeApp(config);
+	// 	//END FIREBASE SET UP
+	// 	//FIREBASE AUTH
+		firebase.auth().onAuthStateChanged((User) => {
+			if (User) {
+				let username = User.email.slice(0, User.email.indexOf('@'));
+				//USERNAME RIGHT HERE ABOVE ME
+				let userObj = {};
+				const context = this
 
-			const userExists = axios.get(`/api/username?username=${username}`)
-			.then( (response) => {
-				console.log('this is the response.data for username get: ', response.data)
-				console.log(`${username} exists in database`)
-				if(!response.data[0]) {
-					userObj = {
-						username: username,
-						stats: {
-							wins: 0,
-							losses: 0,
-							favChar: 'Nelson',
-							totDmgDone: 0
-						}
-					};
-					axios.post('/api/username', {
-						username: username,
-						stats: {
-							wins: 0,
-							losses: 0,
-							favChar: 'Nelson',
-							totDmgDone: 0
-						}
-					})
-					.then( (response) => {
-						console.log(`sucessfully added ${username} to database`)
-						this.props.User(userObj)
-					})
-					.catch( (err) => {
-						console.log(`something went wrong when saving ${username}: `, err)
-					});
-				} else {
-					console.log('username: ', response.data[0].username)
-					console.log('stats: ', response.data[0].stats)
-					userObj.username = response.data[0].username;
-					userObj.stats = response.data[0].stats;
-					context.props.User(userObj)
-				}
-			})
-			.catch( (err) => {
-				console.log('something went wrong')
-			});
+				const userExists = axios.get(`/api/username?username=${username}`)
+				.then( (response) => {
+					console.log('this is the response.data for username get: ', response.data)
+					console.log(`${username} exists in database`)
+					if(!response.data[0]) {
+						userObj = {
+							username: username,
+							stats: {
+								wins: 0,
+								losses: 0,
+								favChar: 'Nelson',
+								totDmgDone: 0
+							}
+						};
+						axios.post('/api/username', {
+							username: username,
+							stats: {
+								wins: 0,
+								losses: 0,
+								favChar: 'Nelson',
+								totDmgDone: 0
+							}
+						})
+						.then( (response) => {
+							console.log(`sucessfully added ${username} to database`)
+							this.props.User(userObj)
+						})
+						.catch( (err) => {
+							console.log(`something went wrong when saving ${username}: `, err)
+						});
+					} else {
+						console.log('username: ', response.data[0].username)
+						console.log('stats: ', response.data[0].stats)
+						userObj.username = response.data[0].username;
+						userObj.stats = response.data[0].stats;
+						context.props.User(userObj)
+					}
+				})
+				.catch( (err) => {
+					console.log('something went wrong')
+				});
 
-			console.log('this is the get request: ', userExists)
+				console.log('this is the get request: ', userExists)
 
-		 
-			console.log(username, 'logged in!');
-			console.log(userObj)
+			
+				console.log(username, 'logged in!');
+				console.log(userObj)
 
-			// this.props.User(test);
-		} else {
-			console.log('Logged out!');
-			this.props.User(null)
-		}
-	});
-}
+				// this.props.User(test);
+			} else {
+				console.log('Logged out!');
+				this.props.User(null)
+			}
+		});
+	}
 	
 	render() {
-
-		if(this.props.user[0] !== null){
+		if (this.props.activeRules === true) {
 			return (
-			// <Redirect to="/home"/>
 				<div>
+						<Rules />
+				</div>
+				)
+			}
+
+		else if(this.props.user[0] !== null){
+			return (
+				<div>
+					{/* <Redirect to="/home"/> */}
 					<Home click={this.loginSubmitHandler} />
 				</div>
 			)
 
 		}
+
 		
 		return (
 				<div align="center">
@@ -153,6 +162,9 @@ componentWillMount() {
 					<input type="password" name="password" placeholder="Password" onChange={this.loginChangeHandler} />
 					<br />
 					<button name="signin" onClick={this.loginSubmitHandler}>Sign In</button><button name="create" onClick={this.loginSubmitHandler}>Create Account</button>
+					<br/>
+					<br/>
+					<input type="button" value="Rules Page" onClick={()=>this.props.selectRules(true)}/> 
 				</div>
 			)
 	}
@@ -161,12 +173,13 @@ componentWillMount() {
 
 function mapStateToProps(state) {
 	return {
-			user: state.activeUser
+			user: state.activeUser,
+			activeRules : state.rules,
 	};
 }
 function matchDispatchToProps(dispatch){
 	//when selected card is called, passed to all reducers
-	return bindActionCreators( { User: User }, dispatch)
+	return bindActionCreators( { User: User, selectRules: selectRules }, dispatch)
 }
 
 // conversion from "dumb" component to "container"
