@@ -4,16 +4,30 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server)
 const _ = require('lodash');
 const port = 9002;
-//const rooms = require('./rooms')
+const init = require('../lib/constant');
+const serverEvents = require('./serverEvents');
+const baronBlade = require('../../../GameData/villains/baronBlade.json');
+const legacy = require('../../../GameData/heroes/legacy.json');
+const nelson = require('../../../GameData/heroes/nelson.json');
 
-const games = []
+const games = [];
 const activePlayers = [];
-let currentGame = {};
+const roomGame = {
+    position: '',
+    gameStatus: '',
+    player1: {},
+    player2: {},
+    villain: {},
+    cardPlayed: {},
+    p1UsedCards: [],
+    p2UsedCards: [],
+    p3UsedCards: [],
+};
+var turns = 0;
 
 io.on('connection', function(socket) {
     console.log('player connected');
-    // socket.emit('displayGameList', {activeGames: games});
-    console.log(socket.handshake.query)
+    //console.log(socket.handshake.query)
     activePlayers.push(socket);
     // socket.on('createGame', function(data) {
     //    if(!_.find(games,{username: data.username})) {
@@ -39,24 +53,61 @@ io.on('connection', function(socket) {
     // })
 
     if( activePlayers.length === 1) {
-        console.log('one player there')
         socket.emit('message', {msg: 'waiting for the second player'});
-        currentGame.player1 = socket.id
+        roomGame.player1 = new init.createPlayer(socket.id, legacy);
+        init.shuffleCardDeck(roomGame.player1.hero.cardDeck);
+        roomGame.player1.hand = roomGame.player1.hero.cardDeck.splice(0, 2);
         console.log(activePlayers.length)
     } else if ( activePlayers.length === 2) {
         console.log('2players')
-        currentGame.player2 = socket.id
-        activePlayers.forEach(function(player){ player.emit('gameReady', {game: currentGame})})
+        roomGame.player2  = new init.createPlayer(socket.id, nelson);
+        roomGame.villain  = new init.createVillain(baronBlade);
+        init.shuffleCardDeck(roomGame.player2.hero.cardDeck);
+        init.shuffleCardDeck(roomGame.villain.villain.cardDeck);
+        roomGame.player2.hand = roomGame.player2.hero.cardDeck.splice(0, 2);
+        
+        // activePlayers.forEach( function(player){ 
+        //     player.emit('gameReady', {game: roomGame}
+        // )});
+        activePlayers[0].emit('gameReady', {game: roomGame});
+        activePlayers[1].emit('gameReady', {game: roomGame});
     } 
     
-
     socket.on('villainPlayedCard', function(data) {
+        if(socket == activePlayers[0]){
+            turns++
+        } else if (socket == activePlayers[1]){
+            turns++
+        }
+        if(turns === activePlayers.length){
+            roomGame.cardPlayed = data.turn;
+            roomGame.player1.hero.hp = roomGame.player1.hero.hp - 3;
+            roomGame.player2.hero.hp = roomGame.player2.hero.hp - 3;
+            roomGame.gameStatus = data.turn.name + 'and dealt 3 dmg ';
+            //if cardName === thisName then use function and send it to the front end
+            activePlayers.forEach(function(player){ 
+                player.emit('updatePlayersStats', {game: roomGame}
+            )})
+            turns = 0;
+        }
         //check the card and assign value
         //check to what player the card will apply, so the question is if we have to send the entire objects to the back end.
-        let currentCard = data.turn;
-        console.log(activePlayers)
-        //if cardName === thisName then use function and send it to the front end
-        activePlayers.forEach(function(player){ player.emit('updatePlayers', {data: data.turn})})
+        
+    })
+
+    socket.on('playersUpdated', function(data){
+        if (socket == activePlayers[0]){
+            turns++
+            console.log(turns)
+        } else if (socket == activePlayers[1]){
+            turns++
+            console.log(turns)
+        }
+        if (turns === activePlayers.length){
+                activePlayers[0].emit('player1Turn', {msg: 'your turn'});
+                activePlayers[1].emit('player1Turn', {msg: 'wait until player 1 is making a move'});
+            turns = 0;
+        }
     })
 
 //     if (players.length === 0){

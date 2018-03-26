@@ -5,9 +5,9 @@ class VillainView extends Component {
         return (
             <div className="villain">
                 <div className="info">
-                    <h2 className="heroInfo">{this.props.currentState.villain} HP: {this.props.currentState.hp}</h2>
+                    <h2 className="heroInfo">{this.props.currentState.villain.name} HP: {this.props.currentState.villain.hp}</h2>
                 </div>
-                <img src={this.props.currentState.imageURL} height="200" width="200"/>
+                <img src={this.props.currentState.villain.imageUrl} height="200" width="200"/>
                 <style>
                     {`
                         .heroInfo  {
