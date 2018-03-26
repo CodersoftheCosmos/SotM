@@ -2,28 +2,28 @@
 //import cardsAction from './cardsAction';
 
 
-export const initiateGame = () => {
+ const initiateGame = () => {
    
 }
 
-export const createGame = (socket) => {
-    if( activePlayers.length === 1) {
-        console.log('one player there')
-        socket.emit('message', {msg: 'waiting for the second player'});
-        currentGame.player1 = socket.id
-        console.log(activePlayers.length)
-    } else if ( activePlayers.length === 2) {
-        console.log('2players')
-        currentGame.player2 = socket.id
-        activePlayers.forEach(function(player){ player.emit('gameReady', {game: currentGame})})
-    }
+const handleOnePlayer = () => {
+    console.log('one player there')
+    socket.emit('message', {msg: 'waiting for the second player'});
+    currentGame.player1 = socket.id
+    console.log(activePlayers.length)
 }
 
-export const villainStartGame = () => {
+const handleTwoPlayers = () => {
+    console.log('2players')
+    currentGame.player2 = socket.id
+    activePlayers.forEach(function(player){ player.emit('gameReady', {game: currentGame})})
+}
+
+ const villainStartGame = () => {
 
 }
 
-export const villainPlayedCard = (card, socket) => {
+ const villainPlayedCard = (card, socket) => {
     socket.on('villainPlayedCard', function(data) {
         //check the card and assign value
         //check to what player the card will apply, so the question is if we have to send the entire objects to the back end.
@@ -34,15 +34,15 @@ export const villainPlayedCard = (card, socket) => {
     })
 }
 
-export const playerPlayedCard = () => {
+ const playerPlayedCard = () => {
 
 }
 
-export const checkGameOver = () => {
+ const checkGameOver = () => {
 
 }
 
-export const disconnectPlayer = (scoket) => {
+ const disconnectPlayer = (scoket) => {
     scoket.once('disconnect', () => {
 		activePlayers.splice(activePlayers.indexOf(socket), 1);
 		// socket.forEach(player => {
@@ -51,4 +51,9 @@ export const disconnectPlayer = (scoket) => {
 		socket.disconnect();
 		console.log('a user disconnected.');
     });
+}
+
+module.exports = {
+    handleOnePlayer,
+    handleTwoPlayers
 }
