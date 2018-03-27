@@ -12,14 +12,15 @@ class PLayer2View extends Component {
 
                 <span>
                     {this.props.currentState.hand.map((card, i) => {
-                        return (<img className="cards" src={card.photo}  height={150} width={100} key={i}/>)
+                        return (<img className="cards" src={card.photo} onClick={()=>{this.props.handleCard(card)}} height={100} width={70} key={i}/>)
                     })}
-                    <span>Power: Deal {this.props.currentState.hero.power} damage</span>
                 </span>
+                <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
                 <div className="col deck" >
                     <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
                     <div align='center' >Deck</div>
                 </div>
+                <div className="power">Power: Deal {this.props.currentState.hero.power} damage</div>
                 <style>
                     {`
                         p {

@@ -11,7 +11,7 @@ class GameView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            position: '',
+            position: 0,
             gameStatus: '',
             player1: {},
             player2: {},
@@ -23,16 +23,21 @@ class GameView extends Component {
          }
         this.handleInitiliazeGame = this.handleInitiliazeGame.bind(this);
         this.handleVillainPlayCard = this.handleVillainPlayCard.bind(this);
-        this.handlePlayerPlayCard = this.handlePlayerPlayCard.bind(this);
         this.updatePlayersStats = this.updatePlayersStats.bind(this);
         this.updateVillainStats = this.updateVillainStats.bind(this);
-        this.player1Turn = this.player1Turn.bind(this);
+        this.playerTurn = this.playerTurn.bind(this);
+        this.handlePlayCard = this.handlePlayCard.bind(this);
+        this.updateStatus = this.updateStatus.bind(this);
+        this.handleFinishTurn = this.handleFinishTurn.bind(this);
+        this.setPlayersTurn = this.setPlayersTurn.bind(this);
     }
 
     componentDidMount() {
         socket.on('gameReady', this.handleInitiliazeGame);
         socket.on('updatePlayersStats', this.updatePlayersStats);
-        socket.on('player1Turn', this.player1Turn);
+        socket.on('playerTurn', this.playerTurn);
+        socket.on('updateStatus', this.updateStatus);
+        socket.on('updateVillainStats', this.updateVillainStats);
     }
 
     handleInitiliazeGame(data) {
@@ -43,19 +48,23 @@ class GameView extends Component {
             player2: data.game.player2,
             gameStatus: 'every player draw 2 cards from deck',
         });
-        console.log(this.state)
-        setTimeout(this.handleVillainPlayCard, 6000)
+        setTimeout(this.handleVillainPlayCard, 8000)
     }
 
     handleVillainPlayCard() {
-        let currentCard = this.state.villain.villain.cardDeck.pop()
+        // let currentCard = this.state.villain.villain.cardDeck.pop()
         this.setState({
-            cardPlayed: currentCard,
-            gameStatus: 'villain played: ' + currentCard.name 
-        })
-        socket.emit('villainPlayedCard', {turn: currentCard})
-        //do all the logic in back end about that card and then emit to all players 
-        // all the players should listen to villain's turn event and update their hp
+            gameStatus: 'villain is playing...'
+        });
+        setTimeout(() => { this.setPlayersTurn('villain') }, 7000);
+    }
+
+    setPlayersTurn(data){
+        if ( data === 'villain' ) {                           //check from where is coming invocation
+            socket.emit('villainPlayedCard',{msg: 'villain'}); 
+        } else if ( data === 'updatePlayers') {
+            socket.emit('playersUpdated', {msg: 'now players move'});
+        }
     }
 
     updatePlayersStats(data) {
@@ -63,44 +72,57 @@ class GameView extends Component {
         this.setState({
             player1: data.game.player1,
             player2: data.game.player2,
+            cardPlayed: data.game.cardPlayed,
             gameStatus: data.game.gameStatus
         })
-        socket.emit('playersUpdated', {msg: 'now player1s move'})
+        setTimeout( () => { this.setPlayersTurn('updatePlayers') } , 7000)
     }
 
-    player1Turn(data) {
-        if(data.msg === 'your turn') {
+    updateStatus(data) {
+        this.setState({
+            gameStatus: data.msg,
+            position: 0
+        })
+    }
+
+    playerTurn(data) {
+        this.setState({
+            gameStatus: data.msg,
+            position: 1
+        })
+         //give acces to click cards only to player emited   
+    }
+
+    handlePlayCard(data) {
+            console.log(this.state.position)
+            console.log(data.name);
             this.setState({
-                gameStatus: data.msg
+                cardPlayed: data,
             })
-            this.handlePlayerPlayCard('player1')
-        } else {
-            this.setState({gameStatus: data.msg})
+        }
+
+    handleFinishTurn() {
+        if ( this.state.position === 1){
+            console.log(this.state.cardPlayed)
+            socket.emit('playerFinishTurn', {card: this.state.cardPlayed})
+        } else if (this.state.position === 0){
+            console.log('please wait for your turn')
+            this.setState({
+                gameStatus: 'please wait for your turn'
+            })
         }
     }
-
-    handlePlayerPlayCard(data) {
-        if (data === 'player1'){
-            console.log('this is player 1')
-        } else if (data === 'player2'){
-            console.log('this is player 2')
-        }
-        // //listen to villan move event in order to get the damage
-        // villain.turn = false;
-        // //play one card from the hand
-        // socket.emit('playedCard', {turn: this.state.player1})
-        // player1.hand.push(player1.cardDeck.pop())
-    
-        // //repeat the same way but now the logic in the back end should be handle towards villain
-        // villain.turn = false;
-        // //play one card from the hand
-        // socket.emit('playedCard', {turn: this.state.player2})
-        // player2.hand.push(player2.cardDeck.pop())
-    }
-
-    updateVillainStats() {
-
-    }
+   
+    updateVillainStats(data) {
+        console.log(data.game.cardPlayed)
+        this.setState({
+            cardPlayed: data.game.cardPlayed,
+            gameStatus: data.game.gameStatus,
+            villain: data.game.villain,
+            player1: data.game.player1,
+            player1: data.game.player2
+        });
+    };
 
 
     handleTurns() {
@@ -115,8 +137,8 @@ class GameView extends Component {
                 <div>
                     <h2>Game Status: {this.state.gameStatus}</h2>
                     <VillainView currentState={this.state.villain} />
-                    <Player1View currentState={this.state.player1} /> 
-                    <Player2View currentState={this.state.player2} />
+                    <Player1View currentState={this.state.player1} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
+                    <Player2View currentState={this.state.player2} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
                 </div>
             )
         } else {

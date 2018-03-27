@@ -6,24 +6,34 @@ class PLayer1View extends Component {
             <div className="p1">
                 <div className="info">
                     <h2 className="playerName">Player 1: {this.props.currentState.username} </h2>
-                    <h2 className="heroInfo">{this.props.currentState.hero.name} HP: {this.props.currentState.hero.hp}</h2>
+                    <h2 className="heroInfo">{this.props.currentState.hero.name} HP: <span className="health">{this.props.currentState.hero.hp}</span></h2>
                 </div>
                     <div>
                         <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
                         <span>
                             {this.props.currentState.hand.map((card, i) => {
-                                return (<img className="cards" src={card.photo}  height={150} width={100} key={i}/>)
+                                return (<img className="cards" src={card.photo} onClick={()=>{this.props.handleCard(card)}} height={100} width={70} key={i}/>)
                             })}
-                            <span>Power: Deal {this.props.currentState.hero.power} damage</span>
                         </span>
+                        <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
                         <div className="col deck" >
                             <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
                             <div align='center' >Deck</div>
                     </div>
+                    <div className="power">Power: Deal {this.props.currentState.hero.power} damage</div>
                 </div>
 
                 <style>
                     {`
+
+                        .power {
+                            background-color: yellow;
+                            border: solid black 2px;
+                        }
+                        .health {
+                            radius: 5px;
+                            background-color: red;
+                        }
                         p {
                             displaye: inline;
                         }
