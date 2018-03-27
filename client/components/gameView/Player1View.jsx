@@ -8,13 +8,20 @@ class PLayer1View extends Component {
                     <h2 className="playerName">Player 1: {this.props.currentState.username} </h2>
                     <h2 className="heroInfo">{this.props.currentState.hero.name} HP: {this.props.currentState.hero.hp}</h2>
                 </div>
-                <img src={this.props.currentState.hero.imageUrl} height="200" width="200"/>
-                <span>
-                    {this.props.currentState.hand.map((card, i) => {
-                        return (<img src={card.photo}  height={100} width={100} key={i}/>)
-                    })}
-                    <span>Power: Deal {this.props.currentState.hero.power} damage</span>
-                </span>
+                    <div>
+                        <img src={this.props.currentState.hero.imageURL} className="charIcon" />
+                        <span>
+                            {this.props.currentState.hand.map((card, i) => {
+                                return (<img className="cards" src={card.photo}  height={150} width={100} key={i}/>)
+                            })}
+                            <span>Power: Deal {this.props.currentState.hero.power} damage</span>
+                        </span>
+                        <div className="col deck" >
+                            <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
+                            <div align='center' >Deck</div>
+                    </div>
+                </div>
+
                 <style>
                     {`
                         p {
@@ -29,6 +36,21 @@ class PLayer1View extends Component {
                         }
                         .p1 {
                             border: solid 1px;
+                        }
+                        .deck {
+                            float: right;
+                            margin: 10px;
+                        }
+                        .cards {
+                            border: solid 1px;
+                            border-radius: 5px;
+                            margin: 2px;
+                        }
+                        .charIcon {
+                            height: 200px;
+                            width: 200px;
+                            border: solid 3px;
+                            border-radius: 50%;
                         }
                     `}
                 </style>
