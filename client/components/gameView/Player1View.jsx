@@ -9,7 +9,7 @@ class PLayer1View extends Component {
                     <h2 className="heroInfo">{this.props.currentState.hero.name} HP: {this.props.currentState.hero.hp}</h2>
                 </div>
                     <div>
-                        <img src={this.props.currentState.hero.imageURL} className="charIcon" />
+                        <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
                         <span>
                             {this.props.currentState.hand.map((card, i) => {
                                 return (<img className="cards" src={card.photo}  height={150} width={100} key={i}/>)

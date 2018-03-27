@@ -7,7 +7,7 @@ class VillainView extends Component {
                 <div className="info">
                     <h2 className="heroInfo">{this.props.currentState.villain.name} HP: {this.props.currentState.villain.hp}</h2>
                 </div>
-                <img src={this.props.currentState.villain.imageURL} className="charIcon" />
+                <img src={this.props.currentState.villain.imageUrl} className="charIcon" />
                 <div className="col deck" >
                     <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
                     <div align="center" >Deck</div>
