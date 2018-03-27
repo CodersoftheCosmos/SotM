@@ -126,7 +126,6 @@ io.on('connection', function(socket) {
             roomGame.player1.hand.push(roomGame.player1.hero.cardDeck.pop()) //draw one card from the top to the hand
         }
         damage += 2;
-        console.log(typeof damage)
         roomGame.villain.villain.hp -= damage
 
         activePlayers.forEach( function(player) {
