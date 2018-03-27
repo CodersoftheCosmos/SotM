@@ -6,22 +6,27 @@ class PLayer1View extends Component {
             <div className="p1">
                 <div className="info">
                     <h2 className="playerName">Player 1: {this.props.currentState.username} </h2>
-                    <h2 className="heroInfo">{this.props.currentState.hero} HP: {this.props.currentState.hp}</h2>
+                    <h2 className="heroInfo">{this.props.currentState.hero.name} HP: {this.props.currentState.hero.hp}</h2>
                 </div>
                     <div>
-                        <img src={this.props.currentState.imageURL} className="charIcon" />
+                        <img src={this.props.currentState.hero.imageURL} className="charIcon" />
                         <span>
                             {this.props.currentState.hand.map((card, i) => {
                                 return (<img className="cards" src={card.photo}  height={150} width={100} key={i}/>)
                             })}
+                            <span>Power: Deal {this.props.currentState.hero.power} damage</span>
                         </span>
                         <div className="col deck" >
                             <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
                             <div align='center' >Deck</div>
                     </div>
                 </div>
+
                 <style>
                     {`
+                        p {
+                            displaye: inline;
+                        }
                         .heroInfo  {
                             display: inline;
                             padding-left: 20px;
