@@ -22,8 +22,10 @@ const roomGame = {
     p1UsedCards: [],
     p2UsedCards: [],
     p3UsedCards: [],
+    round: 0,
 };
 var turns = 0;
+var turn = 1;
 
 io.on('connection', function(socket) {
     console.log('player connected');
@@ -99,10 +101,16 @@ io.on('connection', function(socket) {
             turns++
             console.log(turns)
         }
-        if (turns === activePlayers.length){
+        if (turns === activePlayers.length && turn === 1){
                 activePlayers[0].emit('playerTurn', {msg: 'your turn'});
                 activePlayers[1].emit('updateStatus', {msg: 'wait until player 1 is making a move'});
             turns = 0;
+            turn = 2;
+        } else if (turns === activePlayers.length && turn === 2){
+                activePlayers[0].emit('updateStatus', {msg: 'wait until player 2 is making a move'});
+                activePlayers[1].emit('playerTurn', {msg: 'your turn'});
+            turns = 0;
+            turn = 1;
         }
     })
 
@@ -117,20 +125,26 @@ io.on('connection', function(socket) {
             roomGame.gameStatus = 'player1 played: ' + data.card.name + ' ' + data.card.desc;
             damage += parseInt(roomGame.player1.hero.power);
             roomGame.player1.hand.push(roomGame.player1.hero.cardDeck.pop()) //draw one card from the top to the hand
-            console.log(typeof damage)
+            damage += 2;
+            roomGame.villain.villain.hp -= damage
+            roomGame.round = 0;
+            activePlayers.forEach( function(player) {
+                player.emit('updateVillainStats', {game: roomGame})
+            })
         } else if ( socket == activePlayers[1] ) {
             console.log('player2')
             //then is the villains turn
             roomGame.gameStatus = 'player2 played: ' + data.card.name + ' ' + data.card.desc;
             damage += parseInt(roomGame.player2.hero.power);
-            roomGame.player1.hand.push(roomGame.player1.hero.cardDeck.pop()) //draw one card from the top to the hand
+            roomGame.player2.hand.push(roomGame.player2.hero.cardDeck.pop()) //draw one card from the top to the hand
+            damage += 2;
+            roomGame.villain.villain.hp -= damage
+            roomGame.round = 1;
+            activePlayers.forEach( function(player) {
+                player.emit('updateVillainStats', {game: roomGame})
+            })
         }
-        damage += 2;
-        roomGame.villain.villain.hp -= damage
-
-        activePlayers.forEach( function(player) {
-            player.emit('updateVillainStats', {game: roomGame})
-         })
+        
     })
 
 //     if (players.length === 0){

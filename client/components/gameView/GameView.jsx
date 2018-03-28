@@ -19,7 +19,7 @@ class GameView extends Component {
             cardPlayed: {},
             p1UsedCards: [],
             p2UsedCards: [],
-            p3UsedCards: [],
+            p3UsedCards: []
          }
         this.handleInitiliazeGame = this.handleInitiliazeGame.bind(this);
         this.handleVillainPlayCard = this.handleVillainPlayCard.bind(this);
@@ -52,9 +52,8 @@ class GameView extends Component {
     }
 
     handleVillainPlayCard() {
-        // let currentCard = this.state.villain.villain.cardDeck.pop()
         this.setState({
-            gameStatus: 'villain is playing...'
+            gameStatus: 'villain is playing...',
         });
         setTimeout(() => { this.setPlayersTurn('villain') }, 7000);
     }
@@ -89,13 +88,10 @@ class GameView extends Component {
         this.setState({
             gameStatus: data.msg,
             position: 1
-        })
-         //give acces to click cards only to player emited   
+        }) 
     }
 
     handlePlayCard(data) {
-            console.log(this.state.position)
-            console.log(data.name);
             this.setState({
                 cardPlayed: data,
             })
@@ -103,10 +99,8 @@ class GameView extends Component {
 
     handleFinishTurn() {
         if ( this.state.position === 1){
-            console.log(this.state.cardPlayed)
             socket.emit('playerFinishTurn', {card: this.state.cardPlayed})
         } else if (this.state.position === 0){
-            console.log('please wait for your turn')
             this.setState({
                 gameStatus: 'please wait for your turn'
             })
@@ -114,21 +108,20 @@ class GameView extends Component {
     }
    
     updateVillainStats(data) {
-        console.log(data.game.cardPlayed)
         this.setState({
             cardPlayed: data.game.cardPlayed,
             gameStatus: data.game.gameStatus,
             villain: data.game.villain,
             player1: data.game.player1,
-            player1: data.game.player2
+            player2: data.game.player2,
         });
+            console.log(data.game.round)
+        if ( data.game.round === 0 ) {
+            setTimeout( () => { this.setPlayersTurn('updatePlayers') } , 7000)
+        } else if ( data.game.round === 1 ) {
+            setTimeout( () => { this.handleVillainPlayCard() } , 7000)
+        }
     };
-
-
-    handleTurns() {
-        //by default the villain always play first so we have to trigger first villain
-
-    }
 
 
     render() {
