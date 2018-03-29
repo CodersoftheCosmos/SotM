@@ -38,9 +38,10 @@ module.exports = {
     },
 
     post: function board(req, res) {
+      console.log('inside the leaderboard post req');
       models.User.find({ }).exec( (err,data) => {
         if(err){
-          console.log(err)
+          console.log('there was an error!', err)
         } 
         data.forEach( (person)=> {
           client.ZADD("LeaderBoard", person.stats.wins, person.username)
