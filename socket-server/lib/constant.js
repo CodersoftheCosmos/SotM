@@ -21,21 +21,18 @@ function createVillain (villain){
     }
 } 
 
-const dealDamage = function (damage, target1, target2) {
+const dealDamage = function (damage, damageDealer, target1, target2) {
     if (target2) {
-        let dmg1 = damage + eval(target1.increaseDamage) - eval(target1.decreaseDamage)
-        let dmg2 = damage + eval(target1.increaseDamage) - eval(target2.decreaseDamage)
-        
-        target1.hp = eval(target1.hp) - dmg1 
-        target2.hp = eval(target2.hp) - dmg2
+        target1.hp = eval(target1.hp) - damage - eval(damageDealer.increaseDamage) + eval(target1.decreaseDamage) 
+        target2.hp = eval(target2.hp) - damage - eval(damageDealer.increaseDamage) + eval(target2.decreaseDamage)
     } else {
-        target1.hp = eval(target1.hp) - damage + eval(target1.increaseDamage) - eval(target1.decreaseDamage) 
+        target1.hp = eval(target1.hp) - damage - eval(damageDealer.increaseDamage) + eval(target1.decreaseDamage) 
     }
 }
 
-const dealDamageMaxHp = function (damage, target1, target2) {
-    let dmg1 = damage + eval(target1.increaseDamage) - eval(target1.decreaseDamage)
-    let dmg2 = damage + eval(target1.increaseDamage) - eval(target2.decreaseDamage)
+const dealDamageMaxHp = function (damage, damageDealer, target1, target2) {
+    let dmg1 = damage + eval(damageDealer.increaseDamage) - eval(target1.decreaseDamage)
+    let dmg2 = damage + eval(damageDealer.increaseDamage) - eval(target2.decreaseDamage)
     if (target2.hp > target1.hp) {
         target2.hp = eval(target2.hp) - dmg2
     } else {
@@ -43,9 +40,9 @@ const dealDamageMaxHp = function (damage, target1, target2) {
     }
 }
 
-const dealDamageBoth = function (damage, target1, target2) {
-    let dmg1 = damage + eval(target1.increaseDamage) - eval(target1.decreaseDamage)
-    let dmg2 = damage + eval(target1.increaseDamage) - eval(target2.decreaseDamage)
+const dealDamageBoth = function (damage, damageDealer, target1, target2) {
+    let dmg1 = damage + eval(damageDealer.increaseDamage) - eval(target1.decreaseDamage)
+    let dmg2 = damage + eval(damageDealer.increaseDamage) - eval(target2.decreaseDamage)
     if (target2.hp > target1.hp) {
         target2.hp = (eval(target2.hp) - dmg2 + 2)
         target1.hp = eval(target1.hp) - dmg1
@@ -92,25 +89,24 @@ const increaseDamage = function (damage, target1, target2) {
 }
 
 const preventDamage = function (damage, target) {
-    console.log(damage, typeof damage)
-    console.log(eval(target.decreaseDamage))
     target.decreaseDamage = eval(target.decreaseDamage) + damage
     
 }
 
 const drawCard = function (target1, target2) {
     if ( target2 ) {
-        target1.hand = target1.hero.cardDeck.pop();
-        target2.hand = target2.hero.cardDeck.pop();
+        target1.hand.push(target1.hero.cardDeck.pop());
+        target2.hand.push(target2.hero.cardDeck.pop());
     } else {
-        target1.hand = target1.hero.cardDeck.pop();
+        target1.hand.push(target1.hero.cardDeck.pop());
     }
 }
 
-const checkEndOfTheGame = function ( target ) {
-    if ( target.hp <= 0 ) {
+const checkEndOfTheGame = function ( villain, player1, player2 ) {
+    if ( villain.hp <= 0 ) {
         return false;
-    }
+    } else if ( (player1.hp <= 0) && (player2.hp <= 0) )
+        return false
 }
 
 module.exports = {
