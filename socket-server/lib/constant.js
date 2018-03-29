@@ -33,6 +33,32 @@ const dealDamage = function (damage, target1, target2) {
     }
 }
 
+const dealDamageMaxHp = function (damage, target1, target2) {
+    let dmg1 = damage + eval(target1.increaseDamage) - eval(target1.decreaseDamage)
+    let dmg2 = damage + eval(target1.increaseDamage) - eval(target2.decreaseDamage)
+    if (target2.hp > target1.hp) {
+        target2.hp = eval(target2.hp) - dmg2
+    } else {
+        target1.hp = eval(target1.hp) - dmg1 
+    }
+}
+
+const dealDamageBoth = function (damage, target1, target2) {
+    let dmg1 = damage + eval(target1.increaseDamage) - eval(target1.decreaseDamage)
+    let dmg2 = damage + eval(target1.increaseDamage) - eval(target2.decreaseDamage)
+    if (target2.hp > target1.hp) {
+        target2.hp = (eval(target2.hp) - dmg2 + 2)
+        target1.hp = eval(target1.hp) - dmg1
+    } else {
+        target2.hp = eval(target2.hp) - dmg2
+        target1.hp = (eval(target1.hp) - dmg1 + 2)
+    }
+}
+
+const increaseMaxHp = function (heal, target) {
+    target.hp = eval(target.hp) + heal;
+}
+
 const restoreHp = function (heal, target1, target2) {
     if ( target2 ) {
         if ( (eval(target1.hp) + heal) > eval(target1.maxHp) ) {
