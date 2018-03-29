@@ -22,8 +22,10 @@ const roomGame = {
     p1UsedCards: [],
     p2UsedCards: [],
     p3UsedCards: [],
+    round: 0,
 };
 var turns = 0;
+var turn = 1;
 
 io.on('connection', function(socket) {
     console.log('player connected');
@@ -66,33 +68,31 @@ io.on('connection', function(socket) {
         init.shuffleCardDeck(roomGame.villain.villain.cardDeck);
         roomGame.player2.hand = roomGame.player2.hero.cardDeck.splice(0, 2);
         
-        // activePlayers.forEach( function(player){ 
-        //     player.emit('gameReady', {game: roomGame}
-        // )});
-        activePlayers[0].emit('gameReady', {game: roomGame});
-        activePlayers[1].emit('gameReady', {game: roomGame});
+        activePlayers.forEach( function(player){ 
+            player.emit('gameReady', {game: roomGame}
+        )});
     } 
     
-    socket.on('villainPlayedCard', function(data) {
+    socket.on('villainPlayedCard', function() {
         if(socket == activePlayers[0]){
             turns++
         } else if (socket == activePlayers[1]){
             turns++
         }
         if(turns === activePlayers.length){
-            roomGame.cardPlayed = data.turn;
-            roomGame.player1.hero.hp = roomGame.player1.hero.hp - 3;
-            roomGame.player2.hero.hp = roomGame.player2.hero.hp - 3;
-            roomGame.gameStatus = data.turn.name + 'and dealt 3 dmg ';
-            //if cardName === thisName then use function and send it to the front end
-            activePlayers.forEach(function(player){ 
-                player.emit('updatePlayersStats', {game: roomGame}
-            )})
+            let currentCard = roomGame.villain.villain.cardDeck.pop();
+            roomGame.cardPlayed = currentCard;
+            
+            eval(currentCard.func);  //this will invoke the card function 
+
+            //init.restoreHp(10, roomGame.villain.villain);
+
+            roomGame.gameStatus = 'The Villain played ' + currentCard.name + ' ' + currentCard.desc;
+            activePlayers.forEach( function(player) {
+                player.emit('updatePlayersStats', {game: roomGame})
+             })
             turns = 0;
         }
-        //check the card and assign value
-        //check to what player the card will apply, so the question is if we have to send the entire objects to the back end.
-        
     })
 
     socket.on('playersUpdated', function(data){
@@ -103,11 +103,46 @@ io.on('connection', function(socket) {
             turns++
             console.log(turns)
         }
-        if (turns === activePlayers.length){
-                activePlayers[0].emit('player1Turn', {msg: 'your turn'});
-                activePlayers[1].emit('player1Turn', {msg: 'wait until player 1 is making a move'});
+        if (turns === activePlayers.length && turn === 1){
+                activePlayers[0].emit('playerTurn', {msg: 'your turn'});
+                activePlayers[1].emit('updateStatus', {msg: 'wait until player 1 is making a move'});
             turns = 0;
+            turn = 2;
+        } else if (turns === activePlayers.length && turn === 2){
+                activePlayers[0].emit('updateStatus', {msg: 'wait until player 2 is making a move'});
+                activePlayers[1].emit('playerTurn', {msg: 'your turn'});
+            turns = 0;
+            turn = 1;
         }
+    })
+
+    socket.on('playerFinishTurn', function(data) {
+        //data is the card played
+        let damage = 0;
+        if ( socket == activePlayers[0] ) {
+            console.log('player1')
+            roomGame.gameStatus = 'player1 played: ' + data.card.name + ' ' + data.card.desc;
+            damage += parseInt(roomGame.player1.hero.power);
+            roomGame.player1.hand.push(roomGame.player1.hero.cardDeck.pop()) //draw one card from the top to the hand
+            damage += 2;
+            roomGame.villain.villain.hp -= damage
+            roomGame.round = 0;
+            activePlayers.forEach( function(player) {
+                player.emit('updateVillainStats', {game: roomGame})
+            })
+        } else if ( socket == activePlayers[1] ) {
+            console.log('player2')
+            //then is the villains turn
+            roomGame.gameStatus = 'player2 played: ' + data.card.name + ' ' + data.card.desc;
+            damage += parseInt(roomGame.player2.hero.power);
+            roomGame.player2.hand.push(roomGame.player2.hero.cardDeck.pop()) //draw one card from the top to the hand
+            damage += 2;
+            roomGame.villain.villain.hp -= damage
+            roomGame.round = 1;
+            activePlayers.forEach( function(player) {
+                player.emit('updateVillainStats', {game: roomGame})
+            })
+        } 
     })
 
 //     if (players.length === 0){
