@@ -48,14 +48,14 @@ class GameView extends Component {
             player2: data.game.player2,
             gameStatus: 'every player draw 2 cards from deck',
         });
-        setTimeout(this.handleVillainPlayCard, 8000)
+        setTimeout(this.handleVillainPlayCard, 2000)
     }
 
     handleVillainPlayCard() {
         this.setState({
             gameStatus: 'villain is playing...',
         });
-        setTimeout(() => { this.setPlayersTurn('villain') }, 7000);
+        setTimeout(() => { this.setPlayersTurn('villain') }, 2000);
     }
 
     setPlayersTurn(data){
@@ -71,9 +71,11 @@ class GameView extends Component {
         this.setState({
             player1: data.game.player1,
             player2: data.game.player2,
+            villain: data.game.villain,
             cardPlayed: data.game.cardPlayed,
             gameStatus: data.game.gameStatus
         })
+        console.log(this.state.villain)
         setTimeout( () => { this.setPlayersTurn('updatePlayers') } , 7000)
     }
 
@@ -115,7 +117,6 @@ class GameView extends Component {
             player1: data.game.player1,
             player2: data.game.player2,
         });
-            console.log(data.game.round)
         if ( data.game.round === 0 ) {
             setTimeout( () => { this.setPlayersTurn('updatePlayers') } , 7000)
         } else if ( data.game.round === 1 ) {

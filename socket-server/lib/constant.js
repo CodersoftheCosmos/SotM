@@ -21,40 +21,80 @@ function createVillain (villain){
     }
 } 
 
-const card1 = function(){
-
+const dealDamage = function (damage, target1, target2) {
+    if (target2) {
+        let dmg1 = damage + eval(target1.increaseDamage) - eval(target1.decreaseDamage)
+        let dmg2 = damage + eval(target1.increaseDamage) - eval(target2.decreaseDamage)
+        
+        target1.hp = eval(target1.hp) - dmg1 
+        target2.hp = eval(target2.hp) - dmg2
+    } else {
+        target1.hp = eval(target1.hp) - damage + eval(target1.increaseDamage) - eval(target1.decreaseDamage) 
+    }
 }
 
-const card2 = function(){
+const restoreHp = function (heal, target1, target2) {
+    if ( target2 ) {
+        if ( (eval(target1.hp) + heal) > eval(target1.maxHp) ) {
+            target1.hp = target1.maxHp
+        } else {
+            target1.hp = eval(target1.hp) + heal
+        }
+        if ( (eval(target2.hp) + heal) > eval(target2.maxHp) ) {
+            target2.hp = target1.maxHp
+        } else {
+            target2.hp = eval(target2.hp) + heal
+        }
+        
+    } else  { 
 
+        if ( (eval(target1.hp) + heal) > eval(target1.maxHp) ) {
+            target1.hp = target1.maxHp
+        } else {
+            target1.hp = eval(target1.hp) + heal
+        }
+    }    
+};
+
+const increaseDamage = function (damage, target1, target2) {
+    if ( target2 ) {
+        target1.increaseDamage = eval(target1.increaseDamage) + damage;
+        target2.increaseDamage = eval(target2.increaseDamage) + damage;
+    } else {
+        target1.increaseDamage = eval(target1.increaseDamage) + damage;
+    }
 }
 
-const player1Turn = function(e1, e2) {
-    e1;
-    e2;
+const preventDamage = function (damage, target) {
+    console.log(damage, typeof damage)
+    console.log(eval(target.decreaseDamage))
+    target.decreaseDamage = eval(target.decreaseDamage) + damage
+    
 }
 
-// const assignHeroToPlayer = function(player, hero, game) {
-//     initialPlayer.username = player;
-//     initialPlayer.hero = hero.name;
-//     initialPLayer.hp = hero.hp;
-//     initialPlayer.cardDeck = hero.cardDeck;
-// }
-// function Player (hero, player) {
-//     this.hero = hero;
-//     this.player = player;
-// }
+const drawCard = function (target1, target2) {
+    if ( target2 ) {
+        target1.hand = target1.hero.cardDeck.pop();
+        target2.hand = target2.hero.cardDeck.pop();
+    } else {
+        target1.hand = target1.hero.cardDeck.pop();
+    }
+}
 
-// const assignVillain = function (currVillain, game) {
-//     game.villain = initialVillain;
-//     game.initialVillain.villain = currVillain.name;
-//     game.initialVillain.hp = currVillain.hp;
-//     game.initialVillain.cardDeck = currVillain.cardDeck;
-// }
+const checkEndOfTheGame = function ( target ) {
+    if ( target.hp <= 0 ) {
+        return false;
+    }
+}
 
 module.exports = {
     createPlayer,
     createVillain,
     shuffleCardDeck,
+    dealDamage,
+    increaseDamage, 
+    preventDamage,
+    restoreHp, 
+    drawCard,
+    checkEndOfTheGame
 }
-

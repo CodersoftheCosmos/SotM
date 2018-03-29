@@ -82,9 +82,11 @@ io.on('connection', function(socket) {
         if(turns === activePlayers.length){
             let currentCard = roomGame.villain.villain.cardDeck.pop();
             roomGame.cardPlayed = currentCard;
-            //check what the card is doing and apply it 
-            roomGame.player1.hero.hp -= 3;
-            roomGame.player2.hero.hp -= 3;
+            
+            eval(currentCard.func);  //this will invoke the card function 
+
+            //init.restoreHp(10, roomGame.villain.villain);
+
             roomGame.gameStatus = 'The Villain played ' + currentCard.name + ' ' + currentCard.desc;
             activePlayers.forEach( function(player) {
                 player.emit('updatePlayersStats', {game: roomGame})
@@ -119,9 +121,6 @@ io.on('connection', function(socket) {
         let damage = 0;
         if ( socket == activePlayers[0] ) {
             console.log('player1')
-            // get the card logic plus the power
-            // then we know is the player2s turn
-            // draw one card from the deck
             roomGame.gameStatus = 'player1 played: ' + data.card.name + ' ' + data.card.desc;
             damage += parseInt(roomGame.player1.hero.power);
             roomGame.player1.hand.push(roomGame.player1.hero.cardDeck.pop()) //draw one card from the top to the hand
@@ -143,8 +142,7 @@ io.on('connection', function(socket) {
             activePlayers.forEach( function(player) {
                 player.emit('updateVillainStats', {game: roomGame})
             })
-        }
-        
+        } 
     })
 
 //     if (players.length === 0){
