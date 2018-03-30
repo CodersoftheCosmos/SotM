@@ -4,11 +4,23 @@ import { connect } from 'react-redux';
 import { selectRules } from '../../actions/rules'
 import { bindActionCreators } from 'redux';
 import Rules from '../Rule/Rules'
+import LeaderBoard from './LeaderBoard'
 import { Redirect } from 'react-router-dom';
 
 class Home extends Component {
 	constructor(props){
 		super(props)
+		this.state = {
+            position: '',
+            gameStatus: '',
+            player1: {},
+            player2: {},
+            villain: {},
+            cardPlayed: {},
+            p1UsedCards: [],
+            p2UsedCards: [],
+            p3UsedCards: [],
+         }
 	}
 	
 	render() {
@@ -39,6 +51,7 @@ class Home extends Component {
 							{this.props.user.username}
 							<Stats />
 							<input type="button" value="Rules" onClick={()=> this.props.selectRules(true)}/>
+							<LeaderBoard />
 						</div>
 					</div>
 				)
