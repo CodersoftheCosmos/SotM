@@ -75,7 +75,7 @@ class GameView extends Component {
             cardPlayed: data.game.cardPlayed,
             gameStatus: data.game.gameStatus
         })
-        console.log(this.state.villain)
+        console.log(this.state)
         setTimeout( () => { this.setPlayersTurn('updatePlayers') } , 7000)
     }
 

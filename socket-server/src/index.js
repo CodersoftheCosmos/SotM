@@ -84,7 +84,6 @@ io.on('connection', function(socket) {
             roomGame.cardPlayed = currentCard;
             
             eval(currentCard.func);  //this will invoke the card function 
-
             //init.restoreHp(10, roomGame.villain.villain);
 
             roomGame.gameStatus = 'The Villain played ' + currentCard.name + ' ' + currentCard.desc;
@@ -98,47 +97,38 @@ io.on('connection', function(socket) {
     socket.on('playersUpdated', function(data){
         if (socket == activePlayers[0]){
             turns++
-            console.log(turns)
         } else if (socket == activePlayers[1]){
             turns++
-            console.log(turns)
         }
         if (turns === activePlayers.length && turn === 1){
-                activePlayers[0].emit('playerTurn', {msg: 'your turn'});
-                activePlayers[1].emit('updateStatus', {msg: 'wait until player 1 is making a move'});
-            turns = 0;
-            turn = 2;
+            activePlayers[0].emit('playerTurn', {msg: 'your turn'});
+            activePlayers[1].emit('updateStatus', {msg: 'wait until player 1 is making a move'});
+              turns = 0;
+              turn = 2;
         } else if (turns === activePlayers.length && turn === 2){
-                activePlayers[0].emit('updateStatus', {msg: 'wait until player 2 is making a move'});
-                activePlayers[1].emit('playerTurn', {msg: 'your turn'});
-            turns = 0;
-            turn = 1;
+            activePlayers[0].emit('updateStatus', {msg: 'wait until player 2 is making a move'});
+            activePlayers[1].emit('playerTurn', {msg: 'your turn'});
+              turns = 0;
+              turn = 1;
         }
     })
 
     socket.on('playerFinishTurn', function(data) {
-        //data is the card played
-        let damage = 0;
         if ( socket == activePlayers[0] ) {
-            console.log('player1')
             roomGame.gameStatus = 'player1 played: ' + data.card.name + ' ' + data.card.desc;
-            damage += parseInt(roomGame.player1.hero.power);
+            
+            eval(data.card.func)                      // invoke card function 
+            roomGame.round = 0;                  //set the player turn so that the game knows that player2 is next
             roomGame.player1.hand.push(roomGame.player1.hero.cardDeck.pop()) //draw one card from the top to the hand
-            damage += 2;
-            roomGame.villain.villain.hp -= damage
-            roomGame.round = 0;
             activePlayers.forEach( function(player) {
                 player.emit('updateVillainStats', {game: roomGame})
             })
         } else if ( socket == activePlayers[1] ) {
-            console.log('player2')
-            //then is the villains turn
             roomGame.gameStatus = 'player2 played: ' + data.card.name + ' ' + data.card.desc;
-            damage += parseInt(roomGame.player2.hero.power);
+            
+            eval(data.card.func)                       //invoke card function
+            roomGame.round = 1;                   //set the player turn so that the game knows that villain is next
             roomGame.player2.hand.push(roomGame.player2.hero.cardDeck.pop()) //draw one card from the top to the hand
-            damage += 2;
-            roomGame.villain.villain.hp -= damage
-            roomGame.round = 1;
             activePlayers.forEach( function(player) {
                 player.emit('updateVillainStats', {game: roomGame})
             })
