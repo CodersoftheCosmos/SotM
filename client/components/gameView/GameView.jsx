@@ -4,6 +4,7 @@ import { baronBlade, legacy, nelson } from '../../../socket-server/src/initialSt
 import VillainView from './VillainView';
 import Player1View from './Player1View';
 import Player2View from './Player2View';
+import MainView from './mainView';
 
 const socket = io.connect('http://localhost:9002')
 
@@ -130,9 +131,9 @@ class GameView extends Component {
             return (
                 <div>
                     <h2>Game Status: {this.state.gameStatus}</h2>
-                    <VillainView currentState={this.state.villain} />
-                    <Player1View currentState={this.state.player1} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
-                    <Player2View currentState={this.state.player2} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
+                    <VillainView currentState={this.state.villain} selectedCard={this.state.cardPlayed}/>
+                    <Player1View currentState={this.state.player1} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn} selectedCard={this.state.cardPlayed}/> 
+                    <Player2View currentState={this.state.player2} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn} selectedCard={this.state.cardPlayed}/>
                 </div>
             )
         } else {
