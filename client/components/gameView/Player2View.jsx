@@ -1,6 +1,23 @@
 import React, { Component } from 'react';
 
 class PLayer2View extends Component {
+
+    constructor(props) {
+        super(props)
+    }
+
+    enlargeCard(e) {
+        
+        if ([...e.target.classList].includes('small')) {
+            e.target.classList.add('large');
+            e.target.classList.remove('small');
+        } else {
+            e.target.classList.add('small');
+            e.target.classList.remove('large');
+        }
+       
+    }
+
     render() {
         return (
             <div className="p2">
@@ -12,7 +29,7 @@ class PLayer2View extends Component {
 
                 <span>
                     {this.props.currentState.hand.map((card, i) => {
-                        return (<img className="cards" src={card.photo} onClick={()=>{this.props.handleCard(card)}} height={100} width={70} key={i}/>)
+                        return (<img className="cards small" src={card.photo} onClick={(e)=>{this.props.handleCard(card); this.enlargeCard(e)}} key={i}/>)
                     })}
                 </span>
                  <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
@@ -50,6 +67,14 @@ class PLayer2View extends Component {
                             width: 200px;
                             border: solid 3px;
                             border-radius: 50%;
+                        }
+                        .small {
+                            height: 100px;
+                            width: 70px;
+                        }
+                        .large {
+                            height: 200px;
+                            width: 140px;
                         }
                     `}
                 </style>
