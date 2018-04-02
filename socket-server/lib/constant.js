@@ -21,18 +21,18 @@ function createVillain (villain){
     }
 } 
 
-const dealDamage = function (damage, damageDealer, target1, target2) {
+const dealDamage = function (damage, target1, attacker, target2) {
     if (target2) {
-        target1.hp = eval(target1.hp) - damage - eval(damageDealer.increaseDamage) + eval(target1.decreaseDamage) 
-        target2.hp = eval(target2.hp) - damage - eval(damageDealer.increaseDamage) + eval(target2.decreaseDamage)
+        target1.hp = eval(target1.hp) - damage - eval(attacker.increaseDamage) + eval(target1.decreaseDamage) 
+        target2.hp = eval(target2.hp) - damage - eval(attacker.increaseDamage) + eval(target2.decreaseDamage)
     } else {
-        target1.hp = eval(target1.hp) - damage - eval(damageDealer.increaseDamage) + eval(target1.decreaseDamage) 
+        target1.hp = eval(target1.hp) - damage - eval(attacker.increaseDamage) + eval(target1.decreaseDamage) 
     }
 }
 
-const dealDamageMaxHp = function (damage, damageDealer, target1, target2) {
-    let dmg1 = damage + eval(damageDealer.increaseDamage) - eval(target1.decreaseDamage)
-    let dmg2 = damage + eval(damageDealer.increaseDamage) - eval(target2.decreaseDamage)
+const dealDamageMaxHp = function (damage, target1, attacker, target2) {
+    let dmg1 = damage + eval(attacker.increaseDamage) - eval(target1.decreaseDamage)
+    let dmg2 = damage + eval(attacker.increaseDamage) - eval(target2.decreaseDamage)
     if (target2.hp > target1.hp) {
         target2.hp = eval(target2.hp) - dmg2
     } else {
@@ -40,9 +40,9 @@ const dealDamageMaxHp = function (damage, damageDealer, target1, target2) {
     }
 }
 
-const dealDamageBoth = function (damage, damageDealer, target1, target2) {
-    let dmg1 = damage + eval(damageDealer.increaseDamage) - eval(target1.decreaseDamage)
-    let dmg2 = damage + eval(damageDealer.increaseDamage) - eval(target2.decreaseDamage)
+const dealDamageBoth = function (damage, target1, attacker, target2) {
+    let dmg1 = damage + eval(attacker.increaseDamage) - eval(target1.decreaseDamage)
+    let dmg2 = damage + eval(attacker.increaseDamage) - eval(target2.decreaseDamage)
     if (target2.hp > target1.hp) {
         target2.hp = (eval(target2.hp) - dmg2 + 2)
         target1.hp = eval(target1.hp) - dmg1
