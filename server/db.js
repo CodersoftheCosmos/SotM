@@ -13,6 +13,7 @@ const characterSchema = mongoose.Schema({
     hp: Number,
     power: String,
     cardDeck: Array,
+    reflectDamage: Boolean,
     charType: String
 });
 
@@ -50,12 +51,13 @@ const newCard = (name, photo) => {
 const Character = mongoose.model('Character', characterSchema);
 // const User = mongoose.model('User', userSchema);
 
-const newCharacter = (name, hp, power, cardDeck, charType) => {
+const newCharacter = (name, hp, power, cardDeck, charType, reflectDamage = false) => {
   const character = new Character({
       name: name, 
       hp: hp, 
       power: power, 
       cardDeck: cardDeck, 
+      reflectDamage: reflectDamage,
       charType: charType
     });
   character.save((err, character) => {
