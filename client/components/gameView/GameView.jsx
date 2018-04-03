@@ -4,7 +4,7 @@ import { baronBlade, legacy, nelson } from '../../../socket-server/src/initialSt
 import VillainView from './VillainView';
 import Player1View from './Player1View';
 import Player2View from './Player2View';
-import Chat from '../chat/Chat'
+import RoomChat from '../chat/RoomChat';
 
 class GameView extends Component {
     constructor(props) {
@@ -18,8 +18,9 @@ class GameView extends Component {
             cardPlayed: {},
             p1UsedCards: [],
             p2UsedCards: [],
-            p3UsedCards: []
-         }
+            p3UsedCards: [],
+            username: '',
+         } 
         this.handleInitiliazeGame = this.handleInitiliazeGame.bind(this);
         this.handleVillainPlayCard = this.handleVillainPlayCard.bind(this);
         this.updatePlayersStats = this.updatePlayersStats.bind(this);
@@ -42,7 +43,7 @@ class GameView extends Component {
     componentWillMount() {
         this.socket = io('http://localhost:9002', {
 			query: {
-			roomId: "home"
+			roomId: "gameRoom"
 			}
 		});
         
@@ -54,6 +55,7 @@ class GameView extends Component {
             villain: data.game.villain,
             player1: data.game.player1,
             player2: data.game.player2,
+            username: data.user,
             gameStatus: 'every player draw 2 cards from deck',
         });
         setTimeout(this.handleVillainPlayCard, 5000)
@@ -143,7 +145,7 @@ class GameView extends Component {
                         <Player2View currentState={this.state.player2} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
                     </div>
                     <div className="chat">
-                        <Chat socket={this.socket} />
+                        <RoomChat socket={this.socket} user={this.state.username}/>
                     </div>
 
                     <style>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import io from 'socket.io-client';
 
-class Chat extends Component {
+class RoomChat extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,18 +11,19 @@ class Chat extends Component {
 	this.fetchMessages = this.fetchMessages.bind(this);
   }
 
-//   componentWillMount() {
-// 	this.props.socket.emit("fetchGlobalMessages")
-//   }
+  componentWillMount() {
+    this.props.socket.emit("fetchRoomMessages", this.fetchMessages)
+    //this.props.socket.on("fetchAllMessages", this.fetchMessages)
+  }
 
-  async componentDidMount() {
-   	this.props.socket.on("fetchAllMessages", this.fetchMessages)
+	async componentDidMount() {
+    await this.props.socket.on("fetchAllMessages", this.fetchMessages)
   }
 
   async fetchMessages(data) {
-	await this.setState({
-		messages: data.messages
-	})
+    await this.setState({
+      messages: data.messages
+    })
   }
 
   async handleChat(e) {
@@ -41,7 +42,7 @@ class Chat extends Component {
       this.props.socket.emit("createMessage", {
         username: this.props.user,
 		content: this.state.message,
-		roomId: 'home',
+		roomId: 'gameRoom',
 	  });
   }
 
@@ -84,4 +85,4 @@ class Chat extends Component {
   }
 }
 
-export default Chat;
+export default RoomChat;

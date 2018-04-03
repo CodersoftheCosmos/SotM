@@ -70,9 +70,9 @@ class Home extends Component {
 							{this.props.user.username}
 							<Stats />
 							<input type="button" value="Rules" onClick={()=> this.props.selectRules(true)}/>
-							<Chat user={this.props.user} socket={this.socket} />
+							<Chat user={this.props.user[0].username} socket={this.socket} />
 						</div>
-						<Lobby user={this.props.user} socket={this.socket}/>
+						<Lobby user={this.props.user[0].username} socket={this.socket}/>
 						{/* create a global chat using the room name home so that every player can talk to each other */}
 					</div>
 				)

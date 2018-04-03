@@ -27,7 +27,7 @@ class Lobby extends  Component {
         this.props.socket.emit('joinGame', {
             query: {
                 roomId: data,
-                username: this.props.user[0].username,
+                username: this.props.user,
             }
         })
     }
@@ -41,11 +41,11 @@ class Lobby extends  Component {
     handleOnChange(e) {
         this.setState({ 
             gameCreate: {
-                username: this.props.user[0].username, 
+                username: this.props.user, 
                 numberPlayers: 1,
                 maxPlayers: 2,
                 comments: e.target.value,
-                room: this.props.user[0].username,
+                room: this.props.user,
             }
         })
     }
