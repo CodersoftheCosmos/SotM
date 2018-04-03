@@ -28,6 +28,9 @@ const dealDamage = function (damage, target1, attacker, target2) {
     } else {
         target1.hp = eval(target1.hp) - damage - eval(attacker.increaseDamage) + eval(target1.decreaseDamage) 
     }
+    if(target1.reflectDamage) {
+        dealDamage(3, attacker, target1);
+    }
 }
 
 const dealDamageMaxHp = function (damage, target1, attacker, target2) {
@@ -37,6 +40,9 @@ const dealDamageMaxHp = function (damage, target1, attacker, target2) {
         target2.hp = eval(target2.hp) - dmg2
     } else {
         target1.hp = eval(target1.hp) - dmg1 
+    }
+    if(target1.reflectDamage) {
+        dealDamage(3, attacker, target1);
     }
 }
 
@@ -49,6 +55,9 @@ const dealDamageBoth = function (damage, target1, attacker, target2) {
     } else {
         target2.hp = eval(target2.hp) - dmg2
         target1.hp = (eval(target1.hp) - dmg1 + 2)
+    }
+    if(target1.reflectDamage) {
+        dealDamage(3, attacker, target1);
     }
 }
 
@@ -109,6 +118,14 @@ const checkEndOfTheGame = function ( villain, player1, player2 ) {
         return false
 }
 
+const reflectOn = function (target) {
+    target.reflectDamage = true;
+}
+
+const reflectOff = function (target) {
+    target.reflectDamage = false;
+}
+
 module.exports = {
     createPlayer,
     createVillain,
@@ -121,5 +138,7 @@ module.exports = {
     preventDamage,
     restoreHp, 
     drawCard,
-    checkEndOfTheGame
+    checkEndOfTheGame,
+    reflectOn,
+    reflectOff
 }
