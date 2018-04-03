@@ -8,6 +8,19 @@ function createVillain (villain){
     this.villain = villain;
 };
 
+function game (villain, player1, player2){
+    this.villain = villain;
+    this.player1 = player1;
+    shuffleCardDeck( this.player1.hero.cardDeck )
+    this.player1.hand = this.player1.hero.cardDeck.splice(0, 2);
+    this.player2 = player2;
+    shuffleCardDeck( this.player2.hero.cardDeck )
+    this.player1.hand = this.player2.hero.cardDeck.splice(0, 2);
+    this.position = '';
+    this.gameStatus = '';
+    this.round = 0;
+}
+
  const shuffleCardDeck = function(deck){
     let i = 0
     , j = 0
@@ -107,6 +120,11 @@ const checkEndOfTheGame = function ( villain, player1, player2 ) {
         return false;
     } else if ( (player1.hp <= 0) && (player2.hp <= 0) )
         return false
+}
+
+
+const joinRoom = (socket, room) => {
+
 }
 
 module.exports = {

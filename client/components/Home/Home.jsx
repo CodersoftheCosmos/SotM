@@ -5,10 +5,39 @@ import { selectRules } from '../../actions/rules'
 import { bindActionCreators } from 'redux';
 import Rules from '../Rule/Rules'
 import { Redirect } from 'react-router-dom';
+import Chat from '../chat/Chat';
+
+import Lobby from '../gameJoin/Lobby';
+import io from 'socket.io-client';
+
 
 class Home extends Component {
 	constructor(props){
 		super(props)
+		this.state = {
+			gameReady: 0
+		}
+
+		this.startGame = this.startGame.bind(this)
+	}
+
+	// componentWillUpdate() {
+		
+	// }
+
+	componentWillMount() {
+		this.socket = io('http://localhost:9002', {
+			query: {
+			roomId: "home",
+			username: this.props.user[0].username,
+			}
+		});
+
+		this.socket.on('startTheGame', this.startGame)
+	}
+
+	startGame() {
+		this.setState({ gameReady: 1 })
 	}
 	
 	render() {
@@ -25,6 +54,12 @@ class Home extends Component {
 						<Rules />
 				</div>
 				)
+		} else if ( this.state.gameReady === 1) {
+			return (
+				<div>
+						<Redirect to="/game" />
+				</div>
+				)
 		} else {
 			return (
 					<div>
@@ -32,14 +67,13 @@ class Home extends Component {
 							<button name="logout" onClick={this.props.click}>Logout</button>
 						</div>
 						<div align="center">
-							<button name="join" onClick={()=>console.log('join')}>Join A Game</button>
-							<br />
-							<button name="create" onClick={()=>console.log('create')}>Create A Game</button>
-							<hr />
 							{this.props.user.username}
 							<Stats />
 							<input type="button" value="Rules" onClick={()=> this.props.selectRules(true)}/>
+							<Chat user={this.props.user} socket={this.socket} />
 						</div>
+						<Lobby user={this.props.user} socket={this.socket}/>
+						{/* create a global chat using the room name home so that every player can talk to each other */}
 					</div>
 				)
 			}
@@ -49,7 +83,7 @@ class Home extends Component {
 function mapStateToProps(state) {
 	return {
 			user: state.activeUser,
-			activeRules : state.rules
+			activeRules: state.rules,
 	};
 }
 

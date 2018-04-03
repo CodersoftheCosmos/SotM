@@ -2,7 +2,7 @@
 // import CreateGame from './CreateGame';
 // import Games from './Games';
 // import io from 'socket.io-client';
-// import { setInterval } from 'timers';
+
 
 // const socket = io.connect('http://localhost:9002')
 

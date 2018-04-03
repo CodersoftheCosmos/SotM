@@ -31,6 +31,7 @@
     "morgan": "^1.9.0",
     "path": "^0.12.7",
     "react": "^16.2.0",
+    "react-chat-box": "^1.0.2",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
