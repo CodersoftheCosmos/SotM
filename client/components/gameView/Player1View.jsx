@@ -45,7 +45,6 @@ class PLayer1View extends Component {
 
                 <style>
                     {`
-
                         .power {
                             background-color: yellow;
                             border: solid black 2px;

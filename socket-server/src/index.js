@@ -10,8 +10,15 @@ const baronBlade = require('../../../GameData/villains/baronBlade.json');
 const legacy = require('../../../GameData/heroes/legacy.json');
 const nelson = require('../../../GameData/heroes/nelson.json');
 
-const games = [];
+const games = [{username: 'truelav', numberPlayers: 1, maxPlayers: 2, comments: 'no noobs pls', player1: '', player2: ''}];
 const activePlayers = [];
+const globalMessages = [
+    {username: 'adnreica666', content: 'hello'},
+    {username: 'Putin', content: 'lets conquer the world'}
+];
+
+const localMessages = [];
+
 const roomGame = {
     position: '',
     gameStatus: '',
@@ -23,54 +30,73 @@ const roomGame = {
     p2UsedCards: [],
     p3UsedCards: [],
     round: 0,
-};
+    activePlayers: 0,
+    chat: []
+};  
 var turns = 0;
 var turn = 1;
 
 io.on('connection', function(socket) {
     console.log('player connected');
-    //console.log(socket.handshake.query)
+    console.log(socket.handshake.query.roomId)
+    if (socket.handshake.query.roomId === 'home') {
+        socket.emit('fetchAllMessages', {messages: globalMessages});
+    } else {
+        socket.emit('fetchAllMessages', {messages: localMessages});
+        socket.join(socket.handshake.query.roomId);
+    }
     activePlayers.push(socket);
-    // socket.on('createGame', function(data) {
-    //    if(!_.find(games,{username: data.username})) {
-    //         games.push(data); 
-    //         let room = `room${data.username}`;      
-    //         socket.join(room);
-    //         activePlayers.forEach(function(player){ player.emit('displayGameList', {activeGames: games}) })
-    //    } else {
-    //         socket.emit('message', {msg: 'You have already created a game'})
-    //    }
-    // })
-    
-    // socket.on('joinGame', function(data) {
-    //     let gameCreator = data.gameJoined;
-    //     let room = `room${data.gameJoined}`;
-    //     socket.join(room);
-    //     let myGame = _.find(games, {username: gameCreator})
-    //         myGame.numberPlayers++; myGame.player2 = data.personalData;
-    //         game = myGame;
-    //         activePlayers.forEach(function(player){ player.emit('displayGameList', {activeGames: games}) })
-    //         io.in(room).emit('message', {msg: 'the game will start soon'});
-    //         // socket.emit('startTimer', {msg: 'let the fun beggin'})
-    // })
 
-    if( activePlayers.length === 1) {
-        socket.emit('message', {msg: 'waiting for the second player'});
-        roomGame.player1 = new init.createPlayer(socket.id, legacy);
+    socket.on('createMessage', function(data) {
+        if(data.roomId === 'home'){
+            globalMessages.push(data)
+            activePlayers.forEach( 
+                function(player) { 
+                    player.emit('fetchAllMessages', {messages: globalMessages}); 
+                })
+        } else {
+            localMessages.push(data)
+            activePlayers.forEach( 
+                function(player) { 
+                    player.emit('fetchAllMessages', {messages: localMessages}); 
+                })
+        }
+    })
+    
+    socket.on('createGame', function(data) {
+        socket.join(data.query.roomId);
+        roomGame.player1 = new init.createPlayer(socket.handshake.query.username, legacy);
         init.shuffleCardDeck(roomGame.player1.hero.cardDeck);
         roomGame.player1.hand = roomGame.player1.hero.cardDeck.splice(0, 2);
-        console.log(activePlayers.length)
-    } else if ( activePlayers.length === 2) {
-        console.log('2players')
-        roomGame.player2  = new init.createPlayer(socket.id, nelson);
+        games.push(data.query.game); 
+    })
+    
+    activePlayers.forEach ( function (player){ player.emit('updateGamesList', {gameList: games}) });
+    
+    socket.on('joinGame', function(data) {
+        roomGame.player2  = new init.createPlayer(data.query.username, nelson);
         roomGame.villain  = new init.createVillain(baronBlade);
         init.shuffleCardDeck(roomGame.player2.hero.cardDeck);
         init.shuffleCardDeck(roomGame.villain.villain.cardDeck);
         roomGame.player2.hand = roomGame.player2.hero.cardDeck.splice(0, 2);
-        
+
+        // activePlayers.forEach ( function (player){ player.emit('startTheGame', {gameList: games}) });
         activePlayers.forEach( function(player){ 
-            player.emit('gameReady', {game: roomGame}
+            player.emit('startTheGame', 'no msg'
         )});
+        activePlayers.forEach( function(player){ 
+            player.leave('home')});
+        activePlayers.splice(0, activePlayers.length)
+    })
+
+    //maybe change to how many people in the room with the game
+
+    if ( activePlayers.length === 2) {
+        activePlayers[0].emit('gameReady', {game: roomGame, user: roomGame.player1.username});
+        activePlayers[1].emit('gameReady', {game: roomGame, user: roomGame.player2.username})
+        // activePlayers.forEach( function(player){ 
+        //     player.emit('gameReady', {game: roomGame}
+        // )});
     } 
     
     socket.on('villainPlayedCard', function() {
@@ -83,8 +109,7 @@ io.on('connection', function(socket) {
             let currentCard = roomGame.villain.villain.cardDeck.pop();
             roomGame.cardPlayed = currentCard;
             
-            currentCard.func.forEach(function(cardAction) {eval(cardAction)});  //this will invoke the card function 
-            //init.restoreHp(10, roomGame.villain.villain);
+            currentCard.func.forEach(function(cardAction) {eval(cardAction)});   //this will invoke the card function 
 
             roomGame.gameStatus = 'The Villain played ' + currentCard.name + ' ' + currentCard.desc;
             activePlayers.forEach( function(player) {
@@ -117,7 +142,7 @@ io.on('connection', function(socket) {
         if ( socket == activePlayers[0] ) {
             roomGame.gameStatus = 'player1 played: ' + data.card.name + ' ' + data.card.desc;
             
-            data.card.func.forEach(function(cardAction) {eval(cardAction)})                      // invoke card function 
+            data.card.func.forEach(function(cardAction) {eval(cardAction)});                      // invoke card function 
             roomGame.round = 0;                  //set the player turn so that the game knows that player2 is next
             roomGame.player1.hand.push(roomGame.player1.hero.cardDeck.pop()) //draw one card from the top to the hand
             activePlayers.forEach( function(player) {
@@ -126,7 +151,7 @@ io.on('connection', function(socket) {
         } else if ( socket == activePlayers[1] ) {
             roomGame.gameStatus = 'player2 played: ' + data.card.name + ' ' + data.card.desc;
             
-            data.card.func.forEach(function(cardAction) {eval(cardAction)})                      // invoke card function 
+            data.card.func.forEach(function(cardAction) {eval(cardAction)});                       //invoke card function
             roomGame.round = 1;                   //set the player turn so that the game knows that villain is next
             roomGame.player2.hand.push(roomGame.player2.hero.cardDeck.pop()) //draw one card from the top to the hand
             activePlayers.forEach( function(player) {
@@ -135,36 +160,6 @@ io.on('connection', function(socket) {
         } 
     })
 
-//     if (players.length === 0){
-//         players.push(socket);
-//         socket.emit('handlePlayer', {msg:"playerOne"});
-//         socket.emit('status', {msg: 'waiting for another player..'})
-//     } else if (players.length === 1) {
-//         players.push(socket);
-//         socket.emit('handlePlayer', {msg: 'playerTwo'});
-//         players.forEach(player => {player.emit('status', {msg: 'Lets play'})})
-//     } else {
-//         socket.emit('handleWelcome', {msg: 'the server is full'})
-//     }
-
-//     socket.on('played', function(packet) {
-//         if(scoket === players[0]) {
-//             game.player1 = packet.playerOneChoice;
-//             playedCount++
-//         } else if (socket === players[1]) {
-//             game.player2 = packet.playerTwoChoice;
-//             playedCount++
-//         } else {
-//             console.error('something happened')
-//         }
-//         if (playedCount === 2) {
-// 			playedCount = 0;
-// 			var champ = winner(game.player1, game.player2);
-// 			players.forEach(player => {
-// 				player.emit('gameOver', {winner:champ, player1:game.player1, player2:game.player2});
-// 			});
-// 		}
-//     });
     socket.once('disconnect', () => {
 		activePlayers.splice(activePlayers.indexOf(socket), 1);
 		// socket.forEach(player => {

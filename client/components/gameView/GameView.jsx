@@ -4,9 +4,7 @@ import { baronBlade, legacy, nelson } from '../../../socket-server/src/initialSt
 import VillainView from './VillainView';
 import Player1View from './Player1View';
 import Player2View from './Player2View';
-import MainView from './mainView';
-
-const socket = io.connect('http://localhost:9002')
+import RoomChat from '../chat/RoomChat';
 
 class GameView extends Component {
     constructor(props) {
@@ -20,8 +18,9 @@ class GameView extends Component {
             cardPlayed: {},
             p1UsedCards: [],
             p2UsedCards: [],
-            p3UsedCards: []
-         }
+            p3UsedCards: [],
+            username: '',
+         } 
         this.handleInitiliazeGame = this.handleInitiliazeGame.bind(this);
         this.handleVillainPlayCard = this.handleVillainPlayCard.bind(this);
         this.updatePlayersStats = this.updatePlayersStats.bind(this);
@@ -34,11 +33,20 @@ class GameView extends Component {
     }
 
     componentDidMount() {
-        socket.on('gameReady', this.handleInitiliazeGame);
-        socket.on('updatePlayersStats', this.updatePlayersStats);
-        socket.on('playerTurn', this.playerTurn);
-        socket.on('updateStatus', this.updateStatus);
-        socket.on('updateVillainStats', this.updateVillainStats);
+        this.socket.on('gameReady', this.handleInitiliazeGame);
+        this.socket.on('updatePlayersStats', this.updatePlayersStats);
+        this.socket.on('playerTurn', this.playerTurn);
+        this.socket.on('updateStatus', this.updateStatus);
+        this.socket.on('updateVillainStats', this.updateVillainStats);
+    }
+
+    componentWillMount() {
+        this.socket = io('http://localhost:9002', {
+			query: {
+			roomId: "gameRoom"
+			}
+		});
+        
     }
 
     handleInitiliazeGame(data) {
@@ -47,23 +55,24 @@ class GameView extends Component {
             villain: data.game.villain,
             player1: data.game.player1,
             player2: data.game.player2,
+            username: data.user,
             gameStatus: 'every player draw 2 cards from deck',
         });
-        setTimeout(this.handleVillainPlayCard, 2000)
+        setTimeout(this.handleVillainPlayCard, 5000)
     }
 
     handleVillainPlayCard() {
         this.setState({
             gameStatus: 'villain is playing...',
         });
-        setTimeout(() => { this.setPlayersTurn('villain') }, 2000);
+        setTimeout(() => { this.setPlayersTurn('villain') }, 5000);
     }
 
     setPlayersTurn(data){
         if ( data === 'villain' ) {                           //check from where is coming invocation
-            socket.emit('villainPlayedCard',{msg: 'villain'}); 
+            this.socket.emit('villainPlayedCard',{msg: 'villain'}); 
         } else if ( data === 'updatePlayers') {
-            socket.emit('playersUpdated', {msg: 'now players move'});
+            this.socket.emit('playersUpdated', {msg: 'now players move'});
         }
     }
 
@@ -76,7 +85,6 @@ class GameView extends Component {
             cardPlayed: data.game.cardPlayed,
             gameStatus: data.game.gameStatus
         })
-        console.log(this.state)
         setTimeout( () => { this.setPlayersTurn('updatePlayers') } , 7000)
     }
 
@@ -102,7 +110,7 @@ class GameView extends Component {
 
     handleFinishTurn() {
         if ( this.state.position === 1){
-            socket.emit('playerFinishTurn', {card: this.state.cardPlayed})
+            this.socket.emit('playerFinishTurn', {card: this.state.cardPlayed})
         } else if (this.state.position === 0){
             this.setState({
                 gameStatus: 'please wait for your turn'
@@ -131,9 +139,33 @@ class GameView extends Component {
             return (
                 <div>
                     <h2>Game Status: {this.state.gameStatus}</h2>
-                    <VillainView currentState={this.state.villain} selectedCard={this.state.cardPlayed}/>
-                    <Player1View currentState={this.state.player1} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn} selectedCard={this.state.cardPlayed}/> 
-                    <Player2View currentState={this.state.player2} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn} selectedCard={this.state.cardPlayed}/>
+                    <VillainView currentState={this.state.villain} />
+                    <div className="players">
+                        <Player1View currentState={this.state.player1} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
+                        <Player2View currentState={this.state.player2} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
+                    </div>
+                    <div className="chat">
+                        <RoomChat socket={this.socket} user={this.state.username}/>
+                    </div>
+
+                    <style>
+                        {`
+                            .players {
+                                width: 70%;
+                                float: left;
+                                display: inline-flex;
+                                border: solid 1px;
+                            }
+                            .chat {
+                                width: 25%;
+                                float: right;
+                                display: inline-flex;
+                                border: solid 1px;
+                            }
+
+                        `}
+                    </style>
+
                 </div>
             )
         } else {
@@ -147,6 +179,7 @@ class GameView extends Component {
 }
 
 export default GameView;
+
 
 
 
