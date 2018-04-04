@@ -18,6 +18,13 @@ class PLayer2View extends Component {
        
     }
 
+    handleHover(e) {
+        if([...e.target.classList].includes('large')) {
+            e.target.classList.add('small');
+            e.target.classList.remove('large');
+        }
+    }
+
     render() {
         return (
             <div className="p2">
@@ -29,7 +36,7 @@ class PLayer2View extends Component {
 
                 <span>
                     {this.props.currentState.hand.map((card, i) => {
-                        return (<img className="cards small" src={card.photo} onClick={(e)=>{this.props.handleCard(card); this.enlargeCard(e)}} key={i}/>)
+                        return (<img className="cards card small" src={card.photo} onClick={(e)=>{this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} key={i}/>)
                     })}
                 </span>
                  <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
@@ -69,12 +76,31 @@ class PLayer2View extends Component {
                             border-radius: 50%;
                         }
                         .small {
+                            transition: all 1s ease-in-out;
                             height: 100px;
                             width: 70px;
                         }
+
                         .large {
+                            transition: all 1s ease-in-out;
                             height: 300px;
                             width: 210px;
+                        }
+
+                        .card {
+                            transition: all 1s ease-in-out;
+                            background: #fff;
+                            display: inline-block;
+                            margin: 2px;
+                            box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+                            z-index: 5;
+                        }
+
+                        .card:hover {
+                            transition: all 1s ease-in-out;
+                            transform: scale(2);
+                            box-shadow: 30px 30px 15px rgba(0, 0, 0, 0.2);
+                            z-index: 10;
                         }
                     `}
                 </style>
