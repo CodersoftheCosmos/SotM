@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { selectRules } from '../../actions/rules'
 import { bindActionCreators } from 'redux';
 import Rules from '../Rule/Rules'
+import LeaderBoard from './LeaderBoard'
 import { Redirect } from 'react-router-dom';
 import Chat from '../chat/Chat';
 
@@ -21,9 +22,7 @@ class Home extends Component {
 		this.startGame = this.startGame.bind(this)
 	}
 
-	// componentWillUpdate() {
-		
-	// }
+
 
 	componentWillMount() {
 		this.socket = io('http://localhost:9002', {
@@ -38,6 +37,8 @@ class Home extends Component {
 
 	startGame() {
 		this.setState({ gameReady: 1 })
+
+         }
 	}
 	
 	render() {
@@ -70,7 +71,10 @@ class Home extends Component {
 							{this.props.user.username}
 							<Stats />
 							<input type="button" value="Rules" onClick={()=> this.props.selectRules(true)}/>
+
 							<Chat user={this.props.user[0].username} socket={this.socket} />
+							<LeaderBoard />
+
 						</div>
 						<Lobby user={this.props.user[0].username} socket={this.socket}/>
 						{/* create a global chat using the room name home so that every player can talk to each other */}
