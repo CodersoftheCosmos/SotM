@@ -39,11 +39,7 @@ class PLayer2View extends Component {
                         return (<img className="cards card small" src={card.photo} onClick={(e)=>{this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} key={i}/>)
                     })}
                 </span>
-                 <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
-                    <div className="col deck" >
-                        <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
-                        <div align='center' >Deck</div>
-                    </div>
+                 <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>                    
                 <div className="power">Power: Deal {this.props.currentState.hero.power} damage</div>
                 <style>
                     {`
@@ -85,6 +81,8 @@ class PLayer2View extends Component {
                             transition: all 1s ease-in-out;
                             height: 300px;
                             width: 210px;
+                            position:absolute;
+                            top:50%;
                         }
 
                         .card {
