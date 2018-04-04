@@ -28,10 +28,9 @@ const roomGame = {
     cardPlayed: {},
     p1UsedCards: [],
     p2UsedCards: [],
-    p3UsedCards: [],
+    p1InplayCards: [{photo: 'https://i.imgur.com/Mpcg57S.jpg'}],
+    p2InplayCards: [{photo: 'https://i.imgur.com/Mpcg57S.jpg'}],
     round: 0,
-    activePlayers: 0,
-    chat: []
 };  
 var turns = 0;
 var turn = 1;
@@ -90,7 +89,6 @@ io.on('connection', function(socket) {
     })
 
     //maybe change to how many people in the room with the game
-
     if ( activePlayers.length === 2) {
         activePlayers[0].emit('gameReady', {game: roomGame, user: roomGame.player1.username});
         activePlayers[1].emit('gameReady', {game: roomGame, user: roomGame.player2.username})
@@ -100,12 +98,12 @@ io.on('connection', function(socket) {
     } 
     
     socket.on('villainPlayedCard', function() {
-        if(socket == activePlayers[0]){
+        if (socket == activePlayers[0]){
             turns++
         } else if (socket == activePlayers[1]){
             turns++
         }
-        if(turns === activePlayers.length){
+        if (turns === activePlayers.length){
             let currentCard = roomGame.villain.villain.cardDeck.pop();
             roomGame.cardPlayed = currentCard;
             
@@ -141,8 +139,19 @@ io.on('connection', function(socket) {
     socket.on('playerFinishTurn', function(data) {
         if ( socket == activePlayers[0] ) {
             roomGame.gameStatus = 'player1 played: ' + data.card.name + ' ' + data.card.desc;
-            
-            data.card.func.forEach(function(cardAction) {eval(cardAction)});                      // invoke card function 
+            data.card.func.forEach( 
+                function( cardAction ) {
+                    eval( cardAction )
+                });                      // invoke card function 
+
+            // let hand = roomGame.player1.hand
+            let i = _.findIndex(roomGame.player1.hand, data.card);   //find where the card is in the hand array 
+            console.log(i)
+            if ( data.card.type === 'Ongoing' ) {
+                roomGame.p1InplayCards.push( roomGame.player1.hand.splice(i,1)[0] ) 
+            } else {
+                roomGame.p1UsedCards.push( roomGame.player1.hand.splice(i,1)[0] )
+            }
             roomGame.round = 0;                  //set the player turn so that the game knows that player2 is next
             roomGame.player1.hand.push(roomGame.player1.hero.cardDeck.pop()) //draw one card from the top to the hand
             activePlayers.forEach( function(player) {
@@ -151,7 +160,20 @@ io.on('connection', function(socket) {
         } else if ( socket == activePlayers[1] ) {
             roomGame.gameStatus = 'player2 played: ' + data.card.name + ' ' + data.card.desc;
             
-            data.card.func.forEach(function(cardAction) {eval(cardAction)});                       //invoke card function
+            data.card.func.forEach(
+                function(cardAction) {
+                    eval(cardAction)
+                });                       //invoke card function
+
+            //let hand = roomGame.player2.hand;
+            let i = _.findIndex(roomGame.player2.hand, data.card);   //find where the card is in the hand array 
+                console.log(i)
+            if ( data.card.type === 'Ongoing' ) {
+                roomGame.p2InplayCards.push( roomGame.player2.hand.splice(i,1)[0] ) 
+            } else {
+                roomGame.p2UsedCards.push( roomGame.player2.hand.splice(i,1)[0] )
+            }
+
             roomGame.round = 1;                   //set the player turn so that the game knows that villain is next
             roomGame.player2.hand.push(roomGame.player2.hero.cardDeck.pop()) //draw one card from the top to the hand
             activePlayers.forEach( function(player) {

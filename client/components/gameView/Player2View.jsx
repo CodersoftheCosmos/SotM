@@ -32,6 +32,7 @@ class PLayer2View extends Component {
                     <h2 className="playerName">Player 2: {this.props.currentState.username} </h2>
                     <h2 className="heroInfo">{this.props.currentState.hero.name} HP: {this.props.currentState.hero.hp}</h2>
                 </div>
+                <div>
                 <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
 
                 <span>
@@ -40,11 +41,13 @@ class PLayer2View extends Component {
                     })}
                 </span>
                  <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
-                    <div className="col deck" >
-                        <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
-                        <div align='center' >Deck</div>
-                    </div>
                 <div className="power">Power: Deal {this.props.currentState.hero.power} damage</div>
+                    <span>
+                        {this.props.inplay.map((card, i) => {
+                            return (<img className="cards small" src={card.photo} key={i} />)
+                        })}
+                    </span>   
+                </div>
                 <style>
                     {`
                         p {
