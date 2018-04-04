@@ -65,7 +65,7 @@ class Chat extends Component {
 		<form onSubmit={e => this.resetInput(e)}>
           <textarea onKeyUp={e => this.handleChat(e)} className="chatArea"/>
 		  <div>
-			<button type="submit" onClick={() => this.handleSubmit()}>
+			<button className="btn btn-primary" type="submit" onClick={() => this.handleSubmit()}>
 				Submit
 			</button>
 		  </div>

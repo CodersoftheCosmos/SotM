@@ -12,10 +12,14 @@ module.exports = {
         test: /\.js[x]?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        options: {
+        query: {
           presets: ['react']
         }
-      }
+      },
+{
+  test: /\.(scss|css)$/,
+  loaders: ['style-loader', 'css-loader']
+}
     ]
   },
   resolve: {

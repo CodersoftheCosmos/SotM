@@ -1,0 +1,32 @@
+.image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 60000px;
+  max-height:50000px;
+}; 
+
+#log {
+
+  margin: 20px
+}
+
+#logout {
+  float:right;
+  margin: 20px;
+}
+
+#main {
+  width: 700px;
+  height: 1000px;
+  margin: 0 26%;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images7.alphacoders.com/367/367804.jpg');
+  background-position:center ;
+  color: white;
+  font-family: "Bangers"
+}
+
+h1 {
+  color: white;
+  font-family: "Bangers";
+}

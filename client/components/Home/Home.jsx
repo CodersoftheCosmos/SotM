@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import Rules from '../Rule/Rules'
 import { Redirect } from 'react-router-dom';
 import Chat from '../chat/Chat';
-
+import "./Home.css"
 import Lobby from '../gameJoin/Lobby';
 import io from 'socket.io-client';
 
@@ -31,6 +31,7 @@ class Home extends Component {
 		this.socket.on('startTheGame', this.startGame)
 	}
 
+<<<<<<< HEAD
 	startGame() {
 		this.setState({ gameReady: 1 })
 	}
@@ -73,6 +74,50 @@ class Home extends Component {
 				)
 			}
 	}
+=======
+    startGame() {
+        this.setState({ gameReady: 1 })
+    }
+    
+    render() {
+        if(this.props.user[0] === null) {
+            return (
+                <div>
+                        <Redirect to="/"/>
+                </div>
+                )
+        }
+        else if (this.props.activeRules === true) {
+            return (
+                <div>
+                        <Rules />
+                </div>
+                )
+        } else if ( this.state.gameReady === 1) {
+            return (
+                <div>
+                        <Redirect to="/game" />
+                </div>
+                )
+        } else {
+            return (
+                    <div>
+                        <div id="log">
+                            <button className="btn" id="logout" name="logout" onClick={this.props.click}>Logout</button>
+                        </div>
+                        <div id="main" align="center">
+														<h1 id="welcome" > {this.props.user.username} </h1>
+                            <Stats />
+                            <input className="btn btn-primary" type="button" value="Rules" onClick={()=> this.props.selectRules(true)}/>
+                            <Chat user={this.props.user[0].username} socket={this.socket} />
+                        </div>
+                        <Lobby user={this.props.user[0].username} socket={this.socket}/>
+                        {/* create a global chat using the room name home so that every player can talk to each other */}
+                    </div>
+                )
+            }
+    }
+>>>>>>> basic styling
 }
 
 function mapStateToProps(state) {
