@@ -21,6 +21,7 @@ function createVillain (villain){
     }
 } 
 
+
 const dealDamage = function (damage, target1, attacker, target2) {
     console.log('this is dealDamage');
     if (target2) {
@@ -43,7 +44,7 @@ const dealDamageMaxHp = function (damage, target1, attacker, target2) {
     if (target2.hp > target1.hp) {
         target2.hp = eval(target2.hp) - dmg2
     } else {
-        target1.hp = eval(target1.hp) - dmg1 
+        target1.hp = eval(target1.hp) - dmg1
     }
     if(target1.reflectDamage) {
         dealDamage(3, attacker, target1);
@@ -127,11 +128,14 @@ const drawCard = function (target1, target2) {
     }
 }
 
-const checkEndOfTheGame = function ( villain, player1, player2 ) {
+
+const checkEndOfTheGame = function ( villain, hero1, hero2 ) {
     if ( villain.hp <= 0 ) {
-        return false;
-    } else if ( (player1.hp <= 0) && (player2.hp <= 0) )
-        return false
+        return 'win';
+    }
+    if ( hero1.hp <= 0 && hero2.hp <= 0) {
+        return 'lose';
+    }
 }
 
 const reflectOn = function (target) {
