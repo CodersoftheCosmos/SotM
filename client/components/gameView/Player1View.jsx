@@ -1,7 +1,26 @@
 import React, { Component } from 'react';
 
 class PLayer1View extends Component {
+
+    constructor(props) {
+        super(props)
+    }
+
+    enlargeCard(e) {
+        
+        if ([...e.target.classList].includes('small')) {
+            e.target.classList.add('large');
+            e.target.classList.remove('small');
+        } else {
+            e.target.classList.add('small');
+            e.target.classList.remove('large');
+        }
+       
+    }
+    
+    
     render() {
+      
         return (
             <div className="p1">
                 <div className="info">
@@ -12,9 +31,10 @@ class PLayer1View extends Component {
                         <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
                         <span>
                             {this.props.currentState.hand.map((card, i) => {
-                                return (<img className="cards" src={card.photo} onClick={()=>{this.props.handleCard(card)}} height={100} width={70} key={i}/>)
+                                return (<img className="cards small" src={card.photo} key={i} onClick={(e)=>{ this.props.handleCard(card); this.enlargeCard(e)}} />)
                             })}
                         </span>
+                        <button onClick={() => {console.log(this.props.selectedCard)}} >props</button>
                         <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
                         <div className="col deck" >
                             <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
@@ -25,7 +45,6 @@ class PLayer1View extends Component {
 
                 <style>
                     {`
-
                         .power {
                             background-color: yellow;
                             border: solid black 2px;
@@ -62,11 +81,19 @@ class PLayer1View extends Component {
                             border: solid 3px;
                             border-radius: 50%;
                         }
+                        .small {
+                            height: 100px;
+                            width: 70px;
+                        }
+                        .large {
+                            height: 300px;
+                            width: 210px;
+                        }
                     `}
                 </style>
             </div>    
         );
     }
-
+    
 }
 export default PLayer1View;

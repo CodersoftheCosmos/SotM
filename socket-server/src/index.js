@@ -17,9 +17,7 @@ const globalMessages = [
     {username: 'Putin', content: 'lets conquer the world'}
 ];
 
-const localMessages = [
-    {username: 'admin', content: 'good luck guys and have fun'}
-];
+const localMessages = [];
 
 const roomGame = {
     position: '',
@@ -111,7 +109,7 @@ io.on('connection', function(socket) {
             let currentCard = roomGame.villain.villain.cardDeck.pop();
             roomGame.cardPlayed = currentCard;
             
-            eval(currentCard.func);  //this will invoke the card function 
+            currentCard.func.forEach(function(cardAction) {eval(cardAction)});   //this will invoke the card function 
 
             roomGame.gameStatus = 'The Villain played ' + currentCard.name + ' ' + currentCard.desc;
             activePlayers.forEach( function(player) {
@@ -144,7 +142,7 @@ io.on('connection', function(socket) {
         if ( socket == activePlayers[0] ) {
             roomGame.gameStatus = 'player1 played: ' + data.card.name + ' ' + data.card.desc;
             
-            eval(data.card.func)                      // invoke card function 
+            data.card.func.forEach(function(cardAction) {eval(cardAction)});                      // invoke card function 
             roomGame.round = 0;                  //set the player turn so that the game knows that player2 is next
             roomGame.player1.hand.push(roomGame.player1.hero.cardDeck.pop()) //draw one card from the top to the hand
             activePlayers.forEach( function(player) {
@@ -153,7 +151,7 @@ io.on('connection', function(socket) {
         } else if ( socket == activePlayers[1] ) {
             roomGame.gameStatus = 'player2 played: ' + data.card.name + ' ' + data.card.desc;
             
-            eval(data.card.func)                       //invoke card function
+            data.card.func.forEach(function(cardAction) {eval(cardAction)});                       //invoke card function
             roomGame.round = 1;                   //set the player turn so that the game knows that villain is next
             roomGame.player2.hand.push(roomGame.player2.hero.cardDeck.pop()) //draw one card from the top to the hand
             activePlayers.forEach( function(player) {
