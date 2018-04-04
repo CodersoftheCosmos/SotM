@@ -10,15 +10,15 @@ class GameView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            position: 0,
+            position: '',
             gameStatus: '',
             player1: {},
             player2: {},
             villain: {},
             cardPlayed: {},
-            p1UsedCards: [],
-            p2UsedCards: [],
-            p3UsedCards: [],
+            p1InplayCards: [],
+            p2InplayCards: [],
+            round: 0,
             username: '',
          } 
         this.handleInitiliazeGame = this.handleInitiliazeGame.bind(this);
@@ -55,6 +55,8 @@ class GameView extends Component {
             villain: data.game.villain,
             player1: data.game.player1,
             player2: data.game.player2,
+            p1InplayCards: data.game.p1InplayCards,
+            p2InplayCards: data.game.p2InplayCards,
             username: data.user,
             gameStatus: 'every player draw 2 cards from deck',
         });
@@ -77,6 +79,7 @@ class GameView extends Component {
     }
 
     updatePlayersStats(data) {
+        console.log(data)
         //check what player are you playing by checking the username
         this.setState({
             player1: data.game.player1,
@@ -119,12 +122,15 @@ class GameView extends Component {
     }
    
     updateVillainStats(data) {
+        console.log(data)
         this.setState({
             cardPlayed: data.game.cardPlayed,
             gameStatus: data.game.gameStatus,
             villain: data.game.villain,
             player1: data.game.player1,
             player2: data.game.player2,
+            p1InplayCards: data.game.p1InplayCards,
+            p2InplayCards: data.game.p2InplayCards,
         });
         if ( data.game.round === 0 ) {
             setTimeout( () => { this.setPlayersTurn('updatePlayers') } , 7000)
@@ -141,8 +147,8 @@ class GameView extends Component {
                     <h2>Game Status: {this.state.gameStatus}</h2>
                     <VillainView currentState={this.state.villain} />
                     <div className="players">
-                        <Player1View currentState={this.state.player1} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
-                        <Player2View currentState={this.state.player2} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
+                        <Player1View currentState={this.state.player1} inplay={this.state.p1InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
+                        <Player2View currentState={this.state.player2} inplay={this.state.p2InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
                     </div>
                     <div className="chat">
                         <RoomChat socket={this.socket} user={this.state.username}/>

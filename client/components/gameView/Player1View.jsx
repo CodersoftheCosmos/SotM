@@ -42,13 +42,13 @@ class PLayer1View extends Component {
                                 return (<img className="cards card small" src={card.photo} key={i} onClick={(e)=>{ this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} />)
                             })}
                         </span>
-                        <button onClick={() => {console.log(this.props.selectedCard)}} >props</button>
                         <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
-                        <div className="col deck" >
-                            <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
-                            <div align='center' >Deck</div>
-                    </div>
                     <div className="power">Power: Deal {this.props.currentState.hero.power} damage</div>
+                    <span>
+                        {this.props.inplay.map((card, i) => {
+                            return (<img className="cards small" src={card.photo} key={i} />)
+                        })}
+                    </span>    
                 </div>
 
                 <style>
