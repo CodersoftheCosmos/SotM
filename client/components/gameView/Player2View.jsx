@@ -73,8 +73,8 @@ class PLayer2View extends Component {
                             width: 70px;
                         }
                         .large {
-                            height: 200px;
-                            width: 140px;
+                            height: 300px;
+                            width: 210px;
                         }
                     `}
                 </style>
