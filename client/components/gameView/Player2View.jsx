@@ -47,6 +47,11 @@ class PLayer2View extends Component {
                     </span>
                     <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>                    
                     <div className="power">Power: {this.props.currentState.hero.power}</div>
+                    <span>
+                        {this.props.inplay.map((card, i) => {
+                            return (<img className="cards small" src={card.photo} key={i} />)
+                        })}
+                    </span>   
                     <style>
                         {`
                             .power {

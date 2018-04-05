@@ -42,15 +42,19 @@ class PLayer1View extends Component {
                                 <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.hero.increaseDamage}
                             </div>
                         </div>
-                </div>
-                    <span>
-                        {this.props.currentState.hand.map((card, i) => {
-                            return (<img className="cards card small" src={card.photo} onClick={(e)=>{this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} key={i}/>)
-                        })}
-                    </span>
-                    <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>                    
+                        <span>
+                            {this.props.currentState.hand.map((card, i) => {
+                                return (<img className="cards card small" src={card.photo} key={i} onClick={(e)=>{ this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} />)
+                            })}
+                        </span>
+                        <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
                     <div className="power">Power: {this.props.currentState.hero.power}</div>
-
+                    <span>
+                        {this.props.inplay.map((card, i) => {
+                            return (<img className="cards small" src={card.photo} key={i} />)
+                        })}
+                    </span>    
+                </div>
                 <style>
                     {`
                         .power {

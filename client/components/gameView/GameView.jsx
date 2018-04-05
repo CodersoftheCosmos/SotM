@@ -10,16 +10,17 @@ class GameView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            position: 0,
+            position: '',
             gameStatus: '',
             player1: {},
             player2: {},
             villain: {},
             cardPlayed: {},
-            p1UsedCards: [],
-            p2UsedCards: [],
-            p3UsedCards: [],
+            p1InplayCards: [],
+            p2InplayCards: [],
+            round: 0,
             username: '',
+            winner: '',
          } 
         this.handleInitiliazeGame = this.handleInitiliazeGame.bind(this);
         this.handleVillainPlayCard = this.handleVillainPlayCard.bind(this);
@@ -30,6 +31,7 @@ class GameView extends Component {
         this.updateStatus = this.updateStatus.bind(this);
         this.handleFinishTurn = this.handleFinishTurn.bind(this);
         this.setPlayersTurn = this.setPlayersTurn.bind(this);
+        this.handleFinisheTheGame = this.handleFinisheTheGame.bind(this);
     }
 
     componentDidMount() {
@@ -38,6 +40,7 @@ class GameView extends Component {
         this.socket.on('playerTurn', this.playerTurn);
         this.socket.on('updateStatus', this.updateStatus);
         this.socket.on('updateVillainStats', this.updateVillainStats);
+        this.socket.on('finishTheGame', this.handleFinisheTheGame)
     }
 
     componentWillMount() {
@@ -55,6 +58,8 @@ class GameView extends Component {
             villain: data.game.villain,
             player1: data.game.player1,
             player2: data.game.player2,
+            p1InplayCards: data.game.p1InplayCards,
+            p2InplayCards: data.game.p2InplayCards,
             username: data.user,
             gameStatus: 'every player draw 2 cards from deck',
         });
@@ -77,6 +82,7 @@ class GameView extends Component {
     }
 
     updatePlayersStats(data) {
+        console.log(data)
         //check what player are you playing by checking the username
         this.setState({
             player1: data.game.player1,
@@ -125,6 +131,8 @@ class GameView extends Component {
             villain: data.game.villain,
             player1: data.game.player1,
             player2: data.game.player2,
+            p1InplayCards: data.game.p1InplayCards,
+            p2InplayCards: data.game.p2InplayCards,
         });
         if ( data.game.round === 0 ) {
             setTimeout( () => { this.setPlayersTurn('updatePlayers') } , 7000)
@@ -133,41 +141,57 @@ class GameView extends Component {
         }
     };
 
+    handleFinisheTheGame(data) {
+        if( data.winner === 'villain') {
+            this.setState({ winner: 'villain' })
+        } else {
+            this.setState({ winner: 'players' })
+        }
+    }
+
 
     render() {
-        if(this.state.player1.username && this.state.player1.username){
-            return (
-                <div>
-                    <h2>Game Status: {this.state.gameStatus}</h2>
-                    <VillainView currentState={this.state.villain} />
-                    <div className="players">
-                        <Player1View currentState={this.state.player1} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
-                        <Player2View currentState={this.state.player2} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
+        if( this.state.player1.username && this.state.player2.username ){
+            if ( this.state.winner === 'players') {
+                return (
+                    <div>
+                        Congrats You have Won
                     </div>
-                    <div className="chat">
-                        <RoomChat socket={this.socket} user={this.state.username}/>
+                )
+            } else  {
+                return (
+                    <div>
+                        <h2>Game Status: {this.state.gameStatus}</h2>
+                        <VillainView currentState={this.state.villain} />
+                        <div className="players">
+                            <Player1View currentState={this.state.player1} inplay={this.state.p1InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
+                            <Player2View currentState={this.state.player2} inplay={this.state.p2InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
+                        </div>
+                        <div className="chat">
+                            <RoomChat socket={this.socket} user={this.state.username}/>
+                        </div>
+    
+                        <style>
+                            {`
+                                .players {
+                                    width: 70%;
+                                    float: left;
+                                    display: inline-flex;
+                                    border: solid 1px;
+                                }
+                                .chat {
+                                    width: 25%;
+                                    float: right;
+                                    display: inline-flex;
+                                    border: solid 1px;
+                                }
+    
+                            `}
+                        </style>
+    
                     </div>
-
-                    <style>
-                        {`
-                            .players {
-                                width: 70%;
-                                float: left;
-                                display: inline-flex;
-                                border: solid 1px;
-                            }
-                            .chat {
-                                width: 25%;
-                                float: right;
-                                display: inline-flex;
-                                border: solid 1px;
-                            }
-
-                        `}
-                    </style>
-
-                </div>
-            )
+                )
+            }
         } else {
             return (
                 <div>

@@ -82,7 +82,7 @@ const restoreHp = function (heal, target1, target2) {
             target1.hp = eval(target1.hp) + heal
         }
         if ( (eval(target2.hp) + heal) > eval(target2.maxHp) ) {
-            target2.hp = target1.maxHp
+            target2.hp = target2.maxHp
         } else {
             target2.hp = eval(target2.hp) + heal
         }
@@ -116,7 +116,7 @@ const preventDamage = function (damage, target) {
 }
 
 const drawCard = function (target1, target2) {
-    console.log('this is drawCard. target1: ', target1, ' target2: ', target2);
+    console.log('this is drawCard. target1: ', target1,);
 
     if ( target2 ) {
         target1.hand.push(target1.hero.cardDeck.pop());
