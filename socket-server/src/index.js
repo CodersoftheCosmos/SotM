@@ -79,7 +79,6 @@ io.on('connection', function(socket) {
         init.shuffleCardDeck(roomGame.villain.villain.cardDeck);
         roomGame.player2.hand = roomGame.player2.hero.cardDeck.splice(0, 2);
 
-        // activePlayers.forEach ( function (player){ player.emit('startTheGame', {gameList: games}) });
         activePlayers.forEach( function(player){ 
             player.emit('startTheGame', 'no msg'
         )});
@@ -89,7 +88,7 @@ io.on('connection', function(socket) {
     })
 
     //maybe change to how many people in the room with the game
-    if ( activePlayers.length === 2) {
+    if ( activePlayers.length >= 2) {
         activePlayers[0].emit('gameReady', {game: roomGame, user: roomGame.player1.username});
         activePlayers[1].emit('gameReady', {game: roomGame, user: roomGame.player2.username})
         // activePlayers.forEach( function(player){ 
@@ -144,9 +143,7 @@ io.on('connection', function(socket) {
                     eval( cardAction )
                 });                      // invoke card function 
 
-            // let hand = roomGame.player1.hand
             let i = _.findIndex(roomGame.player1.hand, data.card);   //find where the card is in the hand array 
-            console.log(i)
             if ( data.card.type === 'Ongoing' ) {
                 roomGame.p1InplayCards.push( roomGame.player1.hand.splice(i,1)[0] ) 
             } else {
@@ -165,9 +162,7 @@ io.on('connection', function(socket) {
                     eval(cardAction)
                 });                       //invoke card function
 
-            //let hand = roomGame.player2.hand;
             let i = _.findIndex(roomGame.player2.hand, data.card);   //find where the card is in the hand array 
-                console.log(i)
             if ( data.card.type === 'Ongoing' ) {
                 roomGame.p2InplayCards.push( roomGame.player2.hand.splice(i,1)[0] ) 
             } else {
