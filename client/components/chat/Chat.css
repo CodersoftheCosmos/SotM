@@ -1,0 +1,15 @@
+.chatContainer {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: scroll; /* Add vertical scrollbar */
+  /* float: right; */
+  
+  position: absolute;
+  bottom: 19%;
+  right: 13%;
+  height: 340px;
+  width: 400px;
+  max-width: 300px;
+  max-height: 400px;
+  background: white;
+  font: black;
+}

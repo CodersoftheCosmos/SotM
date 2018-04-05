@@ -1,0 +1,36 @@
+body {
+  background-image: url(https://www.hdwallpapers.in/walls/digital_space_universe_4k_8k-wide.jpg);
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#title {
+  padding: 50px;
+  margin: 200px 0 0 0;
+  font-family: 'Bangers';
+  text-shadow: 6px 6px 9px rgba(0, 0, 0, 0.33);
+  font-size: 1250%;
+  background: linear-gradient(to right, #30CFD0 0%, #b87eff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+
+#bottom {
+  margin: 0 0 30px 0;
+}
+
+#create {
+  margin: 0 0 0 10px;
+}
+
+.btn {
+  font-family: "Bangers";
+  font-size: 20px;
+  letter-spacing: 1.5px;
+}
