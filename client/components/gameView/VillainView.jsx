@@ -5,7 +5,11 @@ class VillainView extends Component {
         return (
             <div className="villain">
                 <div className="info">
-                    <h2 className="heroInfo">{this.props.currentState.villain.name} HP: {this.props.currentState.villain.hp}</h2>
+                    <h2 className="heroInfo">{this.props.currentState.villain.name} HP: {this.props.currentState.villain.hp} / {this.props.currentState.villain.maxHp} </h2>
+                    <div className="vertAlign row" >
+                        <img className="icon vertAlign leftMargin" src="https://www.shareicon.net/data/256x256/2015/10/29/663524_protection_512x512.png" /> {this.props.currentState.villain.decreaseDamage}
+                        <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.villain.increaseDamage}
+                    </div>
                 </div>
                 <img src={this.props.currentState.villain.imageUrl} className="charIcon" />
                 <div className="col deck" >
