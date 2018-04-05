@@ -34,7 +34,7 @@ class PLayer1View extends Component {
                 <div className="row" >
                         <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
                         <div className="info">
-                            <h4 className="playerName">  Player 2: {this.props.currentState.username} </h4> <br />
+                            <h4 className="playerName">  Player 1: {this.props.currentState.username} </h4> <br />
                             <h4 className="heroInfo">{this.props.currentState.hero.name}</h4> <br />
                             <h4 className="heroInfo" >HP: {this.props.currentState.hero.hp} / {this.props.currentState.hero.maxHp}</h4> <br />
                             <div className="vertAlign row" >
