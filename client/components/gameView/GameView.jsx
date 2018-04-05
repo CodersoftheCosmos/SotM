@@ -20,6 +20,7 @@ class GameView extends Component {
             p2InplayCards: [],
             round: 0,
             username: '',
+            winner: '',
          } 
         this.handleInitiliazeGame = this.handleInitiliazeGame.bind(this);
         this.handleVillainPlayCard = this.handleVillainPlayCard.bind(this);
@@ -30,6 +31,7 @@ class GameView extends Component {
         this.updateStatus = this.updateStatus.bind(this);
         this.handleFinishTurn = this.handleFinishTurn.bind(this);
         this.setPlayersTurn = this.setPlayersTurn.bind(this);
+        this.handleFinisheTheGame = this.handleFinisheTheGame.bind(this);
     }
 
     componentDidMount() {
@@ -38,6 +40,7 @@ class GameView extends Component {
         this.socket.on('playerTurn', this.playerTurn);
         this.socket.on('updateStatus', this.updateStatus);
         this.socket.on('updateVillainStats', this.updateVillainStats);
+        this.socket.on('finishTheGame', this.handleFinisheTheGame)
     }
 
     componentWillMount() {
@@ -122,7 +125,6 @@ class GameView extends Component {
     }
    
     updateVillainStats(data) {
-        console.log(data)
         this.setState({
             cardPlayed: data.game.cardPlayed,
             gameStatus: data.game.gameStatus,
@@ -139,41 +141,57 @@ class GameView extends Component {
         }
     };
 
+    handleFinisheTheGame(data) {
+        if( data.winner === 'villain') {
+            this.setState({ winner: 'villain' })
+        } else {
+            this.setState({ winner: 'players' })
+        }
+    }
+
 
     render() {
-        if(this.state.player1.username && this.state.player1.username){
-            return (
-                <div>
-                    <h2>Game Status: {this.state.gameStatus}</h2>
-                    <VillainView currentState={this.state.villain} />
-                    <div className="players">
-                        <Player1View currentState={this.state.player1} inplay={this.state.p1InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
-                        <Player2View currentState={this.state.player2} inplay={this.state.p2InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
+        if( this.state.player1.username && this.state.player2.username ){
+            if ( this.state.winner === 'players') {
+                return (
+                    <div>
+                        Congrats You have Won
                     </div>
-                    <div className="chat">
-                        <RoomChat socket={this.socket} user={this.state.username}/>
+                )
+            } else  {
+                return (
+                    <div>
+                        <h2>Game Status: {this.state.gameStatus}</h2>
+                        <VillainView currentState={this.state.villain} />
+                        <div className="players">
+                            <Player1View currentState={this.state.player1} inplay={this.state.p1InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
+                            <Player2View currentState={this.state.player2} inplay={this.state.p2InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
+                        </div>
+                        <div className="chat">
+                            <RoomChat socket={this.socket} user={this.state.username}/>
+                        </div>
+    
+                        <style>
+                            {`
+                                .players {
+                                    width: 70%;
+                                    float: left;
+                                    display: inline-flex;
+                                    border: solid 1px;
+                                }
+                                .chat {
+                                    width: 25%;
+                                    float: right;
+                                    display: inline-flex;
+                                    border: solid 1px;
+                                }
+    
+                            `}
+                        </style>
+    
                     </div>
-
-                    <style>
-                        {`
-                            .players {
-                                width: 70%;
-                                float: left;
-                                display: inline-flex;
-                                border: solid 1px;
-                            }
-                            .chat {
-                                width: 25%;
-                                float: right;
-                                display: inline-flex;
-                                border: solid 1px;
-                            }
-
-                        `}
-                    </style>
-
-                </div>
-            )
+                )
+            }
         } else {
             return (
                 <div>
