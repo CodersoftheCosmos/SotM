@@ -49,33 +49,45 @@ class PLayer2View extends Component {
                     <div className="power">Power: {this.props.currentState.hero.power}</div>
                     <style>
                         {`
+                            .power {
+                                background-color: yellow;
+                                border: solid black 2px;
+                            }
+
                             p {
                                 displaye: inline;
                             }
+
                             .heroInfo  {
                                 display: inline;
                             }
+
                             .playerName {
                                 display: inline;
                             }
+
                             .p2 {
                                 border: solid 1px;
                             }
+
                             .deck {
                                 float: right;
                                 margin: 10px;
                             }
+
                             .cards {
                                 border: solid 1px;
                                 border-radius: 5px;
                                 margin: 2px;
                             }
+
                             .charIcon {
                                 height: 100px;
                                 width: 100px;
                                 border: solid 3px;
                                 border-radius: 50%;
                             }
+                            
                             .small {
                                 transition: all 1s ease-in-out;
                                 height: 100px;
