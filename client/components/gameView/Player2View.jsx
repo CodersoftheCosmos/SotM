@@ -37,15 +37,15 @@ class PLayer2View extends Component {
                             <div className="vertAlign row" >
                                 <img className="icon vertAlign leftMargin" src="https://www.shareicon.net/data/256x256/2015/10/29/663524_protection_512x512.png" /> {this.props.currentState.hero.decreaseDamage}
                                 <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.hero.increaseDamage}
-                            </div>
+                            </div> <br />
+                            <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Selected Card</button>                    
                         </div>
-                </div>
+                    </div> <br />
                     <span>
                         {this.props.currentState.hand.map((card, i) => {
                             return (<img className="cards card small" src={card.photo} onClick={(e)=>{this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} key={i}/>)
                         })}
                     </span>
-                    <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>                    
                     <div className="power">Power: {this.props.currentState.hero.power}</div>
                     <span>
                         {this.props.inplay.map((card, i) => {
@@ -76,7 +76,6 @@ class PLayer2View extends Component {
                             }
 
                             .deck {
-                                float: right;
                                 margin: 10px;
                             }
 
@@ -129,7 +128,6 @@ class PLayer2View extends Component {
                             }
 
                             .info {
-                                float: right;
                             }
 
                             .icon {

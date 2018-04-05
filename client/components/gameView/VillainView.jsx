@@ -4,6 +4,7 @@ class VillainView extends Component {
     render() {
         return (
             <div className="villain">
+                <img src={this.props.currentState.villain.imageUrl} className="charIcon" />
                 <div className="info">
                     <h2 className="heroInfo">{this.props.currentState.villain.name} HP: {this.props.currentState.villain.hp} / {this.props.currentState.villain.maxHp} </h2>
                     <div className="vertAlign row" >
@@ -11,11 +12,9 @@ class VillainView extends Component {
                         <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.villain.increaseDamage}
                     </div>
                 </div>
-                <img src={this.props.currentState.villain.imageUrl} className="charIcon" />
-                <div className="col deck" >
+                {/* <div className="col deck" >
                     <img src="https://i.imgur.com/Mpcg57S.jpg" height="150" width="100" />
-                    <div align="center" >Deck</div>
-                </div>
+                </div> */}
 
                 <style>
                     {`
@@ -43,6 +42,9 @@ class VillainView extends Component {
                             width: 200px;
                             border: solid 3px;
                             border-radius: 50%;
+                        }
+                        .info {
+                            float: left;
                         }
                     `}
                 </style>

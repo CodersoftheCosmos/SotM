@@ -31,7 +31,7 @@ class PLayer1View extends Component {
       
         return (
               <div className="p2">
-                <div className="row" >
+                <div >
                         <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
                         <div className="info">
                             <h4 className="playerName">  Player 1: {this.props.currentState.username} </h4> <br />
@@ -40,14 +40,16 @@ class PLayer1View extends Component {
                             <div className="vertAlign row" >
                                 <img className="icon vertAlign leftMargin" src="https://www.shareicon.net/data/256x256/2015/10/29/663524_protection_512x512.png" /> {this.props.currentState.hero.decreaseDamage}
                                 <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.hero.increaseDamage}
-                            </div>
+                            </div> <br />
+                            <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Selected Card</button>
+                        </div> <br />
+                        <div>
+                            <span>
+                                {this.props.currentState.hand.map((card, i) => {
+                                    return (<img className="cards card small" src={card.photo} key={i} onClick={(e)=>{ this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} />)
+                                })}
+                            </span>
                         </div>
-                        <span>
-                            {this.props.currentState.hand.map((card, i) => {
-                                return (<img className="cards card small" src={card.photo} key={i} onClick={(e)=>{ this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} />)
-                            })}
-                        </span>
-                        <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>
                     <div className="power">Power: {this.props.currentState.hero.power}</div>
                     <span>
                         {this.props.inplay.map((card, i) => {
@@ -62,18 +64,12 @@ class PLayer1View extends Component {
                             border: solid black 2px;
                         }
 
-                        .health {
-                            radius: 5px;
-                            background-color: red;
-                        }
-
                         p {
                             displaye: inline;
                         }
 
                         .heroInfo  {
                             display: inline;
-                            padding-left: 20px;
                         }
 
                         .playerName {
@@ -85,7 +81,6 @@ class PLayer1View extends Component {
                         }
 
                         .deck {
-                                float: right;
                                 margin: 10px;
                             }
 
@@ -100,6 +95,7 @@ class PLayer1View extends Component {
                                 width: 100px;
                                 border: solid 3px;
                                 border-radius: 50%;
+                                float: left;
                             }
                             
                             .small {
@@ -138,7 +134,6 @@ class PLayer1View extends Component {
                             }
 
                             .info {
-                                float: right;
                             }
 
                             .icon {
