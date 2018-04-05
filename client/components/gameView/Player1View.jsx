@@ -31,7 +31,8 @@ class PLayer1View extends Component {
       
         return (
               <div className="p2">
-                <div >
+                <div className="gridRows4" >
+                    <div>
                         <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
                         <div className="info">
                             <h4 className="playerName">  Player 1: {this.props.currentState.username} </h4> <br />
@@ -41,16 +42,19 @@ class PLayer1View extends Component {
                                 <img className="icon vertAlign leftMargin" src="https://www.shareicon.net/data/256x256/2015/10/29/663524_protection_512x512.png" /> {this.props.currentState.hero.decreaseDamage}
                                 <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.hero.increaseDamage}
                             </div> <br />
-                            <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Selected Card</button>
+                            <button className="playCard btn btn-primary" onClick={() => {this.props.handleFinishTurn()} }>Play Selected Card</button>
                         </div> <br />
-                        <div>
-                            <span>
-                                {this.props.currentState.hand.map((card, i) => {
-                                    return (<img className="cards card small" src={card.photo} key={i} onClick={(e)=>{ this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} />)
-                                })}
-                            </span>
-                        </div>
-                    <div className="power">Power: {this.props.currentState.hero.power}</div>
+                    </div>
+                    <div>
+                        <span>
+                            {this.props.currentState.hand.map((card, i) => {
+                                return (<img className="cards card small" src={card.photo} key={i} onClick={(e)=>{ this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} />)
+                            })}
+                        </span>
+                    </div>
+                    <div className="power">
+                        Power: {this.props.currentState.hero.power}
+                    </div>
                     <span>
                         {this.props.inplay.map((card, i) => {
                             return (<img className="cards small" src={card.photo} key={i} />)
@@ -149,6 +153,31 @@ class PLayer1View extends Component {
 
                             .leftMargin {
                                 margin-left: 15px;
+                            }
+
+                            .gridRows2 {
+                                display: grid;
+                                grid-template-rows: auto auto;
+                            }
+
+                            .gridRows3 {
+                                display: grid;
+                                grid-template-rows: auto auto auto;
+                            }
+
+                            .gridRows4 {
+                                display: grid;
+                                grid-template-rows: auto auto auto auto;
+                            }
+
+                            .gridColums2 {
+                                display: grid;
+                                grid-template-columns: auto auto;
+                            }
+
+                            .gridColums3 {
+                                display: grid;
+                                grid-template-columns: auto auto auto;
                             }
                     `}
                 </style>
