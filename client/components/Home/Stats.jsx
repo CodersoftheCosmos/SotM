@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import "./Stats.css"
 
 class Stats extends Component {
 	constructor(){
@@ -8,13 +9,12 @@ class Stats extends Component {
 
 	render() {
 		return (
-			<div align="center">
-				<h1> Welcome {this.props.user[0].username[0].toUpperCase() + this.props.user[0].username.substring(1)}! </h1> <br />
-				<h3> Stats </h3>
-				<h4>Wins: {this.props.user[0].stats.wins}</h4>
-				<h4>Losses: {this.props.user[0].stats.losses}</h4>
-				<h4>Favorite Hero: {this.props.user[0].stats.favChar}</h4>
-				<h4>Total Damage Done: {this.props.user[0].stats.totDmgDone}</h4>
+			<div id="stat">
+				<h1> Stats </h1>
+				<h2>Wins: {this.props.user[0].stats.wins}</h2>
+				<h2>Losses: {this.props.user[0].stats.losses}</h2>
+				<h2>Favorite Hero: {this.props.user[0].stats.favChar}</h2>
+				<h2>Total Damage Done: {this.props.user[0].stats.totDmgDone}</h2>
 			</div>
 		)
 	}

@@ -1,6 +1,7 @@
 body {
   background-image: url(https://www.hdwallpapers.in/walls/digital_space_universe_4k_8k-wide.jpg);
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;

@@ -10,6 +10,7 @@ import axios from 'axios';
 import { selectRules } from '../../actions/rules'
 import Rules from '../Rule/Rules'
 import "./Login.css"
+import Leaderboard from '../Home/LeaderBoard'
 
 
 class Login extends Component {
@@ -145,6 +146,15 @@ componentWillMount() {
 				)
 			}
 
+		else if(this.props.activeLeader === true) {
+				return ( 
+						<div>
+								<Leaderboard />
+						</div>
+				)
+
+		} 
+
 		else if(this.props.user[0] !== null){
 			return (
 				<div>
@@ -179,6 +189,7 @@ function mapStateToProps(state) {
 	return {
 			user: state.activeUser,
 			activeRules : state.rules,
+			activeLeader: state.leaderboard
 	};
 }
 function matchDispatchToProps(dispatch){

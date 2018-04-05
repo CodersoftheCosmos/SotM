@@ -1,0 +1,16 @@
+
+#created {
+  position: absolute;
+  bottom: 10%;
+  left: 30%;
+  max-width: 3000px;
+  max-height: 400px;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: hidden; /* Add vertical scrollbar */
+}
+
+h1 {
+  background: linear-gradient(#5f3220, #1b1d31);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
