@@ -9,6 +9,8 @@ import Home from '../Home/Home';
 import axios from 'axios';
 import { selectRules } from '../../actions/rules'
 import Rules from '../Rule/Rules'
+import "./Login.css"
+import Leaderboard from '../Home/LeaderBoard'
 
 
 class Login extends Component {
@@ -144,6 +146,15 @@ componentWillMount() {
 				)
 			}
 
+		else if(this.props.activeLeader === true) {
+				return ( 
+						<div>
+								<Leaderboard />
+						</div>
+				)
+
+		} 
+
 		else if(this.props.user[0] !== null){
 			return (
 				<div>
@@ -156,18 +167,21 @@ componentWillMount() {
 
 		
 		return (
-				<div align="center">
-					<input type="email" name="email" placeholder="Email" onChange={this.loginChangeHandler} />
-					<br />
-					<input type="password" name="password" placeholder="Password" onChange={this.loginChangeHandler} />
-					<br />
-					<button name="signin" onClick={this.loginSubmitHandler}>Sign In</button><button name="create" onClick={this.loginSubmitHandler}>Create Account</button>
-					<br/>
-					<br/>
-					<input type="button" value="Rules Page" onClick={()=>this.props.selectRules(true)}/> 
-				</div>
-			)
-	}
+			<div className="body" align="center">
+				<h1 id="title"> Coders of the Cosmos </h1>
+				<input type="email" name="email" placeholder="Email" onChange={this.loginChangeHandler} />
+				<br />
+				<input id="bottom" type="password" name="password" placeholder="Password" onChange={this.loginChangeHandler} />
+				<br />
+				<button className="btn" name="signin" onClick={this.loginSubmitHandler}>Sign In</button>
+				<button className="btn" id="create" name="create" onClick={this.loginSubmitHandler}>Create Account</button>
+				<br/>
+				<br/>
+				<input className="btn btn-primary" type="button" value="Rules Page" onClick={()=>this.props.selectRules(true)}/> 
+				
+			</div>
+		)
+}
 }
 
 
@@ -175,6 +189,7 @@ function mapStateToProps(state) {
 	return {
 			user: state.activeUser,
 			activeRules : state.rules,
+			activeLeader: state.leaderboard
 	};
 }
 function matchDispatchToProps(dispatch){

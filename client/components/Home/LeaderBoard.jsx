@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios'
+import './LeaderBoard.css'
+import { bindActionCreators } from 'redux';
+import { selectLeaderboard } from '../../actions/leaderboard'
+
 
 class LeaderBoard extends Component {
-	constructor(){
-    super()
+	constructor(props){
+    super(props)
     this.state = {
       leaderB: []	
     }
@@ -34,8 +38,8 @@ class LeaderBoard extends Component {
 
   renderLeaderBoard () {
     
-    return this.state.leaderB.map( (element, index)=> 
-      <div key={index}>
+    return this.state.leaderB.slice(0, 5).map( (element, index)=> 
+      <div key={index} id="board">
         <div> {index + 1} - {element} Wins </div> <br/>
       </div>
     )
@@ -44,15 +48,24 @@ class LeaderBoard extends Component {
 
 
 	render() {
-    if(this.state.leaderB.length === 0) {
+
+    if (this.props.activeLeader === null){
+        console.log("am i going in here?")
+        return (
+          <Redirect to="/Home" />
+        ) 
+    } else if (this.state.leaderB.length === 0) {
       <div>
         Loading
       </div>
     }
 		return (
-			<div align="center">
-				<h1> LeaderBoard! </h1> <br />
-        <h2> {this.renderLeaderBoard()}</h2>
+			<div id="leader" align="center" >
+        <div id="inner">
+          <h1 id="leadertitle"> LeaderBoard! </h1> <br />
+          <h3> {this.renderLeaderBoard()}</h3>
+          <input type="button" className="btn btn-primary" value="Back to Home" onClick={()=> this.props.selectLeaderboard(null)} />
+        </div>
 			</div>
 		)
 	}
@@ -60,8 +73,18 @@ class LeaderBoard extends Component {
 
 function mapStateToProps(state) {
     return {
-				user: state.activeUser
+        user: state.activeUser,
+        activeLeader: state.leaderboard
     };
 }
 
-export default connect(mapStateToProps)(LeaderBoard);
+function matchDispatchToProps(dispatch){
+	//when selected card is called, passed to all reducers
+	return bindActionCreators( { selectLeaderboard: selectLeaderboard }, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(LeaderBoard);
+
+
+
+

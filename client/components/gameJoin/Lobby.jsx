@@ -5,6 +5,7 @@ import CreateGame from './CreateGame';
 import Chat from '../chat/Chat';
 import io from 'socket.io-client';
 import Box from 'react-chat-box';
+import './Lobby.css'
 
 class Lobby extends  Component {
     constructor(props){
@@ -62,12 +63,12 @@ class Lobby extends  Component {
 
     render(){
         return (
-            <div>
-                <div>
+            <div id="lobby" align="center">
+                <div id="created" >
                     <span className="lobby">
                     </span>
                     <span className="chat">
-                        Games List:
+                        <h1> Games List: </h1>
                         <Games games={this.state.openGames} handleJoinGame={this.handleJoinGame}/>
                         <CreateGame handleCreateGame={this.handleCreateGame} handleOnChange={this.handleOnChange}/>
                     </span>

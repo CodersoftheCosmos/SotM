@@ -48,6 +48,9 @@ module.exports = {
         })
         res.send("done")
       })
+      // in case you need to delete files in reddis
+      // client.flushall()
+      // res.send("done?")
     }
 
     
