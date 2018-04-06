@@ -85,7 +85,7 @@ class Home extends Component {
                             <br/>
                             <br/>
                             <br/>
-							<div id="chat" > Chat Room </div>
+							<div id="chat" align="right" > Chat Room </div>
 							<br/>
 							<br/>
 							<br/>

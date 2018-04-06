@@ -2,11 +2,12 @@
 #created {
   position: absolute;
   bottom: 10%;
-  left: 30%;
-  max-width: 3000px;
-  max-height: 400px;
+  left: 20%;
+  max-width: 50%;
+  max-height: 30%;
   overflow-x: hidden; /* Hide horizontal scrollbar */
   overflow-y: hidden; /* Add vertical scrollbar */
+  font-size: 200%
 }
 
 h1 {
