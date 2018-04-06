@@ -164,13 +164,17 @@ class GameView extends Component {
                         <div className="gridRows3" >
                             <h2 className="gameStatus" >Game Status: {this.state.gameStatus}</h2>
                             <VillainView currentState={this.state.villain} />
-                            <div className="gridColumns8020" >
-                                <div className="players gridColumns2">
-                                    <Player1View currentState={this.state.player1} inplay={this.state.p1InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
-                                    <Player2View currentState={this.state.player2} inplay={this.state.p2InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
-                                </div>
-                                <div className="chat">
-                                    <RoomChat socket={this.socket} user={this.state.username}/>
+                            <div>
+                                <div className="gridColumns404020" >
+                                    <div>
+                                        <Player1View currentState={this.state.player1} inplay={this.state.p1InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
+                                    </div>
+                                    <div>
+                                        <Player2View currentState={this.state.player2} inplay={this.state.p2InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
+                                    </div>
+                                    <div className="chat">
+                                        <RoomChat socket={this.socket} user={this.state.username}/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -199,9 +203,9 @@ class GameView extends Component {
                                     display: grid;
                                     grid-template-columns: auto auto;
                                 }
-                                .gridColumns8020 {
+                                .gridColumns404020 {
                                     display: grid;
-                                    grid-template-columns: 40% 60%;
+                                    grid-template-columns: 40% 40% 20%;
                                 }
                                 .gridColumns3 {
                                     display: grid;
@@ -209,6 +213,7 @@ class GameView extends Component {
                                 }
 
                                 .gameStatus {
+                                    margin-bottom: 0;
                                     font-family: "Bangers";
                                     letter-spacing: 1.5px;
                                     color: white;

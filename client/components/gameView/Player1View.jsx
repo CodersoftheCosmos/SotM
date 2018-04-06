@@ -43,7 +43,7 @@ class PLayer1View extends Component {
                                 <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.hero.increaseDamage}
                             </div> <br />
                             <button className="playCard btn btn-primary" onClick={() => {this.props.handleFinishTurn()} }>Play Selected Card</button>
-                        </div> <br />
+                        </div>
                     </div>
                     <div>
                         <span>
@@ -88,6 +88,7 @@ class PLayer1View extends Component {
                             border-width: 0px 5px 10px 10px;
                             background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrGtk-Lf26q3vcxPtYUXtQS8hzSf1mRjpenSGsRJlNkP5kJMaP");
                             background-size: 100% 100%;
+                            height: 100%;
                         }
 
                         .deck {
@@ -105,7 +106,6 @@ class PLayer1View extends Component {
                                 width: 100px;
                                 border: solid 3px;
                                 border-radius: 50%;
-                                float: left;
                             }
                             
                             .small {

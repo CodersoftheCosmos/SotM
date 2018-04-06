@@ -3,15 +3,16 @@
   overflow-y: scroll; /* Add vertical scrollbar */
   /* float: right; */
   
-  position: absolute;
-  bottom: 19%;
+  position: relative;
+  top: 0;
+  bottom: 20%;
   right: 0%;
   height: 340px;
   width: 400px;
-  max-width: 300px;
-  max-height: 400px;
   background: white;
   font: black;
-  border: solid black 10px;
+  border: solid black; 
+  border-width: 0 10px 10px 10px;
   padding: 5px;
+  width: 20%;
 }

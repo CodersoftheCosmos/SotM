@@ -28,19 +28,22 @@ class PLayer2View extends Component {
     render() {
         return (
             <div className="p2">
-                <div className="row" >
-                    <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
-                    <div className="info">
-                        <h4 className="playerName">  Player 2: {this.props.currentState.username} </h4> <br />
-                        <h4 className="heroInfo">{this.props.currentState.hero.name}</h4> <br />
-                        <h4 className="heroInfo" >HP: {this.props.currentState.hero.hp} / {this.props.currentState.hero.maxHp}</h4> <br />
-                        <div className="vertAlign row" >
-                            <img className="icon vertAlign leftMargin" src="https://www.shareicon.net/data/256x256/2015/10/29/663524_protection_512x512.png" /> {this.props.currentState.hero.decreaseDamage}
-                            <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.hero.increaseDamage}
-                        </div> <br />
-                        <button className="playCard btn btn-primary" onClick={() => {this.props.handleFinishTurn()} }>Play Selected Card</button>                    
+                <div className="gridRows4" >
+                    <div>
+                        <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
+                        <div className="info">
+                            <h4 className="playerName">  Player 2: {this.props.currentState.username} </h4> <br />
+                            <h4 className="heroInfo">{this.props.currentState.hero.name}</h4> <br />
+                            <h4 className="heroInfo" >HP: {this.props.currentState.hero.hp} / {this.props.currentState.hero.maxHp}</h4> <br />
+                            <div className="vertAlign row" >
+                                <img className="icon vertAlign leftMargin" src="https://www.shareicon.net/data/256x256/2015/10/29/663524_protection_512x512.png" /> {this.props.currentState.hero.decreaseDamage}
+                                <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.hero.increaseDamage}
+                            </div> <br />
+                            <button className="playCard btn btn-primary" onClick={() => {this.props.handleFinishTurn()} }>Play Selected Card</button>                    
+                        </div>
                     </div>
-                    </div> <br />
+
+                    </div>
                     <span>
                         {this.props.currentState.hand.map((card, i) => {
                             return (<img className="cards card small" src={card.photo} onClick={(e)=>{this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} key={i}/>)
@@ -78,7 +81,8 @@ class PLayer2View extends Component {
                                 border: solid black;
                                 border-width: 0px 10px 10px 5px;
                                 background-image: url("https://st2.depositphotos.com/6741230/11807/v/950/depositphotos_118073978-stock-illustration-halftone-color-pop-art-background.jpg");
-                                background-size: 100%;
+                                background-size: 100% 100%;
+                                height: 100%;
                             }
 
                             .deck {
