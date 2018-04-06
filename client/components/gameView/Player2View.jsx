@@ -57,6 +57,9 @@ class PLayer2View extends Component {
                             .power {
                                 background-color: yellow;
                                 border: solid black 2px;
+                                font-family: "Bangers";
+                                letter-spacing: 1.5px;
+                                color: black;
                             }
 
                             p {
@@ -72,7 +75,10 @@ class PLayer2View extends Component {
                             }
 
                             .p2 {
-                                border: solid 1px;
+                                border: solid black;
+                                border-width: 0px 10px 10px 5px;
+                                background-image: url("https://st2.depositphotos.com/6741230/11807/v/950/depositphotos_118073978-stock-illustration-halftone-color-pop-art-background.jpg");
+                                background-size: 100%;
                             }
 
                             .deck {
@@ -128,6 +134,9 @@ class PLayer2View extends Component {
                             }
 
                             .info {
+                                font-family: "Bangers";
+                                letter-spacing: 1.5px;
+                                color: black;
                             }
 
                             .icon {

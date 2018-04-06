@@ -30,7 +30,7 @@ class PLayer1View extends Component {
     render() {
       
         return (
-              <div className="p2">
+              <div className="p1">
                 <div className="gridRows4" >
                     <div>
                         <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
@@ -66,6 +66,9 @@ class PLayer1View extends Component {
                         .power {
                             background-color: yellow;
                             border: solid black 2px;
+                            font-family: "Bangers";
+                            letter-spacing: 1.5px;
+                            color: black;
                         }
 
                         p {
@@ -81,7 +84,10 @@ class PLayer1View extends Component {
                         }
 
                         .p1 {
-                            border: solid 1px;
+                            border: solid black;
+                            border-width: 0px 5px 10px 10px;
+                            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrGtk-Lf26q3vcxPtYUXtQS8hzSf1mRjpenSGsRJlNkP5kJMaP");
+                            background-size: 100% 100%;
                         }
 
                         .deck {
@@ -138,6 +144,9 @@ class PLayer1View extends Component {
                             }
 
                             .info {
+                                font-family: "Bangers";
+                                letter-spacing: 1.5px;
+                                color: black;
                             }
 
                             .icon {

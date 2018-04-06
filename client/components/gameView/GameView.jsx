@@ -162,9 +162,9 @@ class GameView extends Component {
                 return (
                     <div >
                         <div className="gridRows3" >
-                            <h2>Game Status: {this.state.gameStatus}</h2>
+                            <h2 className="gameStatus" >Game Status: {this.state.gameStatus}</h2>
                             <VillainView currentState={this.state.villain} />
-                            <div className="gridColumns2" >
+                            <div className="gridColumns8020" >
                                 <div className="players gridColumns2">
                                     <Player1View currentState={this.state.player1} inplay={this.state.p1InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
                                     <Player2View currentState={this.state.player2} inplay={this.state.p2InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
@@ -181,13 +181,11 @@ class GameView extends Component {
                                     width: 70%;
                                     float: left;
                                     display: inline-flex;
-                                    border: solid 1px;
                                 }
                                 .chat {
-                                    width: 25%;
+                                    width: auto;
                                     float: right;
                                     display: inline-flex;
-                                    border: solid 1px;
                                 }
                                 .gridRows2 {
                                     display: grid;
@@ -197,13 +195,24 @@ class GameView extends Component {
                                     display: grid;
                                     grid-template-rows: auto auto auto;
                                 }
-                                .gridColums2 {
+                                .gridColumns2 {
                                     display: grid;
                                     grid-template-columns: auto auto;
                                 }
-                                .gridColums3 {
+                                .gridColumns8020 {
+                                    display: grid;
+                                    grid-template-columns: 40% 60%;
+                                }
+                                .gridColumns3 {
                                     display: grid;
                                     grid-template-columns: auto auto auto;
+                                }
+
+                                .gameStatus {
+                                    font-family: "Bangers";
+                                    letter-spacing: 1.5px;
+                                    color: white;
+                                    background-color: black;
                                 }
     
                             `}
