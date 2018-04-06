@@ -64,13 +64,13 @@ class RoomChat extends Component {
               );
             })}
         </div>
-		<form className="chatInput" onSubmit={e => this.resetInput(e)}>
-          <textarea onKeyUp={e => this.handleChat(e)} className="chatArea"/>
-		  <div>
-			<button className="roundBtn" type="submit" onClick={() => this.handleSubmit()}>
-				Submit
-			</button>
-		  </div>
+        <form className="chatInput" onSubmit={e => this.resetInput(e)}>
+              <textarea onKeyUp={e => this.handleChat(e)} className="chatArea"/>
+          <div>
+          <button className="roundBtn" type="submit" onClick={() => this.handleSubmit()}>
+            Submit
+          </button>
+          </div>
         </form>
       </div>
     );
