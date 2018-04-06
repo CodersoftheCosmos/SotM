@@ -5,11 +5,13 @@
   
   position: absolute;
   bottom: 19%;
-  right: 13%;
+  right: 0%;
   height: 340px;
   width: 400px;
   max-width: 300px;
   max-height: 400px;
   background: white;
   font: black;
+  border: solid black 10px;
+  padding: 5px;
 }

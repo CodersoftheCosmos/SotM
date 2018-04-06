@@ -29,23 +29,23 @@ class PLayer2View extends Component {
         return (
             <div className="p2">
                 <div className="row" >
-                        <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
-                        <div className="info">
-                            <h4 className="playerName">  Player 2: {this.props.currentState.username} </h4> <br />
-                            <h4 className="heroInfo">{this.props.currentState.hero.name}</h4> <br />
-                            <h4 className="heroInfo" >HP: {this.props.currentState.hero.hp} / {this.props.currentState.hero.maxHp}</h4> <br />
-                            <div className="vertAlign row" >
-                                <img className="icon vertAlign leftMargin" src="https://www.shareicon.net/data/256x256/2015/10/29/663524_protection_512x512.png" /> {this.props.currentState.hero.decreaseDamage}
-                                <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.hero.increaseDamage}
-                            </div>
-                        </div>
-                </div>
+                    <img src={this.props.currentState.hero.imageUrl} className="charIcon" />
+                    <div className="info">
+                        <h4 className="playerName">  Player 2: {this.props.currentState.username} </h4> <br />
+                        <h4 className="heroInfo">{this.props.currentState.hero.name}</h4> <br />
+                        <h4 className="heroInfo" >HP: {this.props.currentState.hero.hp} / {this.props.currentState.hero.maxHp}</h4> <br />
+                        <div className="vertAlign row" >
+                            <img className="icon vertAlign leftMargin" src="https://www.shareicon.net/data/256x256/2015/10/29/663524_protection_512x512.png" /> {this.props.currentState.hero.decreaseDamage}
+                            <img className="icon vertAlign leftMargin" src="https://i.pinimg.com/originals/15/0a/37/150a3789a76da89757c28a15c764a5ae.png" /> {this.props.currentState.hero.increaseDamage}
+                        </div> <br />
+                        <button className="playCard btn btn-primary" onClick={() => {this.props.handleFinishTurn()} }>Play Selected Card</button>                    
+                    </div>
+                    </div> <br />
                     <span>
                         {this.props.currentState.hand.map((card, i) => {
                             return (<img className="cards card small" src={card.photo} onClick={(e)=>{this.props.handleCard(card); this.enlargeCard(e)}} onMouseOut={(e)=>{this.handleHover(e)}} key={i}/>)
                         })}
                     </span>
-                    <button className="playCard" onClick={() => {this.props.handleFinishTurn()} }>Play Your Hand</button>                    
                     <div className="power">Power: {this.props.currentState.hero.power}</div>
                     <span>
                         {this.props.inplay.map((card, i) => {
@@ -57,6 +57,9 @@ class PLayer2View extends Component {
                             .power {
                                 background-color: yellow;
                                 border: solid black 2px;
+                                font-family: "Bangers";
+                                letter-spacing: 1.5px;
+                                color: black;
                             }
 
                             p {
@@ -72,11 +75,13 @@ class PLayer2View extends Component {
                             }
 
                             .p2 {
-                                border: solid 1px;
+                                border: solid black;
+                                border-width: 0px 10px 10px 5px;
+                                background-image: url("https://st2.depositphotos.com/6741230/11807/v/950/depositphotos_118073978-stock-illustration-halftone-color-pop-art-background.jpg");
+                                background-size: 100%;
                             }
 
                             .deck {
-                                float: right;
                                 margin: 10px;
                             }
 
@@ -129,7 +134,9 @@ class PLayer2View extends Component {
                             }
 
                             .info {
-                                float: right;
+                                font-family: "Bangers";
+                                letter-spacing: 1.5px;
+                                color: black;
                             }
 
                             .icon {
@@ -145,6 +152,31 @@ class PLayer2View extends Component {
 
                             .leftMargin {
                                 margin-left: 15px;
+                            }
+                            
+                            .gridRows2 {
+                                display: grid;
+                                grid-template-rows: auto auto;
+                            }
+
+                            .gridRows3 {
+                                display: grid;
+                                grid-template-rows: auto auto auto;
+                            }
+
+                            .gridRows4 {
+                                display: grid;
+                                grid-template-rows: auto auto auto auto;
+                            }
+
+                            .gridColums2 {
+                                display: grid;
+                                grid-template-columns: auto auto;
+                            }
+
+                            .gridColums3 {
+                                display: grid;
+                                grid-template-columns: auto auto auto;
                             }
                         `}
                     </style>

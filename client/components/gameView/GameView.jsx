@@ -160,15 +160,19 @@ class GameView extends Component {
                 )
             } else  {
                 return (
-                    <div>
-                        <h2>Game Status: {this.state.gameStatus}</h2>
-                        <VillainView currentState={this.state.villain} />
-                        <div className="players">
-                            <Player1View currentState={this.state.player1} inplay={this.state.p1InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
-                            <Player2View currentState={this.state.player2} inplay={this.state.p2InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
-                        </div>
-                        <div className="chat">
-                            <RoomChat socket={this.socket} user={this.state.username}/>
+                    <div >
+                        <div className="gridRows3" >
+                            <h2 className="gameStatus" >Game Status: {this.state.gameStatus}</h2>
+                            <VillainView currentState={this.state.villain} />
+                            <div className="gridColumns8020" >
+                                <div className="players gridColumns2">
+                                    <Player1View currentState={this.state.player1} inplay={this.state.p1InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/> 
+                                    <Player2View currentState={this.state.player2} inplay={this.state.p2InplayCards} handleCard={this.handlePlayCard} handleFinishTurn={this.handleFinishTurn}/>
+                                </div>
+                                <div className="chat">
+                                    <RoomChat socket={this.socket} user={this.state.username}/>
+                                </div>
+                            </div>
                         </div>
     
                         <style>
@@ -177,13 +181,38 @@ class GameView extends Component {
                                     width: 70%;
                                     float: left;
                                     display: inline-flex;
-                                    border: solid 1px;
                                 }
                                 .chat {
-                                    width: 25%;
+                                    width: auto;
                                     float: right;
                                     display: inline-flex;
-                                    border: solid 1px;
+                                }
+                                .gridRows2 {
+                                    display: grid;
+                                    grid-template-rows: auto auto;
+                                }
+                                .gridRows3 {
+                                    display: grid;
+                                    grid-template-rows: auto auto auto;
+                                }
+                                .gridColumns2 {
+                                    display: grid;
+                                    grid-template-columns: auto auto;
+                                }
+                                .gridColumns8020 {
+                                    display: grid;
+                                    grid-template-columns: 40% 60%;
+                                }
+                                .gridColumns3 {
+                                    display: grid;
+                                    grid-template-columns: auto auto auto;
+                                }
+
+                                .gameStatus {
+                                    font-family: "Bangers";
+                                    letter-spacing: 1.5px;
+                                    color: white;
+                                    background-color: black;
                                 }
     
                             `}
