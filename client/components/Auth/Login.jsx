@@ -91,7 +91,7 @@ componentWillMount() {
 							stats: {
 								wins: 0,
 								losses: 0,
-								favChar: 'Nelson',
+								favChar: 'Dr. N',
 								totDmgDone: 0
 							}
 						};
@@ -100,7 +100,7 @@ componentWillMount() {
 							stats: {
 								wins: 0,
 								losses: 0,
-								favChar: 'Nelson',
+								favChar: 'Dr. N',
 								totDmgDone: 0
 							}
 						})
