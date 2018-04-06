@@ -54,16 +54,16 @@ class Chat extends Component {
 
   render() {
     return (
-      <div className="chatContainer" align="left">
-        <div className="chatbox">
+      <div className="comicBorder chatContainer" align="left">
+        <div className="chatbox messageBox">
           {this.state.messages.length > 0 &&
             this.state.messages.map((message, i) => {
               return (
-                <div key={i}>{`${message.username}: ${message.content}`}</div>
+                <div className="message" key={i}>{`${message.username}: ${message.content}`}</div>
               );
             })}
         </div>
-	  	<form onSubmit={e => this.resetInput(e)}>
+	  	<form className="chatInput" onSubmit={e => this.resetInput(e)}>
           <textarea onKeyUp={e => this.handleChat(e)} className="chatArea"/>
 		        <div>
 			        <button className="btn btn-primary" type="submit" onClick={() => this.handleSubmit()}>

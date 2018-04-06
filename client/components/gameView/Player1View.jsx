@@ -7,7 +7,7 @@ class PLayer1View extends Component {
     }
 
     enlargeCard(e) {
-        
+        console.log('this is e', e.target)
         if ([...e.target.classList].includes('small')) {
             e.target.classList.add('large');
             e.target.classList.remove('small');
@@ -19,7 +19,6 @@ class PLayer1View extends Component {
     }
 
     handleHover(e) {
-        console.log('this is handle hover in player1')
         if([...e.target.classList].includes('large')) {
             e.target.classList.add('small');
             e.target.classList.remove('large');
