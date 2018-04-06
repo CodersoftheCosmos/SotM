@@ -54,7 +54,7 @@ class RoomChat extends Component {
 
   render() {
     return (
-      <div className="chatContainer">
+      <div id="gameChat" >
         <div className="chatbox">
           {this.state.messages.length > 0 &&
             this.state.messages.slice(0, 20).map((message, i) => {
@@ -71,14 +71,6 @@ class RoomChat extends Component {
 			</button>
 		  </div>
         </form>
-		<style>
-			{`
-				.chatContainer {
-					height: 100%;
-					width: 100%;
-				}
-			`}
-		</style>
       </div>
     );
   }

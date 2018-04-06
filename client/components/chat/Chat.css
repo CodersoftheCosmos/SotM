@@ -3,14 +3,6 @@
   overflow-y: scroll; /* Add vertical scrollbar */
   /* float: right; */
   
-<<<<<<< HEAD
-  position: relative;
-  top: 0;
-  bottom: 20%;
-  right: 0%;
-  height: 340px;
-  width: 400px;
-=======
   position: absolute;
   bottom: 13%;
   right: 7%;
@@ -18,11 +10,24 @@
   width: 20%;
   max-width: 20%;
   max-height: 35%;
->>>>>>> made it percentages
+  background: white;
+  font: black;
+}
+
+#gameChat {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: scroll; /* Add vertical scrollbar */
+  /* float: right; */
+  
+  position: relative;
+  top: 0;
+  bottom: 20%;
+  right: 0%;
+  height: 100%;
+  width: 100%;
   background: white;
   font: black;
   border: solid black; 
   border-width: 0 10px 10px 10px;
   padding: 5px;
-  width: 20%;
 }
