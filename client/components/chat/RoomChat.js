@@ -56,7 +56,7 @@ class RoomChat extends Component {
   render() {
     return (
       <div id="gameChat" >
-        <div className="chatbox">
+        <div className="messageBox chatbox">
           {this.state.messages.length > 0 &&
             this.state.messages.slice(0, 20).map((message, i) => {
               return (
@@ -64,7 +64,7 @@ class RoomChat extends Component {
               );
             })}
         </div>
-		<form onSubmit={e => this.resetInput(e)}>
+		<form className="chatInput" onSubmit={e => this.resetInput(e)}>
           <textarea onKeyUp={e => this.handleChat(e)} className="chatArea"/>
 		  <div>
 			<button className="roundBtn" type="submit" onClick={() => this.handleSubmit()}>

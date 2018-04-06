@@ -10,7 +10,8 @@
   width: 20%;
   max-width: 20%;
   max-height: 35%;
-  background: white;
+  background-image: url("https://thumbs.dreamstime.com/b/viejo-fondo-del-c%C3%B3mic-del-papel-del-vintage-87813981.jpg");
+  background-size: 100% 100%;
   font: black;
 }
 
@@ -46,4 +47,21 @@
 
 .roundBtn {
   border-radius: 5px;
+}
+
+.comicBorder {
+  border: solid black; 
+  border-width: 10px;
+}
+
+.chatInput {
+  position: sticky;
+  bottom: 0;
+}
+
+.messageBox {
+  max-height: 70%;
+  overflow-y: scroll;
+  position: sticky;
+  bottom: 100px;
 }
