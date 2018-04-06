@@ -20,7 +20,7 @@ class Rules extends Component {
 				<div className="rules">
 					<div className="rulesCols">
 						<div>
-							<iframe id="video"  allowfullscreen="allowfullscreen" width="560" height="315" src="https://www.youtube.com/embed/fqxIrmdtLEk?autoplay=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+							<img id="video"  width="560" height="315" src="https://i.imgur.com/BBOJKQp.png" />
 							<Overview />
 						</div>
 							<div>

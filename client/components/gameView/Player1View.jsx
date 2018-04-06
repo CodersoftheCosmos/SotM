@@ -56,7 +56,7 @@ class PLayer1View extends Component {
                     </div>
                     <span>
                         {this.props.inplay.map((card, i) => {
-                            return (<img className="cards small" src={card.photo} key={i} />)
+                            return (<img className="cards card small" src={card.photo} key={i} />)
                         })}
                     </span>    
                 </div>
