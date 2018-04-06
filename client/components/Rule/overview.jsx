@@ -8,8 +8,8 @@ class Overview extends Component {
 	
 	render() {
 	return (
-			<div id="overview" align="left">
-				Welcome to the fictional comic book world of Coders of the Cosmos, where powerful heroes fight dastardly villains to protect the tech world!
+			<div id="overview" >
+				<span id="start">Welcome</span> to the fictional comic book world of Coders of the Cosmos, where powerful heroes fight dastardly villains to protect the tech world!
         <br/>
         <br/>
         Coders of the Cosmos is a cooperative game in which players control heroes with powers and abilities in the form of cards. Two players control heroes who must work together to survive the battle and defeat the villain in order to win.

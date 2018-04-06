@@ -1,0 +1,38 @@
+#ruledetails {
+  background:linear-gradient(
+    rgba(0, 0, 0, 0.5), 
+    rgba(0, 0, 0, 0.5)
+  );
+  margin: 3% 3% 40% 5%;
+  overflow-y: scroll;
+  max-height: 70vh;
+  max-width: 60vw;
+  font-family: "Bangers"
+}
+
+p {
+  text-align: left;
+  margin: 2%;
+  font-size: 120%;
+  color: white;
+  /* text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black; */
+  letter-spacing: 1.5px;
+  background: linear-gradient(0.25turn, #ffa125, #abff6b, #f63c3c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#codestart{
+  font-size: 150%;
+  text-shadow: none;
+  background: linear-gradient(#ff2929, #00ccff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#codestat{
+  text-shadow: none;
+  background: linear-gradient(#ff2929, #00ccff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
