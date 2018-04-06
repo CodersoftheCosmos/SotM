@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import io from 'socket.io-client';
+import "./Chat.css"
 
 class RoomChat extends Component {
   constructor(props) {
@@ -59,14 +60,14 @@ class RoomChat extends Component {
           {this.state.messages.length > 0 &&
             this.state.messages.slice(0, 20).map((message, i) => {
               return (
-                <div key={i}>{`${message.username}: ${message.content}`}</div>
+                <div className="message" key={i}>{`${message.username}: ${message.content}`}</div>
               );
             })}
         </div>
 		<form onSubmit={e => this.resetInput(e)}>
           <textarea onKeyUp={e => this.handleChat(e)} className="chatArea"/>
 		  <div>
-			<button type="submit" onClick={() => this.handleSubmit()}>
+			<button className="roundBtn" type="submit" onClick={() => this.handleSubmit()}>
 				Submit
 			</button>
 		  </div>

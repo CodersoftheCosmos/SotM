@@ -26,8 +26,24 @@
   height: 100%;
   width: 100%;
   background: white;
-  font: black;
   border: solid black; 
   border-width: 0 10px 10px 10px;
   padding: 5px;
+  font: black;
+  font-family: "Bangers";
+  letter-spacing: 1.5px;
+  background-image: url("https://thumbs.dreamstime.com/b/viejo-fondo-del-c%C3%B3mic-del-papel-del-vintage-87813981.jpg");
+  background-size: 100% 100%;
+}
+
+.message {
+  background: linear-gradient(to right, white , teal);
+  border-radius: 5px;
+  margin: 2px;
+  padding: 2px;
+  color: black;
+}
+
+.roundBtn {
+  border-radius: 5px;
 }
