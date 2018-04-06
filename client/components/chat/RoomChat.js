@@ -74,9 +74,8 @@ class RoomChat extends Component {
 		<style>
 			{`
 				.chatContainer {
-					float: right;
-					height: 500px;
-					width: 500px;
+					height: 100%;
+					width: 100%;
 				}
 			`}
 		</style>
