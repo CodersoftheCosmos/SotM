@@ -5,6 +5,7 @@ import { selectRules } from '../../actions/rules'
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
 import "./Rules.css"
+import Overview from './overview'
 
 
 class Rules extends Component {
@@ -13,17 +14,14 @@ class Rules extends Component {
 	}
 	
 	render() {
-		// if(this.props.activeRules === null) {
-		// 	console.log("hiiii")
-		// 	return (
-		// 	<Redirect to="/Home"/>
-		// 	)
-		// } 
+
 		return (
-			<div align="center" className="rules">
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/fqxIrmdtLEk?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+			<div className="rules">
+				<iframe id="video" align="left" allowfullscreen="allowfullscreen" width="560" height="315" src="https://www.youtube.com/embed/fqxIrmdtLEk?autoplay=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         <RuleDetails />
-				<input type="button" className="btn btn-primary" value="Back to Home" onClick={()=> this.props.selectRules(null)} />
+				<Overview />
+				<br/>
+				<input align="center" type="button" id="rulesBtn" className="btn btn-primary" value="Back to Home" onClick={()=> this.props.selectRules(null)} />
       </div>
 		)
 	}

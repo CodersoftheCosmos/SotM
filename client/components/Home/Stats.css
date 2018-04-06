@@ -2,8 +2,16 @@
   /* margin: 7 */
   float: right;
   margin-top: 2%;
-  margin-right: 5%;
+  margin-right: 2%;
   background: linear-gradient(0.25turn, #ff3c3c, #fffc5f, #f69d3c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+h1 {
+  font-size: 200%;
+}
+
+h2 {
+  font-size: 200%;
 }
