@@ -16,13 +16,23 @@ class Rules extends Component {
 	render() {
 
 		return (
-			<div className="rules">
-				<iframe id="video" align="left" allowfullscreen="allowfullscreen" width="560" height="315" src="https://www.youtube.com/embed/fqxIrmdtLEk?autoplay=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        <RuleDetails />
-				<Overview />
-				<br/>
-				<input align="center" type="button" id="rulesBtn" className="btn btn-primary" value="Back to Home" onClick={()=> this.props.selectRules(null)} />
-      </div>
+			<div id="ruleContainer">
+				<div className="rules">
+					<div className="rulesCols">
+						<div>
+							<iframe id="video"  allowfullscreen="allowfullscreen" width="560" height="315" src="https://www.youtube.com/embed/fqxIrmdtLEk?autoplay=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+							<Overview />
+						</div>
+							<div>
+								<RuleDetails />
+							</div>
+					</div>
+
+					
+						<input type="button" id="rulesBtn" className="btn btn-primary" value="Back to Home" onClick={()=> this.props.selectRules(null)} />
+
+				</div>
+			</div>
 		)
 	}
 }

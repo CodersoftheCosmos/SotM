@@ -1,14 +1,39 @@
 #video {
-  margin: 2% 0 0 10%;
+  margin: 5% 0 0 20%;
 }
 
 #rulesBtn {
   margin-left: 45%;
-  margin-bottom: 95%;
+  bottom: 2%;
+  position: absolute;
 
 }
 
+.rulesCols {
+  display: grid;
+  grid-template-columns: 40% 60%;
+}
+
 #rules {
-  width: 100% vw;
-  height: 100% vh;
+  display: grid;
+  grid-template-rows: 95% 5%;
+  height: vh;
+  width: vw;
+  position: absolute;
+  /* background: url('http://ak1.picdn.net/shutterstock/videos/7114501/thumb/1.jpg');
+  background-position:center ;
+  background-repeat: no-repeat;
+  background-size: 100%; */
+}
+
+/* .rulesCols {
+  display: grid;
+  grid-template-columns: 40% 60%;
+} */
+
+#ruleContainer {
+  background: url('http://www.technocrazed.com/wp-content/uploads/2015/12/HD-Space-Wallpaper-For-Background-22.jpg');
+  /* background-position:center ; */
+  background-repeat: no-repeat;
+  background-size: cover;
 }
