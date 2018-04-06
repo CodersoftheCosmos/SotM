@@ -6,14 +6,17 @@ body {
   background-attachment: fixed;
   background-position: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  max-height: 100vh;
+  max-width: 100vw;
+  position: fixed;
 }
 
 #title {
-  padding: 50px;
-  margin: 200px 0 0 0;
+  padding: 5%;
+  margin: 10% 0 0 0;
   font-family: 'Bangers';
   text-shadow: 6px 6px 9px rgba(0, 0, 0, 0.33);
-  font-size: 1250%;
+  font-size: 1000%;
   background: linear-gradient(to right, #30CFD0 0%, #b87eff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

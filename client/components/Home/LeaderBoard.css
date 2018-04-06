@@ -13,7 +13,6 @@
 #leadertitle {
   padding: 30px 0 0 0 ;
   font-weight: 500;
-  /* background: linear-gradient(to right, rgb(23, 255, 255) 0%, #7103f8 100%); */
   background: linear-gradient(0.25turn, #3f87a6, #abff6b, #f69d3c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -27,8 +26,8 @@
 
 #inner {
   padding: 0;
-  margin-top: 300px;
-  height: 600px;
-  width: 350px;
+  margin-top: 15%;
+  height: 60%;
+  width: 25%;
   background: linear-gradient( rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.75) );
 }
